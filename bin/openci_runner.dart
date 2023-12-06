@@ -1,11 +1,8 @@
 import 'dart:io';
 
 import 'package:openci_runner/src/command_runner.dart';
-import 'package:openci_runner/src/services/sentry/sentry_service.dart';
 
 Future<void> main(List<String> args) async {
-  final sentry = SentryService();
-  await sentry.initialize;
   await _flushThenExit(await OpenciRunnerCommandRunner().run(args));
 }
 

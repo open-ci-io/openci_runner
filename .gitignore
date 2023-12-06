@@ -13,5 +13,3 @@ coverage/
 
 # Android studio and IntelliJ
 .idea
-
-lib/src/api_keys/api_keys.dart

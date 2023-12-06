@@ -2,7 +2,6 @@ import 'package:args/command_runner.dart';
 import 'package:mason_logger/mason_logger.dart';
 
 class RunnerCommand extends Command<int> {
-  /// {@macro sample_command}
   RunnerCommand({
     required Logger logger,
   }) : _logger = logger {
