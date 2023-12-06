@@ -9,6 +9,7 @@ import 'package:openci_runner/src/features/vm/controller/vm_controller.dart';
 import 'package:openci_runner/src/services/github/github_service.dart';
 import 'package:openci_runner/src/services/ssh/ssh_service.dart';
 import 'package:openci_runner/src/services/supabase/supabase_service.dart';
+import 'package:openci_runner/src/utilities/future_delayed.dart';
 
 class RunnerCommand extends Command<int> {
   RunnerCommand({
@@ -105,8 +106,8 @@ Supabase Sign In Password(supabaseSignInPassword)を指定してください。,
         ),
       );
       if (job == null) {
-        print('job is null');
-        await Future<void>.delayed(const Duration(seconds: 10));
+        _logger.info('job is null');
+        await wait();
         continue;
       }
       final user = await signInController.signIn(job, supabase);
@@ -125,14 +126,14 @@ Supabase Sign In Password(supabaseSignInPassword)を指定してください。,
         final vm = VMController();
         await vm.prepareVM();
         unawaited(vm.launchVM);
-        print('launching VM');
-        await Future<void>.delayed(const Duration(seconds: 20));
+        await wait(seconds: 20);
+        _logger.info('VM is ready');
         final vmIP = await vm.fetchIpAddress;
         final ssh = SSHService();
 
         final sshClient = await ssh.sshToServer(vmIP);
         if (sshClient == null) {
-          print('ssh client is null');
+          _logger.err('ssh client is null');
           continue;
         }
         final github = GitHubService();
@@ -141,7 +142,7 @@ Supabase Sign In Password(supabaseSignInPassword)を指定してください。,
           job.github_personal_access_token,
         );
         print('url: $url');
-        await Future.delayed(const Duration(seconds: 10));
+        await wait();
       }
     }
 
