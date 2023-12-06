@@ -3,6 +3,7 @@ import 'package:args/command_runner.dart';
 import 'package:cli_completion/cli_completion.dart';
 import 'package:mason_logger/mason_logger.dart';
 import 'package:openci_runner/src/commands/commands.dart';
+import 'package:openci_runner/src/commands/runner_command.dart';
 import 'package:openci_runner/src/version.dart';
 import 'package:pub_updater/pub_updater.dart';
 
@@ -40,6 +41,7 @@ class OpenciRunnerCommandRunner extends CompletionCommandRunner<int> {
 
     // Add sub commands
     addCommand(SampleCommand(logger: _logger));
+    addCommand(RunnerCommand(logger: _logger));
     addCommand(UpdateCommand(logger: _logger, pubUpdater: _pubUpdater));
   }
 

@@ -1,3 +1,7 @@
 {
-  "cSpell.words": ["endtemplate", "openci"]
+  "cSpell.words": ["endtemplate", "openci", "unawaited"],
+  "editor.codeActionsOnSave": {
+    "source.fixAll": true
+  },
+  "editor.formatOnSave": true
 }
