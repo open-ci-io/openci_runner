@@ -36,7 +36,7 @@ class SupabaseService {
   Future<JobData?> fetchSingleJob(String userId) async {
     final data = await _supabase
         .from('jobs')
-        .select()
+        .select<dynamic>()
         .eq('user_id', userId)
         .eq('is_under_processing_$_platformSuffix', true)
         .eq('has_been_successfully_finished_$_platformSuffix', true)
@@ -57,13 +57,13 @@ class SupabaseService {
           'is_under_processing_$_platformSuffix': true,
         })
         .eq('id', job.id)
-        .select();
+        .select<dynamic>();
   }
 
   Future<UserData?> fetchUserData(JobData job) async {
     final data = await _supabase
         .from('users')
-        .select()
+        .select<dynamic>()
         .eq('github_repository_url', job.github_repository_url)
         .single() as Map<String, dynamic>;
 

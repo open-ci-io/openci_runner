@@ -1,5 +1,16 @@
 {
-  "cSpell.words": ["dartssh", "endtemplate", "mocktail", "openci", "unawaited"],
+  "cSpell.words": [
+    "appdistribution",
+    "dartssh",
+    "endtemplate",
+    "keychain",
+    "mobileprovision",
+    "mocktail",
+    "openci",
+    "pbxproj",
+    "unawaited",
+    "xcodeproj"
+  ],
   "editor.codeActionsOnSave": {
     "source.fixAll": true
   },
