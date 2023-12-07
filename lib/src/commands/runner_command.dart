@@ -6,7 +6,7 @@ import 'package:mason_logger/mason_logger.dart';
 import 'package:openci_runner/src/features/sign_in/controller/sign_in_controller.dart';
 import 'package:openci_runner/src/features/sign_in/domain/sign_in.dart';
 import 'package:openci_runner/src/features/vm/controller/vm_controller.dart';
-import 'package:openci_runner/src/services/github/github_service.dart';
+import 'package:openci_runner/src/services/macos/macos_service.dart';
 import 'package:openci_runner/src/services/ssh/ssh_service.dart';
 import 'package:openci_runner/src/services/supabase/supabase_service.dart';
 import 'package:openci_runner/src/utilities/future_delayed.dart';
@@ -38,6 +38,12 @@ class RunnerCommand extends Command<int> {
         'supabaseSignInPassword',
         help: 'Supabase Sign In Password',
         abbr: 'p',
+        negatable: false,
+      )
+      ..addFlag(
+        'icloudKeychainPassword',
+        help: 'iCloud Keychain Password',
+        abbr: '',
         negatable: false,
       );
   }
@@ -136,19 +142,46 @@ Supabase Sign In Password(supabaseSignInPassword)を指定してください。,
           _logger.err('ssh client is null');
           continue;
         }
-        final github = GitHubService();
-        final url = github.convertUrl(
-          user.github_repository_url,
-          job.github_personal_access_token,
+
+        final macos = MacOSService(
+          sshClient: sshClient,
+          userData: user,
+          jobData: job,
+          isFad: isFad,
         );
-        print('url: $url');
+
+        await macos.cleaningWorkingDirectory;
+        await macos.cloneRepository;
+        if (isFad) {
+          await macos.changeProvisioningProfileFromAppStoreToAdhoc;
+        }
+        if (isFad) {
+          await macos.prepareAdhocExportOptionsPlist;
+        } else {
+          await macos.prepareAppStoreExportOptionsPlist;
+        }
+
+        if (isFad) {
+          await macos.createAdhocCertificates;
+        } else {
+          await macos.createAppStoreCertificates;
+        }
+
+        await macos.importCertificates;
+        await macos.buildIpa;
+        await macos.decodeAppStoreConnectApiKey;
+
+        if (isFad) {
+          await macos.uploadIpaToFad();
+        } else {
+          await macos.uploadIpaToAppStoreConnect;
+        }
+        await supabase.incrementBuildNumber(user);
+
+        await supabase.setBuildSuccess(job);
+        await vm.stopVM;
         await wait();
       }
     }
-
-    // return error
-    // return ExitCode.software.code;
-
-    return ExitCode.success.code;
   }
 }
