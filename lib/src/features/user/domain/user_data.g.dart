@@ -48,6 +48,7 @@ _$UserDataImpl _$$UserDataImplFromJson(Map<String, dynamic> json) =>
           json['service_account_json_base64'] as String?,
       package_name: json['package_name'] as String?,
       fad_service_account_base64: json['fad_service_account_base64'] as String?,
+      pubspec_yaml_name: json['pubspec_yaml_name'] as String,
     );
 
 Map<String, dynamic> _$$UserDataImplToJson(_$UserDataImpl instance) =>
@@ -80,6 +81,7 @@ Map<String, dynamic> _$$UserDataImplToJson(_$UserDataImpl instance) =>
       'service_account_json_base64': instance.service_account_json_base64,
       'package_name': instance.package_name,
       'fad_service_account_base64': instance.fad_service_account_base64,
+      'pubspec_yaml_name': instance.pubspec_yaml_name,
     };
 
 _$DistributionImpl _$$DistributionImplFromJson(Map<String, dynamic> json) =>

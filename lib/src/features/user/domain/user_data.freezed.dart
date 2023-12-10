@@ -51,6 +51,7 @@ mixin _$UserData {
   String? get service_account_json_base64 => throw _privateConstructorUsedError;
   String? get package_name => throw _privateConstructorUsedError;
   String? get fad_service_account_base64 => throw _privateConstructorUsedError;
+  String get pubspec_yaml_name => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -89,7 +90,8 @@ abstract class $UserDataCopyWith<$Res> {
       Map<String, String>? service_account,
       String? service_account_json_base64,
       String? package_name,
-      String? fad_service_account_base64});
+      String? fad_service_account_base64,
+      String pubspec_yaml_name});
 }
 
 /// @nodoc
@@ -131,6 +133,7 @@ class _$UserDataCopyWithImpl<$Res, $Val extends UserData>
     Object? service_account_json_base64 = freezed,
     Object? package_name = freezed,
     Object? fad_service_account_base64 = freezed,
+    Object? pubspec_yaml_name = null,
   }) {
     return _then(_value.copyWith(
       firebase_cli_token: null == firebase_cli_token
@@ -239,6 +242,10 @@ class _$UserDataCopyWithImpl<$Res, $Val extends UserData>
           ? _value.fad_service_account_base64
           : fad_service_account_base64 // ignore: cast_nullable_to_non_nullable
               as String?,
+      pubspec_yaml_name: null == pubspec_yaml_name
+          ? _value.pubspec_yaml_name
+          : pubspec_yaml_name // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -277,7 +284,8 @@ abstract class _$$UserDataImplCopyWith<$Res>
       Map<String, String>? service_account,
       String? service_account_json_base64,
       String? package_name,
-      String? fad_service_account_base64});
+      String? fad_service_account_base64,
+      String pubspec_yaml_name});
 }
 
 /// @nodoc
@@ -317,6 +325,7 @@ class __$$UserDataImplCopyWithImpl<$Res>
     Object? service_account_json_base64 = freezed,
     Object? package_name = freezed,
     Object? fad_service_account_base64 = freezed,
+    Object? pubspec_yaml_name = null,
   }) {
     return _then(_$UserDataImpl(
       firebase_cli_token: null == firebase_cli_token
@@ -425,6 +434,10 @@ class __$$UserDataImplCopyWithImpl<$Res>
           ? _value.fad_service_account_base64
           : fad_service_account_base64 // ignore: cast_nullable_to_non_nullable
               as String?,
+      pubspec_yaml_name: null == pubspec_yaml_name
+          ? _value.pubspec_yaml_name
+          : pubspec_yaml_name // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -458,7 +471,8 @@ class _$UserDataImpl implements _UserData {
       required final Map<String, String>? service_account,
       required this.service_account_json_base64,
       required this.package_name,
-      required this.fad_service_account_base64})
+      required this.fad_service_account_base64,
+      required this.pubspec_yaml_name})
       : _firebase_app_distribution_testers = firebase_app_distribution_testers,
         _trigger_branches = trigger_branches,
         _distribution = distribution,
@@ -553,10 +567,12 @@ class _$UserDataImpl implements _UserData {
   final String? package_name;
   @override
   final String? fad_service_account_base64;
+  @override
+  final String pubspec_yaml_name;
 
   @override
   String toString() {
-    return 'UserData(firebase_cli_token: $firebase_cli_token, id: $id, app_store_connect_issuer_id: $app_store_connect_issuer_id, app_store_connect_key_id: $app_store_connect_key_id, app_store_connect_p8: $app_store_connect_p8, user_id: $user_id, github_repository_url: $github_repository_url, app_name: $app_name, firebase_app_id_ios: $firebase_app_id_ios, firebase_app_id_android: $firebase_app_id_android, ios_build_number: $ios_build_number, android_build_number: $android_build_number, firebase_app_distribution_testers: $firebase_app_distribution_testers, android_key_properties_base64: $android_key_properties_base64, android_key_jks_base64: $android_key_jks_base64, build_certificate_base64: $build_certificate_base64, build_provision_profile_base64: $build_provision_profile_base64, trigger_branches: $trigger_branches, distribution: $distribution, build_provisioning_profile_adhoc_base64: $build_provisioning_profile_adhoc_base64, export_options_adhoc: $export_options_adhoc, export_options_app_store: $export_options_app_store, service_account: $service_account, service_account_json_base64: $service_account_json_base64, package_name: $package_name, fad_service_account_base64: $fad_service_account_base64)';
+    return 'UserData(firebase_cli_token: $firebase_cli_token, id: $id, app_store_connect_issuer_id: $app_store_connect_issuer_id, app_store_connect_key_id: $app_store_connect_key_id, app_store_connect_p8: $app_store_connect_p8, user_id: $user_id, github_repository_url: $github_repository_url, app_name: $app_name, firebase_app_id_ios: $firebase_app_id_ios, firebase_app_id_android: $firebase_app_id_android, ios_build_number: $ios_build_number, android_build_number: $android_build_number, firebase_app_distribution_testers: $firebase_app_distribution_testers, android_key_properties_base64: $android_key_properties_base64, android_key_jks_base64: $android_key_jks_base64, build_certificate_base64: $build_certificate_base64, build_provision_profile_base64: $build_provision_profile_base64, trigger_branches: $trigger_branches, distribution: $distribution, build_provisioning_profile_adhoc_base64: $build_provisioning_profile_adhoc_base64, export_options_adhoc: $export_options_adhoc, export_options_app_store: $export_options_app_store, service_account: $service_account, service_account_json_base64: $service_account_json_base64, package_name: $package_name, fad_service_account_base64: $fad_service_account_base64, pubspec_yaml_name: $pubspec_yaml_name)';
   }
 
   @override
@@ -612,7 +628,8 @@ class _$UserDataImpl implements _UserData {
             const DeepCollectionEquality().equals(other._service_account, _service_account) &&
             (identical(other.service_account_json_base64, service_account_json_base64) || other.service_account_json_base64 == service_account_json_base64) &&
             (identical(other.package_name, package_name) || other.package_name == package_name) &&
-            (identical(other.fad_service_account_base64, fad_service_account_base64) || other.fad_service_account_base64 == fad_service_account_base64));
+            (identical(other.fad_service_account_base64, fad_service_account_base64) || other.fad_service_account_base64 == fad_service_account_base64) &&
+            (identical(other.pubspec_yaml_name, pubspec_yaml_name) || other.pubspec_yaml_name == pubspec_yaml_name));
   }
 
   @JsonKey(ignore: true)
@@ -644,7 +661,8 @@ class _$UserDataImpl implements _UserData {
         const DeepCollectionEquality().hash(_service_account),
         service_account_json_base64,
         package_name,
-        fad_service_account_base64
+        fad_service_account_base64,
+        pubspec_yaml_name
       ]);
 
   @JsonKey(ignore: true)
@@ -688,7 +706,8 @@ abstract class _UserData implements UserData {
       required final Map<String, String>? service_account,
       required final String? service_account_json_base64,
       required final String? package_name,
-      required final String? fad_service_account_base64}) = _$UserDataImpl;
+      required final String? fad_service_account_base64,
+      required final String pubspec_yaml_name}) = _$UserDataImpl;
 
   factory _UserData.fromJson(Map<String, dynamic> json) =
       _$UserDataImpl.fromJson;
@@ -745,6 +764,8 @@ abstract class _UserData implements UserData {
   String? get package_name;
   @override
   String? get fad_service_account_base64;
+  @override
+  String get pubspec_yaml_name;
   @override
   @JsonKey(ignore: true)
   _$$UserDataImplCopyWith<_$UserDataImpl> get copyWith =>

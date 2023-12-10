@@ -24,7 +24,7 @@ class SupabaseService {
   }) async =>
       _auth.signInWithPassword(email: email, password: password);
 
-  Future<String> userId(AuthResponse result) async {
+  Future<String> fetchUserId(AuthResponse result) async {
     final userId = result.user?.id;
 
     if (userId == null) {
@@ -38,8 +38,8 @@ class SupabaseService {
         .from('jobs')
         .select<dynamic>()
         .eq('user_id', userId)
-        .eq('is_under_processing_$_platformSuffix', true)
-        .eq('has_been_successfully_finished_$_platformSuffix', true)
+        .eq('is_under_processing_$_platformSuffix', false)
+        .eq('has_been_successfully_finished_$_platformSuffix', false)
         .eq('has_been_finished_with_failure_$_platformSuffix', false)
         .limit(1)
         .maybeSingle() as Map<String, dynamic>?;
@@ -74,11 +74,11 @@ class SupabaseService {
     if (Platform.isLinux) {
       await _supabase.from('users').update({
         'android_build_number': user.android_build_number + 1,
-      }).eq('user_id', userId);
+      }).eq('user_id', user.user_id);
     } else {
       await _supabase.from('users').update({
         'ios_build_number': user.ios_build_number + 1,
-      }).eq('user_id', userId);
+      }).eq('user_id', user.user_id);
     }
   }
 

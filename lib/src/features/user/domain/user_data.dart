@@ -34,6 +34,7 @@ class UserData with _$UserData {
     required String? service_account_json_base64,
     required String? package_name,
     required String? fad_service_account_base64,
+    required String pubspec_yaml_name,
   }) = _UserData;
   factory UserData.fromJson(Map<String, Object?> json) =>
       _$UserDataFromJson(json);
