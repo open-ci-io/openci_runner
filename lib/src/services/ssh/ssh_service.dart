@@ -20,15 +20,18 @@ class SSHService {
     }
   }
 
-  Future<void> sshShell({
+  Future<String> sshShell({
     required SSHClient sshClient,
     required String command,
   }) async {
     try {
       final res = await sshClient.run(command);
       print(utf8.decode(res));
+
+      return utf8.decode(res);
     } catch (e) {
       print(e);
+      rethrow;
     }
   }
 }

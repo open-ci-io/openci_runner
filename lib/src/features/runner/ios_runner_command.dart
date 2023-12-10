@@ -3,6 +3,8 @@ import 'dart:io';
 
 import 'package:args/command_runner.dart';
 import 'package:mason_logger/mason_logger.dart';
+import 'package:openci_runner/src/features/runner/controller/runner_controller.dart';
+import 'package:openci_runner/src/features/runner/domain/arguments.dart';
 import 'package:openci_runner/src/features/sign_in/controller/sign_in_controller.dart';
 import 'package:openci_runner/src/features/sign_in/domain/sign_in.dart';
 import 'package:openci_runner/src/features/vm/controller/vm_controller.dart';
@@ -11,8 +13,8 @@ import 'package:openci_runner/src/services/ssh/ssh_service.dart';
 import 'package:openci_runner/src/services/supabase/supabase_service.dart';
 import 'package:openci_runner/src/utilities/future_delayed.dart';
 
-class RunnerCommand extends Command<int> {
-  RunnerCommand({
+class IosRunnerCommand extends Command<int> {
+  IosRunnerCommand({
     required Logger logger,
   }) : _logger = logger {
     argParser
@@ -43,59 +45,35 @@ class RunnerCommand extends Command<int> {
       ..addFlag(
         'icloudKeychainPassword',
         help: 'iCloud Keychain Password',
-        abbr: '',
+        abbr: 'i',
         negatable: false,
       );
   }
 
   @override
-  String get description => 'Open CI core command';
+  String get description => 'Open CI core command for iOS';
 
   @override
-  String get name => 'run';
+  String get name => 'ios_run';
 
   final Logger _logger;
 
   @override
   Future<int> run() async {
-    if (argResults?['supabaseUrl'] == false) {
-      _logger.err('''
-Supabase URL(supabaseUrl) has not been set.
-Supabase URL(supabaseUrl)を指定してください。,
-        ''');
-      return ExitCode.software.code;
-    }
-
-    if (argResults?['supabaseApiKey'] == false) {
-      _logger.err('''
-Supabase API KEY(supabaseApiKey) has not been set. 
-Supabase API KEY(supabaseApiKey)を指定してください。,
-        ''');
-      return ExitCode.software.code;
-    }
-    if (argResults?['supabaseSignInEmail'] == false) {
-      _logger.err('''
-Supabase Sign In Email(supabaseSignInEmail) has not been set.
-Supabase Sign In Email(supabaseSignInEmail)を指定してください。,
-        ''');
-      return ExitCode.software.code;
-    }
-    if (argResults?['supabaseSignInPassword'] == false) {
-      _logger.err('''
-Supabase Sign In Password(supabaseSignInPassword) has not been set.
-Supabase Sign In Password(supabaseSignInPassword)を指定してください。,
-        ''');
-      return ExitCode.software.code;
-    }
-    final arguments = argResults?.arguments;
-    if (arguments == null) {
-      throw Exception('Command Arguments are null.');
-    }
-
+    final controller = RunnerController(_logger, argResults)
+      ..checkArgument(Arguments.supabaseUrl)
+      ..checkArgument(Arguments.supabaseApiKey)
+      ..checkArgument(Arguments.supabaseSignInEmail)
+      ..checkArgument(Arguments.supabaseSignInPassword)
+      ..checkArgument(Arguments.icloudKeychainPassword);
+    final arguments = controller.doesArgumentsExist();
     final supabaseUrl = arguments[1];
     final supabaseApiKey = arguments[3];
     final supabaseSignInEmail = arguments[5];
     final supabaseSignInPassword = arguments[7];
+    final icloudKeychainPassword = arguments[9];
+
+    _logger.success('Argument check passed.');
 
     final supabase = SupabaseService(
       supabaseUrl: supabaseUrl,
@@ -103,7 +81,7 @@ Supabase Sign In Password(supabaseSignInPassword)を指定してください。,
     );
 
     while (true) {
-      final signInController = SignInController();
+      final signInController = SignInController(_logger);
       final job = await signInController.fetchJob(
         supabase: supabase,
         signIn: SignIn(
@@ -112,14 +90,15 @@ Supabase Sign In Password(supabaseSignInPassword)を指定してください。,
         ),
       );
       if (job == null) {
-        _logger.info('job is null');
+        _logger.info('''
+job is null, waiting 10 seconds for next check.
+Jobがありません。10秒後に再確認します。
+''');
         await wait();
         continue;
       }
       final user = await signInController.signIn(job, supabase);
-      if (user == null) {
-        continue;
-      }
+
       if (Platform.isMacOS) {
         final baseBranch = job.base_branch;
         final distribution = user.distribution!
@@ -148,9 +127,9 @@ Supabase Sign In Password(supabaseSignInPassword)を指定してください。,
           userData: user,
           jobData: job,
           isFad: isFad,
+          icloudKeychainPassword: icloudKeychainPassword,
         );
 
-        await macos.cleaningWorkingDirectory;
         await macos.cloneRepository;
         if (isFad) {
           await macos.changeProvisioningProfileFromAppStoreToAdhoc;
@@ -168,6 +147,7 @@ Supabase Sign In Password(supabaseSignInPassword)を指定してください。,
         }
 
         await macos.importCertificates;
+        await macos.runCustomScript();
         await macos.buildIpa;
         await macos.decodeAppStoreConnectApiKey;
 

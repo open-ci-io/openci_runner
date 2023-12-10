@@ -12,6 +12,7 @@ class MacOSService {
     required this.userData,
     required this.jobData,
     required this.isFad,
+    required this.icloudKeychainPassword,
   });
   static final sshService = SSHService();
   static final github = GitHubService();
@@ -21,8 +22,9 @@ class MacOSService {
   final UserData userData;
   final JobData jobData;
   final bool isFad;
+  final String icloudKeychainPassword;
 
-  Future<void> sshShell(
+  Future<String> sshShell(
     String command,
   ) =>
       sshService.sshShell(
@@ -77,11 +79,11 @@ echo -n ${userData.build_provision_profile_base64} | base64 --decode -o $mobilep
 
   Future<void> get importCertificates => sshShell('''
 cd ~/Downloads/certificates;
-security create-keychain -p $keychainPassword $keychainPath;
+security create-keychain -p $icloudKeychainPassword $keychainPath;
 security default-keychain -s $keychainPath;
-security unlock-keychain -p $keychainPassword $keychainPath;
+security unlock-keychain -p $icloudKeychainPassword $keychainPath;
 security set-keychain-settings -lut 21600 $keychainPath;
-security import $p12 -P $keychainPassword -A -t cert -f pkcs12 -k $keychainPath;
+security import $p12 -P $icloudKeychainPassword -A -t cert -f pkcs12 -k $keychainPath;
 security list-keychain -d user -s $keychainPath;
 mkdir -p ~/Library/MobileDevice/Provisioning\\ Profiles;
 cp $mobileprovisionPath ~/Library/MobileDevice/Provisioning\\ Profiles;
@@ -102,15 +104,31 @@ echo "${userData.app_store_connect_p8}" | base64 --decode > /Users/admin/Downloa
 // TODO(mafreud): stop using firebase_cli_token
   Future<void> uploadIpaToFad({
     String releaseNote = 'This is a first build.',
-  }) =>
-      sshShell('''
+  }) async {
+    final command = '''
+firebase --token "${userData.firebase_cli_token}" appdistribution:distribute "${ipaBuildPath(userData.app_name, userData.pubspec_yaml_name)}" --app "${userData.firebase_app_id_ios}" --release-notes "$releaseNote" ${fad.testers(userData.firebase_app_distribution_testers)};
+'''
+          ..replaceAll('\n', '');
+    await sshShell('''
 source ~/.zshrc;
-firebase --token ${userData.firebase_cli_token} appdistribution:distribute ${ipaBuildPath(userData.app_name)} --app ${userData.firebase_app_id_ios} --release-notes "$releaseNote" ${fad.testers(userData.firebase_app_distribution_testers)};
+$command
           ''');
+  }
 
-  Future<void> get uploadIpaToAppStoreConnect => sshShell('''
+  Future<void> get uploadIpaToAppStoreConnect async {
+    await sshShell('''
 source ~/.zshrc
 cd Downloads/${userData.app_name}
-xcrun altool --upload-app --type ios -f ${ipaBuildPath(userData.app_name)} --apiKey ${userData.app_store_connect_key_id} --apiIssuer ${userData.app_store_connect_issuer_id}
+xcrun altool --upload-app --type ios -f ${ipaBuildPath(userData.app_name, userData.pubspec_yaml_name)} --apiKey ${userData.app_store_connect_key_id} --apiIssuer ${userData.app_store_connect_issuer_id}
+''');
+  }
+
+  Future<void> runCustomScript({String command = ''}) => sshShell('''
+source ~/.zshrc;
+cd Downloads/${userData.app_name};
+flutter pub get;
+cd ios;
+pod repo update;
+pod install;
 ''');
 }
