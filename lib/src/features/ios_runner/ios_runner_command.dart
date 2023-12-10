@@ -3,8 +3,8 @@ import 'dart:io';
 
 import 'package:args/command_runner.dart';
 import 'package:mason_logger/mason_logger.dart';
-import 'package:openci_runner/src/features/runner/controller/runner_controller.dart';
-import 'package:openci_runner/src/features/runner/domain/arguments.dart';
+import 'package:openci_runner/src/features/runner/ios/controller/ios_runner_controller.dart';
+import 'package:openci_runner/src/features/runner/ios/domain/arguments.dart';
 import 'package:openci_runner/src/features/sign_in/controller/sign_in_controller.dart';
 import 'package:openci_runner/src/features/sign_in/domain/sign_in.dart';
 import 'package:openci_runner/src/features/vm/controller/vm_controller.dart';
@@ -60,7 +60,7 @@ class IosRunnerCommand extends Command<int> {
 
   @override
   Future<int> run() async {
-    final controller = RunnerController(_logger, argResults)
+    final controller = IosRunnerController(_logger, argResults)
       ..checkArgument(Arguments.supabaseUrl)
       ..checkArgument(Arguments.supabaseApiKey)
       ..checkArgument(Arguments.supabaseSignInEmail)

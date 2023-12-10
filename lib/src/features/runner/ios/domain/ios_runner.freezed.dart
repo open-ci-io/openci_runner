@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'runner.dart';
+part of 'ios_runner.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -14,32 +14,33 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
-Runner _$RunnerFromJson(Map<String, dynamic> json) {
-  return _Runner.fromJson(json);
+IosRunner _$IosRunnerFromJson(Map<String, dynamic> json) {
+  return _IosRunner.fromJson(json);
 }
 
 /// @nodoc
-mixin _$Runner {
+mixin _$IosRunner {
   String get key => throw _privateConstructorUsedError;
   String get error => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $RunnerCopyWith<Runner> get copyWith => throw _privateConstructorUsedError;
+  $IosRunnerCopyWith<IosRunner> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $RunnerCopyWith<$Res> {
-  factory $RunnerCopyWith(Runner value, $Res Function(Runner) then) =
-      _$RunnerCopyWithImpl<$Res, Runner>;
+abstract class $IosRunnerCopyWith<$Res> {
+  factory $IosRunnerCopyWith(IosRunner value, $Res Function(IosRunner) then) =
+      _$IosRunnerCopyWithImpl<$Res, IosRunner>;
   @useResult
   $Res call({String key, String error});
 }
 
 /// @nodoc
-class _$RunnerCopyWithImpl<$Res, $Val extends Runner>
-    implements $RunnerCopyWith<$Res> {
-  _$RunnerCopyWithImpl(this._value, this._then);
+class _$IosRunnerCopyWithImpl<$Res, $Val extends IosRunner>
+    implements $IosRunnerCopyWith<$Res> {
+  _$IosRunnerCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -66,21 +67,22 @@ class _$RunnerCopyWithImpl<$Res, $Val extends Runner>
 }
 
 /// @nodoc
-abstract class _$$RunnerImplCopyWith<$Res> implements $RunnerCopyWith<$Res> {
-  factory _$$RunnerImplCopyWith(
-          _$RunnerImpl value, $Res Function(_$RunnerImpl) then) =
-      __$$RunnerImplCopyWithImpl<$Res>;
+abstract class _$$IosRunnerImplCopyWith<$Res>
+    implements $IosRunnerCopyWith<$Res> {
+  factory _$$IosRunnerImplCopyWith(
+          _$IosRunnerImpl value, $Res Function(_$IosRunnerImpl) then) =
+      __$$IosRunnerImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String key, String error});
 }
 
 /// @nodoc
-class __$$RunnerImplCopyWithImpl<$Res>
-    extends _$RunnerCopyWithImpl<$Res, _$RunnerImpl>
-    implements _$$RunnerImplCopyWith<$Res> {
-  __$$RunnerImplCopyWithImpl(
-      _$RunnerImpl _value, $Res Function(_$RunnerImpl) _then)
+class __$$IosRunnerImplCopyWithImpl<$Res>
+    extends _$IosRunnerCopyWithImpl<$Res, _$IosRunnerImpl>
+    implements _$$IosRunnerImplCopyWith<$Res> {
+  __$$IosRunnerImplCopyWithImpl(
+      _$IosRunnerImpl _value, $Res Function(_$IosRunnerImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -89,7 +91,7 @@ class __$$RunnerImplCopyWithImpl<$Res>
     Object? key = null,
     Object? error = null,
   }) {
-    return _then(_$RunnerImpl(
+    return _then(_$IosRunnerImpl(
       key: null == key
           ? _value.key
           : key // ignore: cast_nullable_to_non_nullable
@@ -104,11 +106,11 @@ class __$$RunnerImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$RunnerImpl implements _Runner {
-  const _$RunnerImpl({required this.key, required this.error});
+class _$IosRunnerImpl implements _IosRunner {
+  const _$IosRunnerImpl({required this.key, required this.error});
 
-  factory _$RunnerImpl.fromJson(Map<String, dynamic> json) =>
-      _$$RunnerImplFromJson(json);
+  factory _$IosRunnerImpl.fromJson(Map<String, dynamic> json) =>
+      _$$IosRunnerImplFromJson(json);
 
   @override
   final String key;
@@ -117,14 +119,14 @@ class _$RunnerImpl implements _Runner {
 
   @override
   String toString() {
-    return 'Runner(key: $key, error: $error)';
+    return 'IosRunner(key: $key, error: $error)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$RunnerImpl &&
+            other is _$IosRunnerImpl &&
             (identical(other.key, key) || other.key == key) &&
             (identical(other.error, error) || other.error == error));
   }
@@ -136,22 +138,24 @@ class _$RunnerImpl implements _Runner {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$RunnerImplCopyWith<_$RunnerImpl> get copyWith =>
-      __$$RunnerImplCopyWithImpl<_$RunnerImpl>(this, _$identity);
+  _$$IosRunnerImplCopyWith<_$IosRunnerImpl> get copyWith =>
+      __$$IosRunnerImplCopyWithImpl<_$IosRunnerImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$RunnerImplToJson(
+    return _$$IosRunnerImplToJson(
       this,
     );
   }
 }
 
-abstract class _Runner implements Runner {
-  const factory _Runner(
-      {required final String key, required final String error}) = _$RunnerImpl;
+abstract class _IosRunner implements IosRunner {
+  const factory _IosRunner(
+      {required final String key,
+      required final String error}) = _$IosRunnerImpl;
 
-  factory _Runner.fromJson(Map<String, dynamic> json) = _$RunnerImpl.fromJson;
+  factory _IosRunner.fromJson(Map<String, dynamic> json) =
+      _$IosRunnerImpl.fromJson;
 
   @override
   String get key;
@@ -159,6 +163,6 @@ abstract class _Runner implements Runner {
   String get error;
   @override
   @JsonKey(ignore: true)
-  _$$RunnerImplCopyWith<_$RunnerImpl> get copyWith =>
+  _$$IosRunnerImplCopyWith<_$IosRunnerImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

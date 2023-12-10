@@ -1,14 +1,14 @@
 import 'package:args/args.dart';
 import 'package:mason_logger/mason_logger.dart';
-import 'package:openci_runner/src/features/runner/domain/runner.dart';
+import 'package:openci_runner/src/features/runner/ios/domain/ios_runner.dart';
 
-class RunnerController {
-  RunnerController(this._logger, this.argResults);
+class IosRunnerController {
+  IosRunnerController(this._logger, this.argResults);
 
   final Logger _logger;
   final ArgResults? argResults;
 
-  void checkArgument(Runner runner) {
+  void checkArgument(IosRunner runner) {
     if (argResults?[runner.key] == false) {
       _logger.err(runner.error);
       throw Exception('${runner.key} is required');
