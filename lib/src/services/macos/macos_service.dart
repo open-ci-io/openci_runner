@@ -22,7 +22,7 @@ class MacOSService {
   final UserData userData;
   final JobData jobData;
   final bool isFad;
-  final String icloudKeychainPassword;
+  final String? icloudKeychainPassword;
 
   Future<String> sshShell(
     String command,
@@ -117,8 +117,8 @@ $command
 
   Future<void> get uploadIpaToAppStoreConnect async {
     await sshShell('''
-source ~/.zshrc
-cd Downloads/${userData.app_name}
+source ~/.zshrc;
+cd Downloads/${userData.app_name};
 xcrun altool --upload-app --type ios -f ${ipaBuildPath(userData.app_name, userData.pubspec_yaml_name)} --apiKey ${userData.app_store_connect_key_id} --apiIssuer ${userData.app_store_connect_issuer_id}
 ''');
   }
@@ -130,5 +130,39 @@ flutter pub get;
 cd ios;
 pod repo update;
 pod install;
+''');
+
+  Future<void> get importServiceAccountJson => sshShell('''
+cd ~/Downloads/${userData.app_name};
+echo '${userData.service_account_json_base64}' | base64 --decode > service_account.json;
+echo '${userData.fad_service_account_base64}' | base64 --decode > fad_service_account.json;
+''');
+
+  Future<void> get importKeyJks => sshShell('''
+cd ~/Downloads/${userData.app_name}/android/app;
+echo '${userData.android_key_jks_base64}' | base64 --decode > key.jks;
+''');
+
+  Future<void> get importKeyProperties => sshShell('''
+cd ~/Downloads/${userData.app_name}/android;
+echo '${userData.android_key_properties_base64}' | base64 --decode > key.properties;
+''');
+
+  Future<void> get buildAppBundle => sshShell('''
+source ~/.zshrc;
+cd ~/Downloads/${userData.app_name};
+export ANDROID_SDK_ROOT=/Users/admin/android-sdk;
+flutter build appbundle --build-number=${userData.android_build_number};
+''');
+
+  Future<void> get uploadAabToPlayStore => sshShell('''
+source ~/.zshrc;
+dart pub global activate open_ci_cli;
+source /Users/admin/.zshrc;
+export PATH="\$PATH":"\$HOME/.pub-cache/bin";
+cd ~/Downloads/${userData.app_name}
+ls
+oi deploy-aab -s service_account.json -n ${userData.package_name} -a /Users/admin/Downloads/${userData.app_name}/build/app/outputs/bundle/release/app-release.aab;
+oi deploy-fad -s fad_service_account.json -i ${userData.firebase_app_id_android.trim().replaceAll('\n', '').replaceAll('\r', '')} -a /Users/admin/Downloads/${userData.app_name}/build/app/outputs/bundle/release/app-release.aab;
 ''');
 }
