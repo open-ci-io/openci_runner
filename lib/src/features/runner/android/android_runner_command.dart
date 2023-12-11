@@ -134,7 +134,7 @@ Jobがありません。10秒後に再確認します。
         await supabase.incrementBuildNumber(user);
 
         await supabase.setBuildSuccess(job);
-        // await vm.stopVM;
+        await vm.stopVM;
         await wait();
       }
     }
