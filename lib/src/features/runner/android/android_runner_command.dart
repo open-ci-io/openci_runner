@@ -13,8 +13,8 @@ import 'package:openci_runner/src/services/ssh/ssh_service.dart';
 import 'package:openci_runner/src/services/supabase/supabase_service.dart';
 import 'package:openci_runner/src/utilities/future_delayed.dart';
 
-class IosRunnerCommand extends Command<int> {
-  IosRunnerCommand({
+class AndroidRunnerCommand extends Command<int> {
+  AndroidRunnerCommand({
     required Logger logger,
   }) : _logger = logger {
     argParser
@@ -41,20 +41,14 @@ class IosRunnerCommand extends Command<int> {
         help: 'Supabase Sign In Password',
         abbr: 'p',
         negatable: false,
-      )
-      ..addFlag(
-        'icloudKeychainPassword',
-        help: 'iCloud Keychain Password',
-        abbr: 'i',
-        negatable: false,
       );
   }
 
   @override
-  String get description => 'Open CI core command for iOS';
+  String get description => 'Open CI core command for Android';
 
   @override
-  String get name => 'ios_run';
+  String get name => 'android_run';
 
   final Logger _logger;
 
@@ -64,21 +58,20 @@ class IosRunnerCommand extends Command<int> {
       ..checkArgument(Arguments.supabaseUrl)
       ..checkArgument(Arguments.supabaseApiKey)
       ..checkArgument(Arguments.supabaseSignInEmail)
-      ..checkArgument(Arguments.supabaseSignInPassword)
-      ..checkArgument(Arguments.icloudKeychainPassword);
+      ..checkArgument(Arguments.supabaseSignInPassword);
     final arguments = controller.doesArgumentsExist();
     final supabaseUrl = arguments[1];
     final supabaseApiKey = arguments[3];
     final supabaseSignInEmail = arguments[5];
     final supabaseSignInPassword = arguments[7];
-    final icloudKeychainPassword = arguments[9];
 
     _logger.success('Argument check passed.');
 
     final supabase = SupabaseService(
-        supabaseUrl: supabaseUrl,
-        supabaseApiKey: supabaseApiKey,
-        targetOs: 'ios');
+      supabaseUrl: supabaseUrl,
+      supabaseApiKey: supabaseApiKey,
+      targetOs: 'android',
+    );
 
     while (true) {
       final signInController = SignInController(_logger);
@@ -99,7 +92,7 @@ Jobがありません。10秒後に再確認します。
       }
       final user = await signInController.signIn(job, supabase);
 
-      if (Platform.isMacOS) {
+      if (Platform.isMacOS || Platform.isLinux) {
         final baseBranch = job.base_branch;
         final distribution = user.distribution!
             .where((element) => element.base_branch == baseBranch)
@@ -127,39 +120,21 @@ Jobがありません。10秒後に再確認します。
           userData: user,
           jobData: job,
           isFad: isFad,
-          icloudKeychainPassword: icloudKeychainPassword,
+          icloudKeychainPassword: null,
         );
 
         await macos.cloneRepository;
-        if (isFad) {
-          await macos.changeProvisioningProfileFromAppStoreToAdhoc;
-        }
-        if (isFad) {
-          await macos.prepareAdhocExportOptionsPlist;
-        } else {
-          await macos.prepareAppStoreExportOptionsPlist;
-        }
+        await macos.importServiceAccountJson;
+        await macos.importKeyJks;
+        await macos.importKeyProperties;
+        await macos.buildAppBundle;
 
-        if (isFad) {
-          await macos.createAdhocCertificates;
-        } else {
-          await macos.createAppStoreCertificates;
-        }
+        await macos.uploadAabToPlayStore;
 
-        await macos.importCertificates;
-        await macos.runCustomScript();
-        await macos.buildIpa;
-        await macos.decodeAppStoreConnectApiKey;
-
-        if (isFad) {
-          await macos.uploadIpaToFad();
-        } else {
-          await macos.uploadIpaToAppStoreConnect;
-        }
         await supabase.incrementBuildNumber(user);
 
         await supabase.setBuildSuccess(job);
-        await vm.stopVM;
+        // await vm.stopVM;
         await wait();
       }
     }

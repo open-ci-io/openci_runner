@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:openci_runner/src/features/job/domain/job_data.dart';
 import 'package:openci_runner/src/features/user/domain/user_data.dart';
 import 'package:supabase/supabase.dart';
@@ -8,15 +6,15 @@ class SupabaseService {
   SupabaseService({
     required this.supabaseUrl,
     required this.supabaseApiKey,
+    required this.targetOs,
   }) : _supabase = SupabaseClient(supabaseUrl, supabaseApiKey);
 
   final String supabaseUrl;
   final String supabaseApiKey;
+  final String targetOs;
   final SupabaseClient _supabase;
 
   GoTrueClient get _auth => _supabase.auth;
-
-  static final _platformSuffix = Platform.isLinux ? 'android' : 'ios';
 
   Future<AuthResponse> supabaseSignIn({
     required String email,
@@ -38,9 +36,9 @@ class SupabaseService {
         .from('jobs')
         .select<dynamic>()
         .eq('user_id', userId)
-        .eq('is_under_processing_$_platformSuffix', false)
-        .eq('has_been_successfully_finished_$_platformSuffix', false)
-        .eq('has_been_finished_with_failure_$_platformSuffix', false)
+        .eq('is_under_processing_$targetOs', false)
+        .eq('has_been_successfully_finished_$targetOs', false)
+        .eq('has_been_finished_with_failure_$targetOs', false)
         .limit(1)
         .maybeSingle() as Map<String, dynamic>?;
     if (data == null) {
@@ -54,7 +52,7 @@ class SupabaseService {
     await _supabase
         .from('jobs')
         .update({
-          'is_under_processing_$_platformSuffix': true,
+          'is_under_processing_$targetOs': true,
         })
         .eq('id', job.id)
         .select<dynamic>();
@@ -71,7 +69,7 @@ class SupabaseService {
   }
 
   Future<void> incrementBuildNumber(UserData user) async {
-    if (Platform.isLinux) {
+    if (targetOs == 'android') {
       await _supabase.from('users').update({
         'android_build_number': user.android_build_number + 1,
       }).eq('user_id', user.user_id);
@@ -84,13 +82,13 @@ class SupabaseService {
 
   Future<void> setBuildSuccess(JobData job) async {
     await _supabase.from('jobs').update({
-      'has_been_successfully_finished_$_platformSuffix': true,
+      'has_been_successfully_finished_$targetOs': true,
     }).eq('id', job.id);
   }
 
   Future<void> setBuildFailure(JobData job) async {
     await _supabase.from('jobs').update({
-      'has_been_finished_with_failure_$_platformSuffix': true,
+      'has_been_finished_with_failure_$targetOs': true,
     }).eq('id', job.id);
   }
 }
