@@ -12,6 +12,7 @@ import 'package:openci_runner/src/services/macos/macos_service.dart';
 import 'package:openci_runner/src/services/ssh/ssh_service.dart';
 import 'package:openci_runner/src/services/supabase/supabase_service.dart';
 import 'package:openci_runner/src/utilities/future_delayed.dart';
+import 'package:uuid/uuid.dart';
 
 class IosRunnerCommand extends Command<int> {
   IosRunnerCommand({
@@ -76,9 +77,10 @@ class IosRunnerCommand extends Command<int> {
     _logger.success('Argument check passed.');
 
     final supabase = SupabaseService(
-        supabaseUrl: supabaseUrl,
-        supabaseApiKey: supabaseApiKey,
-        targetOs: 'ios');
+      supabaseUrl: supabaseUrl,
+      supabaseApiKey: supabaseApiKey,
+      targetOs: 'ios',
+    );
 
     while (true) {
       final signInController = SignInController(_logger);
@@ -108,8 +110,8 @@ Jobがありません。10秒後に再確認します。
         if (distribution.distribution == 'firebase_app_distribution') {
           isFad = true;
         }
-        final vm = VMController();
-        await vm.prepareVM();
+        final vm = VMController(const Uuid().v4());
+        await vm.prepareVM;
         unawaited(vm.launchVM);
         await wait(seconds: 20);
         _logger.info('VM is ready');

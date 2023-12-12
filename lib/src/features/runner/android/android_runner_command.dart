@@ -12,6 +12,7 @@ import 'package:openci_runner/src/services/macos/macos_service.dart';
 import 'package:openci_runner/src/services/ssh/ssh_service.dart';
 import 'package:openci_runner/src/services/supabase/supabase_service.dart';
 import 'package:openci_runner/src/utilities/future_delayed.dart';
+import 'package:uuid/uuid.dart';
 
 class AndroidRunnerCommand extends Command<int> {
   AndroidRunnerCommand({
@@ -101,8 +102,8 @@ Jobがありません。10秒後に再確認します。
         if (distribution.distribution == 'firebase_app_distribution') {
           isFad = true;
         }
-        final vm = VMController();
-        await vm.prepareVM();
+        final vm = VMController(const Uuid().v4());
+        await vm.prepareVM;
         unawaited(vm.launchVM);
         await wait(seconds: 20);
         _logger.info('VM is ready');

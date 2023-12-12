@@ -2,30 +2,31 @@ import 'package:openci_runner/src/services/tart/tart_service.dart';
 import 'package:openci_runner/src/utilities/future_delayed.dart';
 
 class VMController {
+  VMController(this.workingVMName);
+  final String workingVMName;
+
   static final _tartService = TartService();
 
-  static const _workingVMName = 'ventura-flutter-working';
-
-  Future<void> prepareVM() async {
-    await _tartService.delete(_workingVMName);
-    await _cloneVM;
-  }
+  Future<void> get prepareVM => _cloneVM;
 
   Future<void> get _cloneVM async {
     const baseVMName = 'ventura-flutter';
 
     // TODO(someone): If baseVM does not exist, pull it from the internet.
-    await _tartService.clone(baseVMName, _workingVMName);
+    await _tartService.clone(baseVMName, workingVMName);
     await wait(seconds: 1);
   }
 
-  Future<void> get launchVM => _tartService.run(_workingVMName);
+  Future<void> get launchVM => _tartService.run(workingVMName);
 
-  Future<void> get stopVM => _tartService.stop(_workingVMName);
+  Future<void> get stopVM async {
+    await _tartService.stop(workingVMName);
+    await _tartService.delete(workingVMName);
+  }
 
   Future<String> get fetchIpAddress async {
     try {
-      final ip = await _tartService.ip(_workingVMName);
+      final ip = await _tartService.ip(workingVMName);
       final ipRegex =
           RegExp(r'\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b'); // 正規表現でIPv4をマッチング
 
