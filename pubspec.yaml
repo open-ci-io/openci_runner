@@ -14,7 +14,7 @@ dependencies:
   freezed_annotation: ^2.4.1
   mason_logger: ^0.2.5
   process_run: ^0.13.3
-  pub_updater: ^0.3.1
+  pub_updater: ">=0.3.1 <0.5.0"
   sentry: ^7.13.2
   supabase: ^1.11.11
   uuid: ^4.2.1
