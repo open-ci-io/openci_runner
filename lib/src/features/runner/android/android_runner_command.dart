@@ -128,12 +128,10 @@ Jobがありません。10秒後に再確認します。
         await macos.importServiceAccountJson;
         await macos.importKeyJks;
         await macos.importKeyProperties;
+        await macos.flutterClean;
         await macos.buildAppBundle;
-
         await macos.uploadAabToPlayStore;
-
         await supabase.incrementBuildNumber(user);
-
         await supabase.setBuildSuccess(job);
         await vm.stopVM;
         await wait();

@@ -132,6 +132,13 @@ pod repo update;
 pod install;
 ''');
 
+  Future<void> get flutterClean => sshShell('''
+source ~/.zshrc;
+cd Downloads/${userData.app_name};
+flutter clean;
+flutter pub get;
+''');
+
   Future<void> get importServiceAccountJson => sshShell('''
 cd ~/Downloads/${userData.app_name};
 echo '${userData.service_account_json_base64}' | base64 --decode > service_account.json;
