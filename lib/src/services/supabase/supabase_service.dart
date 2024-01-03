@@ -48,21 +48,21 @@ class SupabaseService {
     return JobData.fromJson(data);
   }
 
-  Future<void> updateIsUnderProcessing(JobData job) async {
-    await _supabase
-        .from('jobs')
-        .update({
-          'is_under_processing_$targetOs': true,
-        })
-        .eq('id', job.id)
-        .select<dynamic>();
-  }
+  // Future<void> updateIsUnderProcessing(JobData job) async {
+  //   await _supabase
+  //       .from('jobs')
+  //       .update({
+  //         'is_under_processing_$targetOs': true,
+  //       })
+  //       .eq('id', job.id)
+  //       .select<dynamic>();
+  // }
 
   Future<UserData?> fetchUserData(JobData job) async {
     final data = await _supabase
         .from('users')
         .select<dynamic>()
-        .eq('github_repository_url', job.github_repository_url)
+        .eq('github_repository_url', job.githubRepositoryUrl)
         .single() as Map<String, dynamic>;
 
     return UserData.fromJson(data);
@@ -71,24 +71,24 @@ class SupabaseService {
   Future<void> incrementBuildNumber(UserData user) async {
     if (targetOs == 'android') {
       await _supabase.from('users').update({
-        'android_build_number': user.android_build_number + 1,
-      }).eq('user_id', user.user_id);
+        'android_build_number': user.androidBuildNumber + 1,
+      }).eq('user_id', user.userId);
     } else {
       await _supabase.from('users').update({
-        'ios_build_number': user.ios_build_number + 1,
-      }).eq('user_id', user.user_id);
+        'ios_build_number': user.iosBuildNumber + 1,
+      }).eq('user_id', user.userId);
     }
   }
 
-  Future<void> setBuildSuccess(JobData job) async {
-    await _supabase.from('jobs').update({
-      'has_been_successfully_finished_$targetOs': true,
-    }).eq('id', job.id);
-  }
+  // Future<void> setBuildSuccess(JobData job) async {
+  //   await _supabase.from('jobs').update({
+  //     'has_been_successfully_finished_$targetOs': true,
+  //   }).eq('id', job.id);
+  // }
 
-  Future<void> setBuildFailure(JobData job) async {
-    await _supabase.from('jobs').update({
-      'has_been_finished_with_failure_$targetOs': true,
-    }).eq('id', job.id);
-  }
+  // Future<void> setBuildFailure(JobData job) async {
+  //   await _supabase.from('jobs').update({
+  //     'has_been_finished_with_failure_$targetOs': true,
+  //   }).eq('id', job.id);
+  // }
 }

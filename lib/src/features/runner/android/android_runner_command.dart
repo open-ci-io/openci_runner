@@ -2,47 +2,30 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:args/command_runner.dart';
+import 'package:dart_firebase_admin/dart_firebase_admin.dart';
+import 'package:dart_firebase_admin/firestore.dart';
 import 'package:mason_logger/mason_logger.dart';
-import 'package:openci_runner/src/features/runner/ios/controller/ios_runner_controller.dart';
-import 'package:openci_runner/src/features/runner/ios/domain/arguments.dart';
-import 'package:openci_runner/src/features/sign_in/controller/sign_in_controller.dart';
-import 'package:openci_runner/src/features/sign_in/domain/sign_in.dart';
+import 'package:openci_runner/src/features/job/domain/job_data.dart';
+import 'package:openci_runner/src/features/runner/android/controller/android_job_controller.dart';
+import 'package:openci_runner/src/features/runner/android/controller/android_runner_controller.dart';
+import 'package:openci_runner/src/features/runner/android/domain/android_arguments.dart';
+import 'package:openci_runner/src/features/user/domain/user_data.dart';
 import 'package:openci_runner/src/features/vm/controller/vm_controller.dart';
-import 'package:openci_runner/src/services/macos/macos_service.dart';
 import 'package:openci_runner/src/services/ssh/ssh_service.dart';
-import 'package:openci_runner/src/services/supabase/supabase_service.dart';
 import 'package:openci_runner/src/utilities/future_delayed.dart';
+import 'package:openci_runner/src/utilities/github/github_service.dart';
 import 'package:uuid/uuid.dart';
 
 class AndroidRunnerCommand extends Command<int> {
   AndroidRunnerCommand({
     required Logger logger,
   }) : _logger = logger {
-    argParser
-      ..addFlag(
-        'supabaseUrl',
-        help: 'Supabase URL',
-        abbr: 'u',
-        negatable: false,
-      )
-      ..addFlag(
-        'supabaseApiKey',
-        help: 'Supabase API Key',
-        abbr: 'k',
-        negatable: false,
-      )
-      ..addFlag(
-        'supabaseSignInEmail',
-        help: 'Supabase Sign In Email',
-        abbr: 'e',
-        negatable: false,
-      )
-      ..addFlag(
-        'supabaseSignInPassword',
-        help: 'Supabase Sign In Password',
-        abbr: 'p',
-        negatable: false,
-      );
+    argParser.addFlag(
+      'firebaseProjectName',
+      help: 'Firebase Project Name',
+      abbr: 'p',
+      negatable: false,
+    );
   }
 
   @override
@@ -55,35 +38,26 @@ class AndroidRunnerCommand extends Command<int> {
 
   @override
   Future<int> run() async {
-    final controller = IosRunnerController(_logger, argResults)
-      ..checkArgument(Arguments.supabaseUrl)
-      ..checkArgument(Arguments.supabaseApiKey)
-      ..checkArgument(Arguments.supabaseSignInEmail)
-      ..checkArgument(Arguments.supabaseSignInPassword);
+    final controller = AndroidRunnerController(_logger, argResults)
+      ..checkArgument(AndroidArguments.firebaseProjectName);
     final arguments = controller.doesArgumentsExist();
-    final supabaseUrl = arguments[1];
-    final supabaseApiKey = arguments[3];
-    final supabaseSignInEmail = arguments[5];
-    final supabaseSignInPassword = arguments[7];
+    final firebaseProjectName = arguments[1];
 
     _logger.success('Argument check passed.');
 
-    final supabase = SupabaseService(
-      supabaseUrl: supabaseUrl,
-      supabaseApiKey: supabaseApiKey,
-      targetOs: 'android',
+    final admin = FirebaseAdminApp.initializeApp(
+      firebaseProjectName,
+      Credential.fromServiceAccount(
+        File('service_account.json'),
+      ),
     );
 
+    // TODO use the Admin SDK
+    final firestore = Firestore(admin);
+
     while (true) {
-      final signInController = SignInController(_logger);
-      final job = await signInController.fetchJob(
-        supabase: supabase,
-        signIn: SignIn(
-          email: supabaseSignInEmail,
-          password: supabaseSignInPassword,
-        ),
-      );
-      if (job == null) {
+      final jobsQs = await firestore.collection('jobs').get();
+      if (jobsQs.docs.isEmpty) {
         _logger.info('''
 job is null, waiting 10 seconds for next check.
 Jobがありません。10秒後に再確認します。
@@ -91,17 +65,58 @@ Jobがありません。10秒後に再確認します。
         await wait();
         continue;
       }
-      final user = await signInController.signIn(job, supabase);
+      final jobsData = jobsQs.docs.first.data();
+      final job = JobData.fromJson(jobsData);
+
+      await firestore.collection('jobs').doc(job.documentId).update({
+        'processing.android': true,
+      });
+
+      final userDocs =
+          await firestore.collection('users').doc(job.userId).get();
+
+      if (userDocs.exists == false) {
+        _logger.info('''
+job is null, waiting 10 seconds for next check.
+Jobがありません。10秒後に再確認します。
+''');
+        await wait();
+        continue;
+      }
+
+      final userData = userDocs.data();
+      if (userData == null) {
+        _logger.info('''
+job is null, waiting 10 seconds for next check.
+Jobがありません。10秒後に再確認します。
+''');
+        await wait();
+        continue;
+      }
+      final user = UserData.fromJson(userData);
+
+      final distributionQs = await firestore
+          .collection('users')
+          .doc(user.userId)
+          .collection('distribution')
+          .where('platform', WhereFilter.equal, 'android')
+          .get();
+
+      if (distributionQs.docs.isEmpty) {
+        _logger.info('''
+job is null, waiting 10 seconds for next check.
+Jobがありません。10秒後に再確認します。
+''');
+        await wait();
+        continue;
+      }
+      final distributionList = distributionQs.docs.map((e) {
+        final data = e.data();
+        return Distribution.fromJson(data);
+      }).toList();
 
       if (Platform.isMacOS || Platform.isLinux) {
-        final baseBranch = job.base_branch;
-        final distribution = user.distribution!
-            .where((element) => element.base_branch == baseBranch)
-            .first;
-        var isFad = false;
-        if (distribution.distribution == 'firebase_app_distribution') {
-          isFad = true;
-        }
+        final baseBranch = job.baseBranch;
         final vm = VMController(const Uuid().v4());
         await vm.prepareVM;
         unawaited(vm.launchVM);
@@ -112,30 +127,101 @@ Jobがありません。10秒後に再確認します。
 
         final sshClient = await ssh.sshToServer(vmIP);
         if (sshClient == null) {
+          // TODO(mafreud): throw Exception and kill this program.
+
           _logger.err('ssh client is null');
           continue;
         }
 
-        final macos = MacOSService(
+        final androidJobController = AndroidJobController(
+          sshService: ssh,
           sshClient: sshClient,
           userData: user,
           jobData: job,
-          isFad: isFad,
-          icloudKeychainPassword: null,
+          gitHubService: GitHubService(),
+          firestore: firestore,
         );
 
-        await macos.cloneRepository;
-        await macos.importServiceAccountJson;
-        await macos.importKeyJks;
-        await macos.importKeyProperties;
-        await macos.flutterClean;
-        await macos.buildAppBundle;
-        await macos.uploadAabToPlayStore;
-        await supabase.incrementBuildNumber(user);
-        await supabase.setBuildSuccess(job);
-        await vm.stopVM;
-        await wait();
+        if (await androidJobController.cloneRepository == false) {
+          _logger.err('clone repository failed');
+          continue;
+        }
+
+        if (await androidJobController.importServiceAccountJson == false) {
+          _logger.err('import service account json failed');
+          continue;
+        }
+
+        if (await androidJobController.importKeyJks == false) {
+          _logger.err('import key jks failed');
+          continue;
+        }
+
+        if (await androidJobController.importKeyProperties == false) {
+          _logger.err('import key properties failed');
+          continue;
+        }
+
+        if (await androidJobController.flutterClean == false) {
+          _logger.err('flutter clean failed');
+          continue;
+        }
+
+        if (await androidJobController.buildApk == false) {
+          _logger.err('build apk failed');
+          continue;
+        }
+
+        if (await androidJobController.uploadApkToPlayStore == false) {
+          _logger.err('upload apk failed');
+          continue;
+        }
+
+        await firestore
+            .collection('users')
+            .doc(user.userId)
+            .update({'androidBuildNumber': user.androidBuildNumber + 1});
+
+        await firestore
+            .collection('jobs')
+            .doc(job.documentId)
+            .update({'success.android': true});
+
+        print('build apk success');
+
+        // ignore: inference_failure_on_instance_creation
+        await Future.delayed(const Duration(days: 1));
       }
     }
+
+//     while (true) {
+
+//         // if (await macos.importFADServiceAccountJson == false) {
+//         //   await supabase.setBuildFailure(job);
+//         //   _logger.err('import FAD service account json failed');
+//         //   continue;
+//         // }
+//         // if (await macos.flutterClean == false) {
+//         //   await supabase.setBuildFailure(job);
+//         //   _logger.err('flutter clean failed');
+//         //   continue;
+//         // }
+//         // if (await macos.buildAppBundle == false) {
+//         //   await supabase.setBuildFailure(job);
+//         //   _logger.err('build apk failed');
+//         //   continue;
+//         // }
+//         // if (await macos.uploadApkToPlayStore == false) {
+//         //   await supabase.setBuildFailure(job);
+//         //   _logger.err('upload apk to playStore failed');
+//         //   continue;
+//         // }
+//         // await macos.uploadApkToPlayStore;
+//         await supabase.incrementBuildNumber(user);
+//         await supabase.setBuildSuccess(job);
+//         // await vm.stopVM;
+//         // await wait();
+//       }
+//     }
   }
 }

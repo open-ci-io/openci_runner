@@ -20,12 +20,12 @@ JobData _$JobDataFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$JobData {
-  int get id => throw _privateConstructorUsedError;
-  String get build_branch => throw _privateConstructorUsedError;
-  String get user_id => throw _privateConstructorUsedError;
-  String get github_repository_url => throw _privateConstructorUsedError;
-  String get base_branch => throw _privateConstructorUsedError;
-  String get github_personal_access_token => throw _privateConstructorUsedError;
+  String get buildBranch => throw _privateConstructorUsedError;
+  String get documentId => throw _privateConstructorUsedError;
+  String get githubRepositoryUrl => throw _privateConstructorUsedError;
+  String get baseBranch => throw _privateConstructorUsedError;
+  String get githubPAT => throw _privateConstructorUsedError;
+  String get userId => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -38,12 +38,12 @@ abstract class $JobDataCopyWith<$Res> {
       _$JobDataCopyWithImpl<$Res, JobData>;
   @useResult
   $Res call(
-      {int id,
-      String build_branch,
-      String user_id,
-      String github_repository_url,
-      String base_branch,
-      String github_personal_access_token});
+      {String buildBranch,
+      String documentId,
+      String githubRepositoryUrl,
+      String baseBranch,
+      String githubPAT,
+      String userId});
 }
 
 /// @nodoc
@@ -59,37 +59,37 @@ class _$JobDataCopyWithImpl<$Res, $Val extends JobData>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
-    Object? build_branch = null,
-    Object? user_id = null,
-    Object? github_repository_url = null,
-    Object? base_branch = null,
-    Object? github_personal_access_token = null,
+    Object? buildBranch = null,
+    Object? documentId = null,
+    Object? githubRepositoryUrl = null,
+    Object? baseBranch = null,
+    Object? githubPAT = null,
+    Object? userId = null,
   }) {
     return _then(_value.copyWith(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as int,
-      build_branch: null == build_branch
-          ? _value.build_branch
-          : build_branch // ignore: cast_nullable_to_non_nullable
+      buildBranch: null == buildBranch
+          ? _value.buildBranch
+          : buildBranch // ignore: cast_nullable_to_non_nullable
               as String,
-      user_id: null == user_id
-          ? _value.user_id
-          : user_id // ignore: cast_nullable_to_non_nullable
+      documentId: null == documentId
+          ? _value.documentId
+          : documentId // ignore: cast_nullable_to_non_nullable
               as String,
-      github_repository_url: null == github_repository_url
-          ? _value.github_repository_url
-          : github_repository_url // ignore: cast_nullable_to_non_nullable
+      githubRepositoryUrl: null == githubRepositoryUrl
+          ? _value.githubRepositoryUrl
+          : githubRepositoryUrl // ignore: cast_nullable_to_non_nullable
               as String,
-      base_branch: null == base_branch
-          ? _value.base_branch
-          : base_branch // ignore: cast_nullable_to_non_nullable
+      baseBranch: null == baseBranch
+          ? _value.baseBranch
+          : baseBranch // ignore: cast_nullable_to_non_nullable
               as String,
-      github_personal_access_token: null == github_personal_access_token
-          ? _value.github_personal_access_token
-          : github_personal_access_token // ignore: cast_nullable_to_non_nullable
+      githubPAT: null == githubPAT
+          ? _value.githubPAT
+          : githubPAT // ignore: cast_nullable_to_non_nullable
+              as String,
+      userId: null == userId
+          ? _value.userId
+          : userId // ignore: cast_nullable_to_non_nullable
               as String,
     ) as $Val);
   }
@@ -103,12 +103,12 @@ abstract class _$$JobDataImplCopyWith<$Res> implements $JobDataCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {int id,
-      String build_branch,
-      String user_id,
-      String github_repository_url,
-      String base_branch,
-      String github_personal_access_token});
+      {String buildBranch,
+      String documentId,
+      String githubRepositoryUrl,
+      String baseBranch,
+      String githubPAT,
+      String userId});
 }
 
 /// @nodoc
@@ -122,37 +122,37 @@ class __$$JobDataImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
-    Object? build_branch = null,
-    Object? user_id = null,
-    Object? github_repository_url = null,
-    Object? base_branch = null,
-    Object? github_personal_access_token = null,
+    Object? buildBranch = null,
+    Object? documentId = null,
+    Object? githubRepositoryUrl = null,
+    Object? baseBranch = null,
+    Object? githubPAT = null,
+    Object? userId = null,
   }) {
     return _then(_$JobDataImpl(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as int,
-      build_branch: null == build_branch
-          ? _value.build_branch
-          : build_branch // ignore: cast_nullable_to_non_nullable
+      buildBranch: null == buildBranch
+          ? _value.buildBranch
+          : buildBranch // ignore: cast_nullable_to_non_nullable
               as String,
-      user_id: null == user_id
-          ? _value.user_id
-          : user_id // ignore: cast_nullable_to_non_nullable
+      documentId: null == documentId
+          ? _value.documentId
+          : documentId // ignore: cast_nullable_to_non_nullable
               as String,
-      github_repository_url: null == github_repository_url
-          ? _value.github_repository_url
-          : github_repository_url // ignore: cast_nullable_to_non_nullable
+      githubRepositoryUrl: null == githubRepositoryUrl
+          ? _value.githubRepositoryUrl
+          : githubRepositoryUrl // ignore: cast_nullable_to_non_nullable
               as String,
-      base_branch: null == base_branch
-          ? _value.base_branch
-          : base_branch // ignore: cast_nullable_to_non_nullable
+      baseBranch: null == baseBranch
+          ? _value.baseBranch
+          : baseBranch // ignore: cast_nullable_to_non_nullable
               as String,
-      github_personal_access_token: null == github_personal_access_token
-          ? _value.github_personal_access_token
-          : github_personal_access_token // ignore: cast_nullable_to_non_nullable
+      githubPAT: null == githubPAT
+          ? _value.githubPAT
+          : githubPAT // ignore: cast_nullable_to_non_nullable
+              as String,
+      userId: null == userId
+          ? _value.userId
+          : userId // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
@@ -162,32 +162,32 @@ class __$$JobDataImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$JobDataImpl implements _JobData {
   const _$JobDataImpl(
-      {required this.id,
-      required this.build_branch,
-      required this.user_id,
-      required this.github_repository_url,
-      required this.base_branch,
-      required this.github_personal_access_token});
+      {required this.buildBranch,
+      required this.documentId,
+      required this.githubRepositoryUrl,
+      required this.baseBranch,
+      required this.githubPAT,
+      required this.userId});
 
   factory _$JobDataImpl.fromJson(Map<String, dynamic> json) =>
       _$$JobDataImplFromJson(json);
 
   @override
-  final int id;
+  final String buildBranch;
   @override
-  final String build_branch;
+  final String documentId;
   @override
-  final String user_id;
+  final String githubRepositoryUrl;
   @override
-  final String github_repository_url;
+  final String baseBranch;
   @override
-  final String base_branch;
+  final String githubPAT;
   @override
-  final String github_personal_access_token;
+  final String userId;
 
   @override
   String toString() {
-    return 'JobData(id: $id, build_branch: $build_branch, user_id: $user_id, github_repository_url: $github_repository_url, base_branch: $base_branch, github_personal_access_token: $github_personal_access_token)';
+    return 'JobData(buildBranch: $buildBranch, documentId: $documentId, githubRepositoryUrl: $githubRepositoryUrl, baseBranch: $baseBranch, githubPAT: $githubPAT, userId: $userId)';
   }
 
   @override
@@ -195,24 +195,23 @@ class _$JobDataImpl implements _JobData {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$JobDataImpl &&
-            (identical(other.id, id) || other.id == id) &&
-            (identical(other.build_branch, build_branch) ||
-                other.build_branch == build_branch) &&
-            (identical(other.user_id, user_id) || other.user_id == user_id) &&
-            (identical(other.github_repository_url, github_repository_url) ||
-                other.github_repository_url == github_repository_url) &&
-            (identical(other.base_branch, base_branch) ||
-                other.base_branch == base_branch) &&
-            (identical(other.github_personal_access_token,
-                    github_personal_access_token) ||
-                other.github_personal_access_token ==
-                    github_personal_access_token));
+            (identical(other.buildBranch, buildBranch) ||
+                other.buildBranch == buildBranch) &&
+            (identical(other.documentId, documentId) ||
+                other.documentId == documentId) &&
+            (identical(other.githubRepositoryUrl, githubRepositoryUrl) ||
+                other.githubRepositoryUrl == githubRepositoryUrl) &&
+            (identical(other.baseBranch, baseBranch) ||
+                other.baseBranch == baseBranch) &&
+            (identical(other.githubPAT, githubPAT) ||
+                other.githubPAT == githubPAT) &&
+            (identical(other.userId, userId) || other.userId == userId));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, build_branch, user_id,
-      github_repository_url, base_branch, github_personal_access_token);
+  int get hashCode => Object.hash(runtimeType, buildBranch, documentId,
+      githubRepositoryUrl, baseBranch, githubPAT, userId);
 
   @JsonKey(ignore: true)
   @override
@@ -230,27 +229,27 @@ class _$JobDataImpl implements _JobData {
 
 abstract class _JobData implements JobData {
   const factory _JobData(
-      {required final int id,
-      required final String build_branch,
-      required final String user_id,
-      required final String github_repository_url,
-      required final String base_branch,
-      required final String github_personal_access_token}) = _$JobDataImpl;
+      {required final String buildBranch,
+      required final String documentId,
+      required final String githubRepositoryUrl,
+      required final String baseBranch,
+      required final String githubPAT,
+      required final String userId}) = _$JobDataImpl;
 
   factory _JobData.fromJson(Map<String, dynamic> json) = _$JobDataImpl.fromJson;
 
   @override
-  int get id;
+  String get buildBranch;
   @override
-  String get build_branch;
+  String get documentId;
   @override
-  String get user_id;
+  String get githubRepositoryUrl;
   @override
-  String get github_repository_url;
+  String get baseBranch;
   @override
-  String get base_branch;
+  String get githubPAT;
   @override
-  String get github_personal_access_token;
+  String get userId;
   @override
   @JsonKey(ignore: true)
   _$$JobDataImplCopyWith<_$JobDataImpl> get copyWith =>
