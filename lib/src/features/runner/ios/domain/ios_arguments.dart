@@ -1,6 +1,6 @@
 import 'package:openci_runner/src/features/runner/ios/domain/ios_runner.dart';
 
-class Arguments {
+class IosArguments {
   static IosRunner get supabaseUrl {
     const key = 'supabaseUrl';
     const name = 'Supabase URL';

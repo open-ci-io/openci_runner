@@ -8,7 +8,7 @@ class SignInController {
   SignInController(this._logger);
   final Logger _logger;
   Future<UserData> signIn(JobData job, SupabaseService supabase) async {
-    await supabase.updateIsUnderProcessing(job);
+    // await supabase.updateIsUnderProcessing(job);
     final user = await supabase.fetchUserData(job);
     if (user == null) {
       _logger.err('User is Null');

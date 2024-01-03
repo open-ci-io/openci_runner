@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:args/command_runner.dart';
 import 'package:mason_logger/mason_logger.dart';
 import 'package:openci_runner/src/features/runner/ios/controller/ios_runner_controller.dart';
-import 'package:openci_runner/src/features/runner/ios/domain/arguments.dart';
+import 'package:openci_runner/src/features/runner/ios/domain/ios_arguments.dart';
 import 'package:openci_runner/src/features/sign_in/controller/sign_in_controller.dart';
 import 'package:openci_runner/src/features/sign_in/domain/sign_in.dart';
 import 'package:openci_runner/src/features/vm/controller/vm_controller.dart';
@@ -62,11 +62,11 @@ class IosRunnerCommand extends Command<int> {
   @override
   Future<int> run() async {
     final controller = IosRunnerController(_logger, argResults)
-      ..checkArgument(Arguments.supabaseUrl)
-      ..checkArgument(Arguments.supabaseApiKey)
-      ..checkArgument(Arguments.supabaseSignInEmail)
-      ..checkArgument(Arguments.supabaseSignInPassword)
-      ..checkArgument(Arguments.icloudKeychainPassword);
+      ..checkArgument(IosArguments.supabaseUrl)
+      ..checkArgument(IosArguments.supabaseApiKey)
+      ..checkArgument(IosArguments.supabaseSignInEmail)
+      ..checkArgument(IosArguments.supabaseSignInPassword)
+      ..checkArgument(IosArguments.icloudKeychainPassword);
     final arguments = controller.doesArgumentsExist();
     final supabaseUrl = arguments[1];
     final supabaseApiKey = arguments[3];
@@ -102,67 +102,68 @@ Jobがありません。10秒後に再確認します。
       final user = await signInController.signIn(job, supabase);
 
       if (Platform.isMacOS) {
-        final baseBranch = job.base_branch;
-        final distribution = user.distribution!
-            .where((element) => element.base_branch == baseBranch)
-            .first;
-        var isFad = false;
-        if (distribution.distribution == 'firebase_app_distribution') {
-          isFad = true;
-        }
-        final vm = VMController(const Uuid().v4());
-        await vm.prepareVM;
-        unawaited(vm.launchVM);
-        await wait(seconds: 20);
-        _logger.info('VM is ready');
-        final vmIP = await vm.fetchIpAddress;
-        final ssh = SSHService();
+        // final baseBranch = job.base_branch;
+        // final distribution = user.distribution!
+        //     .where((element) => element.base_branch == baseBranch)
+        //     .first;
+        // var isFad = false;
+        // if (distribution.distribution == 'firebase_app_distribution') {
+        //   isFad = true;
+        // }
+        // final vm = VMController(const Uuid().v4());
+        // await vm.prepareVM;
+        // unawaited(vm.launchVM);
+        // await wait(seconds: 20);
+        // _logger.info('VM is ready');
+        // final vmIP = await vm.fetchIpAddress;
+        // final ssh = SSHService();
 
-        final sshClient = await ssh.sshToServer(vmIP);
-        if (sshClient == null) {
-          _logger.err('ssh client is null');
-          continue;
-        }
+        // final sshClient = await ssh.sshToServer(vmIP);
+        // if (sshClient == null) {
+        //   _logger.err('ssh client is null');
+        //   continue;
+        // }
 
-        final macos = MacOSService(
-          sshClient: sshClient,
-          userData: user,
-          jobData: job,
-          isFad: isFad,
-          icloudKeychainPassword: icloudKeychainPassword,
-        );
+        // final macos = MacOSService(
+        //   sshClient: sshClient,
+        //   userData: user,
+        //   jobData: job,
+        //   isFad: isFad,
+        //   icloudKeychainPassword: icloudKeychainPassword,
+        //   supabaseService: supabase,
+        // );
 
-        await macos.cloneRepository;
-        if (isFad) {
-          await macos.changeProvisioningProfileFromAppStoreToAdhoc;
-        }
-        if (isFad) {
-          await macos.prepareAdhocExportOptionsPlist;
-        } else {
-          await macos.prepareAppStoreExportOptionsPlist;
-        }
+        // await macos.cloneRepository;
+        // if (isFad) {
+        //   await macos.changeProvisioningProfileFromAppStoreToAdhoc;
+        // }
+        // if (isFad) {
+        //   await macos.prepareAdhocExportOptionsPlist;
+        // } else {
+        //   await macos.prepareAppStoreExportOptionsPlist;
+        // }
 
-        if (isFad) {
-          await macos.createAdhocCertificates;
-        } else {
-          await macos.createAppStoreCertificates;
-        }
+        // if (isFad) {
+        //   await macos.createAdhocCertificates;
+        // } else {
+        //   await macos.createAppStoreCertificates;
+        // }
 
-        await macos.importCertificates;
-        await macos.runCustomScript();
-        await macos.buildIpa;
-        await macos.decodeAppStoreConnectApiKey;
+        // await macos.importCertificates;
+        // await macos.runCustomScript();
+        // await macos.buildIpa;
+        // await macos.decodeAppStoreConnectApiKey;
 
-        if (isFad) {
-          await macos.uploadIpaToFad();
-        } else {
-          await macos.uploadIpaToAppStoreConnect;
-        }
-        await supabase.incrementBuildNumber(user);
+        // if (isFad) {
+        //   await macos.uploadIpaToFad();
+        // } else {
+        //   await macos.uploadIpaToAppStoreConnect;
+        // }
+        // await supabase.incrementBuildNumber(user);
 
-        await supabase.setBuildSuccess(job);
-        await vm.stopVM;
-        await wait();
+        // await supabase.setBuildSuccess(job);
+        // await vm.stopVM;
+        // await wait();
       }
     }
   }
