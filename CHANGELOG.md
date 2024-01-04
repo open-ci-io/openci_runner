@@ -1,3 +1,7 @@
+## 0.2.7
+
+- fix: tart VM won't be shut down and deleted automatically after the build is complete. ([#52](https://github.com/open-ci-io/openci_runner/issues/52))
+
 ## 0.2.6
 
 - fix: openci_runner doesn't find a new job after one job has been successfully finished ([#49](https://github.com/open-ci-io/openci_runner/issues/49))
