@@ -20,12 +20,19 @@ class AndroidRunnerCommand extends Command<int> {
   AndroidRunnerCommand({
     required Logger logger,
   }) : _logger = logger {
-    argParser.addFlag(
-      'firebaseProjectName',
-      help: 'Firebase Project Name',
-      abbr: 'p',
-      negatable: false,
-    );
+    argParser
+      ..addFlag(
+        'firebaseProjectName',
+        help: 'Firebase Project Name',
+        abbr: 'p',
+        negatable: false,
+      )
+      ..addFlag(
+        'firebaseServiceAccountJson',
+        help: 'Firebase Service Account Json file Path',
+        abbr: 's',
+        negatable: false,
+      );
   }
 
   @override
@@ -42,13 +49,14 @@ class AndroidRunnerCommand extends Command<int> {
       ..checkArgument(AndroidArguments.firebaseProjectName);
     final arguments = controller.doesArgumentsExist();
     final firebaseProjectName = arguments[1];
+    final serviceAccountJsonPath = arguments[3];
 
     _logger.success('Argument check passed.');
 
     final admin = FirebaseAdminApp.initializeApp(
       firebaseProjectName,
       Credential.fromServiceAccount(
-        File('service_account.json'),
+        File(serviceAccountJsonPath),
       ),
     );
 
