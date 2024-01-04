@@ -16,6 +16,11 @@ import 'package:openci_runner/src/utilities/future_delayed.dart';
 import 'package:openci_runner/src/utilities/github/github_service.dart';
 import 'package:uuid/uuid.dart';
 
+const checks = '''
+job is null, waiting 10 seconds for next check.
+Jobがありません。10秒後に再確認します。
+''';
+
 class AndroidRunnerCommand extends Command<int> {
   AndroidRunnerCommand({
     required Logger logger,
@@ -68,10 +73,7 @@ class AndroidRunnerCommand extends Command<int> {
           .where('processing.android', WhereFilter.equal, false)
           .get();
       if (jobsQs.docs.isEmpty) {
-        _logger.info('''
-job is null, waiting 10 seconds for next check.
-Jobがありません。10秒後に再確認します。
-''');
+        _logger.info(checks);
         await wait();
         continue;
       }
@@ -86,20 +88,14 @@ Jobがありません。10秒後に再確認します。
           await firestore.collection('users').doc(jobData.userId).get();
 
       if (userDocs.exists == false) {
-        _logger.info('''
-job is null, waiting 10 seconds for next check.
-Jobがありません。10秒後に再確認します。
-''');
+        _logger.info(checks);
         await wait();
         continue;
       }
 
       final userData = userDocs.data();
       if (userData == null) {
-        _logger.info('''
-job is null, waiting 10 seconds for next check.
-Jobがありません。10秒後に再確認します。
-''');
+        _logger.info(checks);
         await wait();
         continue;
       }
@@ -113,10 +109,7 @@ Jobがありません。10秒後に再確認します。
           .get();
 
       if (distributionQs.docs.isEmpty) {
-        _logger.info('''
-job is null, waiting 10 seconds for next check.
-Jobがありません。10秒後に再確認します。
-''');
+        _logger.info(checks);
         await wait();
         continue;
       }
@@ -125,8 +118,10 @@ Jobがありません。10秒後に再確認します。
         return Distribution.fromJson(data);
       }).toList();
 
+      final distribution = distributionList.first;
+      print('distribution: $distribution');
+
       if (Platform.isMacOS || Platform.isLinux) {
-        final baseBranch = jobData.baseBranch;
         final vm = VMController(const Uuid().v4());
         await vm.prepareVM;
         unawaited(vm.launchVM);
@@ -150,6 +145,7 @@ Jobがありません。10秒後に再確認します。
           jobData: jobData,
           gitHubService: GitHubService(),
           firestore: firestore,
+          distribution: distribution,
         );
 
         if (await androidJobController.cloneRepository == false) {

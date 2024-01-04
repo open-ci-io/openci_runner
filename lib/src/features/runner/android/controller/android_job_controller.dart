@@ -14,6 +14,7 @@ class AndroidJobController {
     required this.gitHubService,
     required this.userData,
     required this.firestore,
+    required this.distribution,
   });
 
   final SSHService sshService;
@@ -22,6 +23,7 @@ class AndroidJobController {
   final GitHubService gitHubService;
   final UserData userData;
   final Firestore firestore;
+  final Distribution distribution;
 
   Future<bool> shell(
     String command,
@@ -74,21 +76,45 @@ class AndroidJobController {
       );
 
   Future<bool> get flutterClean async => shellV2(
-        'source ~/.zshrc && cd Downloads/${userData.appName} && flutter clean && flutter pub get;',
+        '$_loadZshrcAndCdAppDir && flutter clean && flutter pub get;',
       );
 
-  Future<bool> get buildApk async => shell(
-        'source ~/.zshrc && cd ~/Downloads/${userData.appName} && export ANDROID_SDK_ROOT=/Users/admin/android-sdk && flutter build apk --build-number=${userData.androidBuildNumber} --flavor prod --dart-define=FLAVOR=prod;',
+  Future<bool> get buildApk async {
+    if (distribution.flavor == Flavor.prod) {
+      return shell(
+        '$_loadZshrcAndCdAppDir && $pathAndroidSDK && flutter build apk --build-number=${userData.androidBuildNumber} --flavor prod --dart-define=FLAVOR=prod;',
       );
+    }
+    if (distribution.flavor == Flavor.none) {
+      return shell(
+        '$_loadZshrcAndCdAppDir && $pathAndroidSDK && flutter build apk --build-number=${userData.androidBuildNumber};',
+      );
+    }
+    return shell(
+      '$_loadZshrcAndCdAppDir && $pathAndroidSDK && flutter build apk --build-number=${userData.androidBuildNumber};',
+    );
+  }
 
-  String get prodApkPath =>
-      '/Users/admin/Downloads/${userData.appName}/build/app/outputs/flutter-apk/app-prod-release.apk';
+  String get apkPath {
+    if (distribution.flavor == Flavor.prod) {
+      return '/Users/admin/Downloads/${userData.appName}/build/app/outputs/flutter-apk/app-prod-release.apk';
+    }
+    if (distribution.flavor == Flavor.none) {
+      return '/Users/admin/Downloads/${userData.appName}/build/app/outputs/flutter-apk/app-release.apk';
+    }
+    return '/Users/admin/Downloads/${userData.appName}/build/app/outputs/flutter-apk/app-release.apk';
+  }
 
   Future<bool> get uploadApkToPlayStore async => shell(
         '''
-source ~/.zshrc;
-cd ~/Downloads/${userData.appName}
-firebase --token "${userData.firebaseCLIToken}" appdistribution:distribute "$prodApkPath" --app "${userData.firebaseAppIdAndroid}";
+$_loadZshrcAndCdAppDir;
+firebase --token "${userData.firebaseCLIToken}" appdistribution:distribute "$apkPath" --app "${userData.firebaseAppIdAndroid}";
 ''',
       );
+
+  String get _loadZshrcAndCdAppDir =>
+      'source ~/.zshrc && cd ~/Downloads/${userData.appName}';
+
+  String get pathAndroidSDK =>
+      'export ANDROID_SDK_ROOT=/Users/admin/android-sdk';
 }
