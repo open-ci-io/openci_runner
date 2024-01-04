@@ -1,3 +1,7 @@
+## 0.2.4
+
+- update: README.md
+
 ## 0.2.2
 
 - fix: How to use service_account json? ([#44](https://github.com/open-ci-io/openci_runner/issues/44))
