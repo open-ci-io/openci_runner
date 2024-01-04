@@ -1,3 +1,7 @@
+## 0.2.5
+
+- feat: flavor support (only prod or null env) ([#21](https://github.com/open-ci-io/openci_runner/issues/21))
+
 ## 0.2.4
 
 - update: README.md
