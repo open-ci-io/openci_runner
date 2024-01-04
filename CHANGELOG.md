@@ -1,3 +1,7 @@
+## 0.2.1
+
+- fix: Unable to skip build for android runner ([#39](https://github.com/open-ci-io/openci_runner/issues/39))
+
 ## 0.2.0
 
 - feat: Use Firestore as a Backend instead of Supabase ([#30](https://github.com/open-ci-io/openci_runner/issues/30))
