@@ -52,11 +52,13 @@ class AndroidRunnerCommand extends Command<int> {
       ),
     );
 
-    // TODO use the Admin SDK
     final firestore = Firestore(admin);
 
     while (true) {
-      final jobsQs = await firestore.collection('jobs').get();
+      final jobsQs = await firestore
+          .collection('jobs')
+          .where('processing.android', WhereFilter.equal, false)
+          .get();
       if (jobsQs.docs.isEmpty) {
         _logger.info('''
 job is null, waiting 10 seconds for next check.
@@ -66,14 +68,14 @@ Jobがありません。10秒後に再確認します。
         continue;
       }
       final jobsData = jobsQs.docs.first.data();
-      final job = JobData.fromJson(jobsData);
+      final jobData = JobData.fromJson(jobsData);
 
-      await firestore.collection('jobs').doc(job.documentId).update({
+      await firestore.collection('jobs').doc(jobData.documentId).update({
         'processing.android': true,
       });
 
       final userDocs =
-          await firestore.collection('users').doc(job.userId).get();
+          await firestore.collection('users').doc(jobData.userId).get();
 
       if (userDocs.exists == false) {
         _logger.info('''
@@ -116,7 +118,7 @@ Jobがありません。10秒後に再確認します。
       }).toList();
 
       if (Platform.isMacOS || Platform.isLinux) {
-        final baseBranch = job.baseBranch;
+        final baseBranch = jobData.baseBranch;
         final vm = VMController(const Uuid().v4());
         await vm.prepareVM;
         unawaited(vm.launchVM);
@@ -137,7 +139,7 @@ Jobがありません。10秒後に再確認します。
           sshService: ssh,
           sshClient: sshClient,
           userData: user,
-          jobData: job,
+          jobData: jobData,
           gitHubService: GitHubService(),
           firestore: firestore,
         );
@@ -184,7 +186,7 @@ Jobがありません。10秒後に再確認します。
 
         await firestore
             .collection('jobs')
-            .doc(job.documentId)
+            .doc(jobData.documentId)
             .update({'success.android': true});
 
         print('build apk success');
