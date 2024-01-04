@@ -194,6 +194,8 @@ class AndroidRunnerCommand extends Command<int> {
             .update({'success.android': true});
 
         print('build apk success');
+
+        await vm.stopVM;
       }
     }
   }
