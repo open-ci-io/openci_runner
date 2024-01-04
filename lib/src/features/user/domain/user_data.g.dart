@@ -62,6 +62,7 @@ _$DistributionImpl _$$DistributionImplFromJson(Map<String, dynamic> json) =>
       platform: json['platform'] as String,
       baseBranch: json['baseBranch'] as String,
       distribution: json['distribution'] as String,
+      flavor: $enumDecode(_$FlavorEnumMap, json['flavor']),
     );
 
 Map<String, dynamic> _$$DistributionImplToJson(_$DistributionImpl instance) =>
@@ -69,4 +70,12 @@ Map<String, dynamic> _$$DistributionImplToJson(_$DistributionImpl instance) =>
       'platform': instance.platform,
       'baseBranch': instance.baseBranch,
       'distribution': instance.distribution,
+      'flavor': _$FlavorEnumMap[instance.flavor]!,
     };
+
+const _$FlavorEnumMap = {
+  Flavor.none: 'none',
+  Flavor.dev: 'dev',
+  Flavor.stage: 'stage',
+  Flavor.prod: 'prod',
+};

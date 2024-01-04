@@ -35,7 +35,15 @@ class Distribution with _$Distribution {
     required String platform,
     required String baseBranch,
     required String distribution,
+    required Flavor flavor,
   }) = _Distribution;
   factory Distribution.fromJson(Map<String, Object?> json) =>
       _$DistributionFromJson(json);
+}
+
+enum Flavor {
+  none,
+  dev,
+  stage,
+  prod;
 }

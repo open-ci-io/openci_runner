@@ -560,6 +560,7 @@ mixin _$Distribution {
   String get platform => throw _privateConstructorUsedError;
   String get baseBranch => throw _privateConstructorUsedError;
   String get distribution => throw _privateConstructorUsedError;
+  Flavor get flavor => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -573,7 +574,8 @@ abstract class $DistributionCopyWith<$Res> {
           Distribution value, $Res Function(Distribution) then) =
       _$DistributionCopyWithImpl<$Res, Distribution>;
   @useResult
-  $Res call({String platform, String baseBranch, String distribution});
+  $Res call(
+      {String platform, String baseBranch, String distribution, Flavor flavor});
 }
 
 /// @nodoc
@@ -592,6 +594,7 @@ class _$DistributionCopyWithImpl<$Res, $Val extends Distribution>
     Object? platform = null,
     Object? baseBranch = null,
     Object? distribution = null,
+    Object? flavor = null,
   }) {
     return _then(_value.copyWith(
       platform: null == platform
@@ -606,6 +609,10 @@ class _$DistributionCopyWithImpl<$Res, $Val extends Distribution>
           ? _value.distribution
           : distribution // ignore: cast_nullable_to_non_nullable
               as String,
+      flavor: null == flavor
+          ? _value.flavor
+          : flavor // ignore: cast_nullable_to_non_nullable
+              as Flavor,
     ) as $Val);
   }
 }
@@ -618,7 +625,8 @@ abstract class _$$DistributionImplCopyWith<$Res>
       __$$DistributionImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String platform, String baseBranch, String distribution});
+  $Res call(
+      {String platform, String baseBranch, String distribution, Flavor flavor});
 }
 
 /// @nodoc
@@ -635,6 +643,7 @@ class __$$DistributionImplCopyWithImpl<$Res>
     Object? platform = null,
     Object? baseBranch = null,
     Object? distribution = null,
+    Object? flavor = null,
   }) {
     return _then(_$DistributionImpl(
       platform: null == platform
@@ -649,6 +658,10 @@ class __$$DistributionImplCopyWithImpl<$Res>
           ? _value.distribution
           : distribution // ignore: cast_nullable_to_non_nullable
               as String,
+      flavor: null == flavor
+          ? _value.flavor
+          : flavor // ignore: cast_nullable_to_non_nullable
+              as Flavor,
     ));
   }
 }
@@ -659,7 +672,8 @@ class _$DistributionImpl implements _Distribution {
   const _$DistributionImpl(
       {required this.platform,
       required this.baseBranch,
-      required this.distribution});
+      required this.distribution,
+      required this.flavor});
 
   factory _$DistributionImpl.fromJson(Map<String, dynamic> json) =>
       _$$DistributionImplFromJson(json);
@@ -670,10 +684,12 @@ class _$DistributionImpl implements _Distribution {
   final String baseBranch;
   @override
   final String distribution;
+  @override
+  final Flavor flavor;
 
   @override
   String toString() {
-    return 'Distribution(platform: $platform, baseBranch: $baseBranch, distribution: $distribution)';
+    return 'Distribution(platform: $platform, baseBranch: $baseBranch, distribution: $distribution, flavor: $flavor)';
   }
 
   @override
@@ -686,13 +702,14 @@ class _$DistributionImpl implements _Distribution {
             (identical(other.baseBranch, baseBranch) ||
                 other.baseBranch == baseBranch) &&
             (identical(other.distribution, distribution) ||
-                other.distribution == distribution));
+                other.distribution == distribution) &&
+            (identical(other.flavor, flavor) || other.flavor == flavor));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode =>
-      Object.hash(runtimeType, platform, baseBranch, distribution);
+      Object.hash(runtimeType, platform, baseBranch, distribution, flavor);
 
   @JsonKey(ignore: true)
   @override
@@ -712,7 +729,8 @@ abstract class _Distribution implements Distribution {
   const factory _Distribution(
       {required final String platform,
       required final String baseBranch,
-      required final String distribution}) = _$DistributionImpl;
+      required final String distribution,
+      required final Flavor flavor}) = _$DistributionImpl;
 
   factory _Distribution.fromJson(Map<String, dynamic> json) =
       _$DistributionImpl.fromJson;
@@ -723,6 +741,8 @@ abstract class _Distribution implements Distribution {
   String get baseBranch;
   @override
   String get distribution;
+  @override
+  Flavor get flavor;
   @override
   @JsonKey(ignore: true)
   _$$DistributionImplCopyWith<_$DistributionImpl> get copyWith =>
