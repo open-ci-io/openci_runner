@@ -194,40 +194,7 @@ class AndroidRunnerCommand extends Command<int> {
             .update({'success.android': true});
 
         print('build apk success');
-
-        // ignore: inference_failure_on_instance_creation
-        await Future.delayed(const Duration(days: 1));
       }
     }
-
-//     while (true) {
-
-//         // if (await macos.importFADServiceAccountJson == false) {
-//         //   await supabase.setBuildFailure(job);
-//         //   _logger.err('import FAD service account json failed');
-//         //   continue;
-//         // }
-//         // if (await macos.flutterClean == false) {
-//         //   await supabase.setBuildFailure(job);
-//         //   _logger.err('flutter clean failed');
-//         //   continue;
-//         // }
-//         // if (await macos.buildAppBundle == false) {
-//         //   await supabase.setBuildFailure(job);
-//         //   _logger.err('build apk failed');
-//         //   continue;
-//         // }
-//         // if (await macos.uploadApkToPlayStore == false) {
-//         //   await supabase.setBuildFailure(job);
-//         //   _logger.err('upload apk to playStore failed');
-//         //   continue;
-//         // }
-//         // await macos.uploadApkToPlayStore;
-//         await supabase.incrementBuildNumber(user);
-//         await supabase.setBuildSuccess(job);
-//         // await vm.stopVM;
-//         // await wait();
-//       }
-//     }
   }
 }

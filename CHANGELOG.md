@@ -1,3 +1,7 @@
+## 0.2.6
+
+- fix: openci_runner doesn't find a new job after one job has been successfully finished ([#49](https://github.com/open-ci-io/openci_runner/issues/49))
+
 ## 0.2.5
 
 - feat: flavor support (only prod or null env) ([#21](https://github.com/open-ci-io/openci_runner/issues/21))
