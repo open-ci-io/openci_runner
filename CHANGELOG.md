@@ -1,3 +1,7 @@
+## 0.2.2
+
+- fix: How to use service_account json? ([#44](https://github.com/open-ci-io/openci_runner/issues/44))
+
 ## 0.2.1
 
 - fix: Unable to skip build for android runner ([#39](https://github.com/open-ci-io/openci_runner/issues/39))
