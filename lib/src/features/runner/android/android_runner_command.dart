@@ -146,6 +146,7 @@ class AndroidRunnerCommand extends Command<int> {
           gitHubService: GitHubService(),
           firestore: firestore,
           distribution: distribution,
+          vmController: vm,
         );
 
         if (await androidJobController.cloneRepository == false) {

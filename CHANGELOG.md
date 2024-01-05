@@ -1,3 +1,7 @@
+## 0.2.8
+
+- fix: VM won't be shut down and deleted if build fails ([#54](https://github.com/open-ci-io/openci_runner/issues/54))
+
 ## 0.2.7
 
 - fix: tart VM won't be shut down and deleted automatically after the build is complete. ([#52](https://github.com/open-ci-io/openci_runner/issues/52))
