@@ -3,6 +3,7 @@ import 'package:dart_firebase_admin/firestore.dart';
 import 'package:dartssh2/dartssh2.dart';
 import 'package:openci_runner/src/features/job/domain/job_data.dart';
 import 'package:openci_runner/src/features/user/domain/user_data.dart';
+import 'package:openci_runner/src/features/vm/controller/vm_controller.dart';
 import 'package:openci_runner/src/services/ssh/ssh_service.dart';
 import 'package:openci_runner/src/utilities/github/github_service.dart';
 
@@ -15,6 +16,7 @@ class AndroidJobController {
     required this.userData,
     required this.firestore,
     required this.distribution,
+    required this.vmController,
   });
 
   final SSHService sshService;
@@ -24,6 +26,7 @@ class AndroidJobController {
   final UserData userData;
   final Firestore firestore;
   final Distribution distribution;
+  final VMController vmController;
 
   Future<bool> shell(
     String command,
@@ -36,6 +39,7 @@ class AndroidJobController {
       await firestore.collection('jobs').doc(jobData.documentId).update({
         'failure.android': true,
       });
+      await vmController.stopVM;
     }
     return result;
   }
@@ -51,6 +55,7 @@ class AndroidJobController {
       await firestore.collection('jobs').doc(jobData.documentId).update({
         'failure.android': true,
       });
+      await vmController.stopVM;
     }
     return result;
   }
