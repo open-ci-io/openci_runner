@@ -68,15 +68,19 @@ class AndroidRunnerCommand extends Command<int> {
     final firestore = Firestore(admin);
 
     while (true) {
+      final progress = _logger.progress('Searching new job');
+
       final jobsQs = await firestore
           .collection('jobs')
           .where('processing.android', WhereFilter.equal, false)
           .get();
       if (jobsQs.docs.isEmpty) {
-        _logger.info(checks);
+        progress.update('No jobs were found');
+
         await wait();
         continue;
       }
+      progress.complete('New job found');
       final jobsData = jobsQs.docs.first.data();
       final jobData = JobData.fromJson(jobsData);
 
@@ -119,7 +123,6 @@ class AndroidRunnerCommand extends Command<int> {
       }).toList();
 
       final distribution = distributionList.first;
-      print('distribution: $distribution');
 
       if (Platform.isMacOS || Platform.isLinux) {
         final vm = VMController(const Uuid().v4());
