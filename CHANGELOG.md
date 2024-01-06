@@ -1,3 +1,7 @@
+## 0.2.10
+
+- fix: Unable to get a job. ([#59](https://github.com/open-ci-io/openci_runner/issues/59))
+
 ## 0.2.9
 
 - fix: Null job message"job is null, waiting 10 seconds for next check." is too redundant. ([#51](https://github.com/open-ci-io/openci_runner/issues/51))
