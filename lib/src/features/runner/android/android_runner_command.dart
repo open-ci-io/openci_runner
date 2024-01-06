@@ -67,20 +67,30 @@ class AndroidRunnerCommand extends Command<int> {
 
     final firestore = Firestore(admin);
 
+    var isSearching = false;
+
+    Progress? progress;
+
     while (true) {
-      final progress = _logger.progress('Searching new job');
+      if (isSearching == false) {
+        _logger.info('Searching new job');
+        progress = _logger.progress('Searching new job');
+
+        isSearching = true;
+      }
 
       final jobsQs = await firestore
           .collection('jobs')
           .where('processing.android', WhereFilter.equal, false)
           .get();
-      if (jobsQs.docs.isEmpty) {
+      if (jobsQs.docs.isEmpty && progress != null) {
         progress.update('No jobs were found');
 
         await wait();
         continue;
       }
-      progress.complete('New job found');
+      progress!.complete('New job found');
+      isSearching = false;
       final jobsData = jobsQs.docs.first.data();
       final jobData = JobData.fromJson(jobsData);
 
