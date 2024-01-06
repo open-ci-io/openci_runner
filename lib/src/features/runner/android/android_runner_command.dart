@@ -139,7 +139,7 @@ class AndroidRunnerCommand extends Command<int> {
         await vm.prepareVM;
         unawaited(vm.launchVM);
         await wait(seconds: 20);
-        _logger.info('VM is ready');
+        _logger.success('VM is ready');
         final vmIP = await vm.fetchIpAddress;
         final ssh = SSHService();
 
@@ -207,7 +207,7 @@ class AndroidRunnerCommand extends Command<int> {
             .doc(jobData.documentId)
             .update({'success.android': true});
 
-        print('build apk success');
+        _logger.success('build success');
 
         await vm.stopVM;
       }
