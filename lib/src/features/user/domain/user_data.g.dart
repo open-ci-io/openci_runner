@@ -12,20 +12,18 @@ _$UserDataImpl _$$UserDataImplFromJson(Map<String, dynamic> json) =>
       androidKeyJks: json['androidKeyJks'] as String,
       androidKeyProperties: json['androidKeyProperties'] as String,
       appName: json['appName'] as String,
-      appStoreConnectIssuerId: json['appStoreConnectIssuerId'] as String,
-      appStoreConnectKeyId: json['appStoreConnectKeyId'] as String,
-      appStoreConnectP8: json['appStoreConnectP8'] as String,
-      firebaseAppDistributionServiceAccountJson:
-          json['firebaseAppDistributionServiceAccountJson'] as String,
+      appStoreConnectIssuerId: json['appStoreConnectIssuerId'] as String?,
+      appStoreConnectKeyId: json['appStoreConnectKeyId'] as String?,
+      appStoreConnectP8: json['appStoreConnectP8'] as String?,
       firebaseAppDistributionTesters:
           (json['firebaseAppDistributionTesters'] as List<dynamic>)
               .map((e) => e as String)
               .toList(),
       firebaseAppIdAndroid: json['firebaseAppIdAndroid'] as String,
-      firebaseAppIdIos: json['firebaseAppIdIos'] as String,
+      firebaseAppIdIos: json['firebaseAppIdIos'] as String?,
       firebaseCLIToken: json['firebaseCLIToken'] as String,
       githubRepositoryUrl: json['githubRepositoryUrl'] as String,
-      iosBuildNumber: json['iosBuildNumber'] as int,
+      iosBuildNumber: json['iosBuildNumber'] as int?,
       pubspecYamlName: json['pubspecYamlName'] as String,
       serviceAccountJson: json['serviceAccountJson'] as String,
       triggerBranches: (json['triggerBranches'] as List<dynamic>)
@@ -43,8 +41,6 @@ Map<String, dynamic> _$$UserDataImplToJson(_$UserDataImpl instance) =>
       'appStoreConnectIssuerId': instance.appStoreConnectIssuerId,
       'appStoreConnectKeyId': instance.appStoreConnectKeyId,
       'appStoreConnectP8': instance.appStoreConnectP8,
-      'firebaseAppDistributionServiceAccountJson':
-          instance.firebaseAppDistributionServiceAccountJson,
       'firebaseAppDistributionTesters': instance.firebaseAppDistributionTesters,
       'firebaseAppIdAndroid': instance.firebaseAppIdAndroid,
       'firebaseAppIdIos': instance.firebaseAppIdIos,
@@ -70,7 +66,7 @@ Map<String, dynamic> _$$DistributionImplToJson(_$DistributionImpl instance) =>
       'platform': instance.platform,
       'baseBranch': instance.baseBranch,
       'distribution': instance.distribution,
-      'flavor': _$FlavorEnumMap[instance.flavor]!,
+      'flavor': _$FlavorEnumMap[instance.flavor],
     };
 
 const _$FlavorEnumMap = {

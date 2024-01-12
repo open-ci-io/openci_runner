@@ -69,15 +69,15 @@ class SupabaseService {
   }
 
   Future<void> incrementBuildNumber(UserData user) async {
-    if (targetOs == 'android') {
-      await _supabase.from('users').update({
-        'android_build_number': user.androidBuildNumber + 1,
-      }).eq('user_id', user.userId);
-    } else {
-      await _supabase.from('users').update({
-        'ios_build_number': user.iosBuildNumber + 1,
-      }).eq('user_id', user.userId);
-    }
+    // if (targetOs == 'android') {
+    //   await _supabase.from('users').update({
+    //     'android_build_number': user.androidBuildNumber + 1,
+    //   }).eq('user_id', user.userId);
+    // } else {
+    //   await _supabase.from('users').update({
+    //     'ios_build_number': user.iosBuildNumber + 1,
+    //   }).eq('user_id', user.userId);
+    // }
   }
 
   // Future<void> setBuildSuccess(JobData job) async {
