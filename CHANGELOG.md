@@ -1,3 +1,7 @@
+## 0.2.11
+
+- fix: UserData does not accept null value. ([#69](https://github.com/open-ci-io/openci_runner/issues/69))
+
 ## 0.2.10
 
 - fix: Unable to get a job. ([#57](https://github.com/open-ci-io/openci_runner/issues/57))
