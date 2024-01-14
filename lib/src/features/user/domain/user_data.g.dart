@@ -22,6 +22,7 @@ _$UserDataImpl _$$UserDataImplFromJson(Map<String, dynamic> json) =>
       firebaseAppIdAndroid: json['firebaseAppIdAndroid'] as String,
       firebaseAppIdIos: json['firebaseAppIdIos'] as String?,
       firebaseCLIToken: json['firebaseCLIToken'] as String,
+      flutterVersion: json['flutterVersion'] as String?,
       githubRepositoryUrl: json['githubRepositoryUrl'] as String,
       iosBuildNumber: json['iosBuildNumber'] as int?,
       pubspecYamlName: json['pubspecYamlName'] as String,
@@ -45,6 +46,7 @@ Map<String, dynamic> _$$UserDataImplToJson(_$UserDataImpl instance) =>
       'firebaseAppIdAndroid': instance.firebaseAppIdAndroid,
       'firebaseAppIdIos': instance.firebaseAppIdIos,
       'firebaseCLIToken': instance.firebaseCLIToken,
+      'flutterVersion': instance.flutterVersion,
       'githubRepositoryUrl': instance.githubRepositoryUrl,
       'iosBuildNumber': instance.iosBuildNumber,
       'pubspecYamlName': instance.pubspecYamlName,
@@ -66,7 +68,7 @@ Map<String, dynamic> _$$DistributionImplToJson(_$DistributionImpl instance) =>
       'platform': instance.platform,
       'baseBranch': instance.baseBranch,
       'distribution': instance.distribution,
-      'flavor': _$FlavorEnumMap[instance.flavor],
+      'flavor': _$FlavorEnumMap[instance.flavor]!,
     };
 
 const _$FlavorEnumMap = {

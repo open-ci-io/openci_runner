@@ -32,6 +32,7 @@ mixin _$UserData {
   String get firebaseAppIdAndroid => throw _privateConstructorUsedError;
   String? get firebaseAppIdIos => throw _privateConstructorUsedError;
   String get firebaseCLIToken => throw _privateConstructorUsedError;
+  String? get flutterVersion => throw _privateConstructorUsedError;
   String get githubRepositoryUrl => throw _privateConstructorUsedError;
   int? get iosBuildNumber => throw _privateConstructorUsedError;
   String get pubspecYamlName => throw _privateConstructorUsedError;
@@ -62,6 +63,7 @@ abstract class $UserDataCopyWith<$Res> {
       String firebaseAppIdAndroid,
       String? firebaseAppIdIos,
       String firebaseCLIToken,
+      String? flutterVersion,
       String githubRepositoryUrl,
       int? iosBuildNumber,
       String pubspecYamlName,
@@ -94,6 +96,7 @@ class _$UserDataCopyWithImpl<$Res, $Val extends UserData>
     Object? firebaseAppIdAndroid = null,
     Object? firebaseAppIdIos = freezed,
     Object? firebaseCLIToken = null,
+    Object? flutterVersion = freezed,
     Object? githubRepositoryUrl = null,
     Object? iosBuildNumber = freezed,
     Object? pubspecYamlName = null,
@@ -146,6 +149,10 @@ class _$UserDataCopyWithImpl<$Res, $Val extends UserData>
           ? _value.firebaseCLIToken
           : firebaseCLIToken // ignore: cast_nullable_to_non_nullable
               as String,
+      flutterVersion: freezed == flutterVersion
+          ? _value.flutterVersion
+          : flutterVersion // ignore: cast_nullable_to_non_nullable
+              as String?,
       githubRepositoryUrl: null == githubRepositoryUrl
           ? _value.githubRepositoryUrl
           : githubRepositoryUrl // ignore: cast_nullable_to_non_nullable
@@ -194,6 +201,7 @@ abstract class _$$UserDataImplCopyWith<$Res>
       String firebaseAppIdAndroid,
       String? firebaseAppIdIos,
       String firebaseCLIToken,
+      String? flutterVersion,
       String githubRepositoryUrl,
       int? iosBuildNumber,
       String pubspecYamlName,
@@ -224,6 +232,7 @@ class __$$UserDataImplCopyWithImpl<$Res>
     Object? firebaseAppIdAndroid = null,
     Object? firebaseAppIdIos = freezed,
     Object? firebaseCLIToken = null,
+    Object? flutterVersion = freezed,
     Object? githubRepositoryUrl = null,
     Object? iosBuildNumber = freezed,
     Object? pubspecYamlName = null,
@@ -276,6 +285,10 @@ class __$$UserDataImplCopyWithImpl<$Res>
           ? _value.firebaseCLIToken
           : firebaseCLIToken // ignore: cast_nullable_to_non_nullable
               as String,
+      flutterVersion: freezed == flutterVersion
+          ? _value.flutterVersion
+          : flutterVersion // ignore: cast_nullable_to_non_nullable
+              as String?,
       githubRepositoryUrl: null == githubRepositoryUrl
           ? _value.githubRepositoryUrl
           : githubRepositoryUrl // ignore: cast_nullable_to_non_nullable
@@ -319,6 +332,7 @@ class _$UserDataImpl implements _UserData {
       required this.firebaseAppIdAndroid,
       required this.firebaseAppIdIos,
       required this.firebaseCLIToken,
+      required this.flutterVersion,
       required this.githubRepositoryUrl,
       required this.iosBuildNumber,
       required this.pubspecYamlName,
@@ -361,6 +375,8 @@ class _$UserDataImpl implements _UserData {
   @override
   final String firebaseCLIToken;
   @override
+  final String? flutterVersion;
+  @override
   final String githubRepositoryUrl;
   @override
   final int? iosBuildNumber;
@@ -381,7 +397,7 @@ class _$UserDataImpl implements _UserData {
 
   @override
   String toString() {
-    return 'UserData(androidBuildNumber: $androidBuildNumber, androidKeyJks: $androidKeyJks, androidKeyProperties: $androidKeyProperties, appName: $appName, appStoreConnectIssuerId: $appStoreConnectIssuerId, appStoreConnectKeyId: $appStoreConnectKeyId, appStoreConnectP8: $appStoreConnectP8, firebaseAppDistributionTesters: $firebaseAppDistributionTesters, firebaseAppIdAndroid: $firebaseAppIdAndroid, firebaseAppIdIos: $firebaseAppIdIos, firebaseCLIToken: $firebaseCLIToken, githubRepositoryUrl: $githubRepositoryUrl, iosBuildNumber: $iosBuildNumber, pubspecYamlName: $pubspecYamlName, serviceAccountJson: $serviceAccountJson, triggerBranches: $triggerBranches, userId: $userId)';
+    return 'UserData(androidBuildNumber: $androidBuildNumber, androidKeyJks: $androidKeyJks, androidKeyProperties: $androidKeyProperties, appName: $appName, appStoreConnectIssuerId: $appStoreConnectIssuerId, appStoreConnectKeyId: $appStoreConnectKeyId, appStoreConnectP8: $appStoreConnectP8, firebaseAppDistributionTesters: $firebaseAppDistributionTesters, firebaseAppIdAndroid: $firebaseAppIdAndroid, firebaseAppIdIos: $firebaseAppIdIos, firebaseCLIToken: $firebaseCLIToken, flutterVersion: $flutterVersion, githubRepositoryUrl: $githubRepositoryUrl, iosBuildNumber: $iosBuildNumber, pubspecYamlName: $pubspecYamlName, serviceAccountJson: $serviceAccountJson, triggerBranches: $triggerBranches, userId: $userId)';
   }
 
   @override
@@ -412,6 +428,8 @@ class _$UserDataImpl implements _UserData {
                 other.firebaseAppIdIos == firebaseAppIdIos) &&
             (identical(other.firebaseCLIToken, firebaseCLIToken) ||
                 other.firebaseCLIToken == firebaseCLIToken) &&
+            (identical(other.flutterVersion, flutterVersion) ||
+                other.flutterVersion == flutterVersion) &&
             (identical(other.githubRepositoryUrl, githubRepositoryUrl) ||
                 other.githubRepositoryUrl == githubRepositoryUrl) &&
             (identical(other.iosBuildNumber, iosBuildNumber) ||
@@ -440,6 +458,7 @@ class _$UserDataImpl implements _UserData {
       firebaseAppIdAndroid,
       firebaseAppIdIos,
       firebaseCLIToken,
+      flutterVersion,
       githubRepositoryUrl,
       iosBuildNumber,
       pubspecYamlName,
@@ -474,6 +493,7 @@ abstract class _UserData implements UserData {
       required final String firebaseAppIdAndroid,
       required final String? firebaseAppIdIos,
       required final String firebaseCLIToken,
+      required final String? flutterVersion,
       required final String githubRepositoryUrl,
       required final int? iosBuildNumber,
       required final String pubspecYamlName,
@@ -506,6 +526,8 @@ abstract class _UserData implements UserData {
   String? get firebaseAppIdIos;
   @override
   String get firebaseCLIToken;
+  @override
+  String? get flutterVersion;
   @override
   String get githubRepositoryUrl;
   @override
