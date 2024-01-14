@@ -81,22 +81,31 @@ class AndroidJobController {
       );
 
   Future<bool> get flutterClean async => shellV2(
-        '$_loadZshrcAndCdAppDir && flutter clean && flutter pub get;',
+        '$_loadZshrcAndCdAppDir && $flutterCommand clean && $flutterCommand pub get;',
       );
+
+  Future<bool> get changeFlutterVersion async {
+    if (userData.flutterVersion != null) {
+      return shellV2(
+        '$_loadZshrcAndCdAppDir && fvm use ${userData.flutterVersion} --force;',
+      );
+    }
+    return true;
+  }
 
   Future<bool> get buildApk async {
     if (distribution.flavor == Flavor.prod) {
       return shell(
-        '$_loadZshrcAndCdAppDir && $pathAndroidSDK && flutter build apk --build-number=${userData.androidBuildNumber} --flavor prod --dart-define=FLAVOR=prod;',
+        '$_loadZshrcAndCdAppDir && $pathAndroidSDK && $flutterCommand build apk --build-number=${userData.androidBuildNumber} --flavor prod --dart-define=FLAVOR=prod;',
       );
     }
     if (distribution.flavor == Flavor.none) {
       return shell(
-        '$_loadZshrcAndCdAppDir && $pathAndroidSDK && flutter build apk --build-number=${userData.androidBuildNumber};',
+        '$_loadZshrcAndCdAppDir && $pathAndroidSDK && $flutterCommand build apk --build-number=${userData.androidBuildNumber};',
       );
     }
     return shell(
-      '$_loadZshrcAndCdAppDir && $pathAndroidSDK && flutter build apk --build-number=${userData.androidBuildNumber};',
+      '$_loadZshrcAndCdAppDir && $pathAndroidSDK && $flutterCommand build apk --build-number=${userData.androidBuildNumber};',
     );
   }
 
@@ -122,4 +131,6 @@ firebase --token "${userData.firebaseCLIToken}" appdistribution:distribute "$apk
 
   String get pathAndroidSDK =>
       'export ANDROID_SDK_ROOT=/Users/admin/android-sdk';
+
+  String get flutterCommand => 'fvm flutter';
 }

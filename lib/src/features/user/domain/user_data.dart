@@ -17,6 +17,7 @@ class UserData with _$UserData {
     required String firebaseAppIdAndroid,
     required String? firebaseAppIdIos,
     required String firebaseCLIToken,
+    required String? flutterVersion,
     required String githubRepositoryUrl,
     required int? iosBuildNumber,
     required String pubspecYamlName,

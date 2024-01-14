@@ -1,3 +1,7 @@
+## 0.2.12
+
+- add: FVM to change Flutter version. ([#7](https://github.com/open-ci-io/openci_runner/issues/7))
+
 ## 0.2.11
 
 - fix: UserData does not accept null value. ([#69](https://github.com/open-ci-io/openci_runner/issues/69))
