@@ -27,6 +27,7 @@ mixin _$UserData {
   String? get appStoreConnectIssuerId => throw _privateConstructorUsedError;
   String? get appStoreConnectKeyId => throw _privateConstructorUsedError;
   String? get appStoreConnectP8 => throw _privateConstructorUsedError;
+  String? get entryPoint => throw _privateConstructorUsedError;
   List<String> get firebaseAppDistributionTesters =>
       throw _privateConstructorUsedError;
   String get firebaseAppIdAndroid => throw _privateConstructorUsedError;
@@ -59,6 +60,7 @@ abstract class $UserDataCopyWith<$Res> {
       String? appStoreConnectIssuerId,
       String? appStoreConnectKeyId,
       String? appStoreConnectP8,
+      String? entryPoint,
       List<String> firebaseAppDistributionTesters,
       String firebaseAppIdAndroid,
       String? firebaseAppIdIos,
@@ -92,6 +94,7 @@ class _$UserDataCopyWithImpl<$Res, $Val extends UserData>
     Object? appStoreConnectIssuerId = freezed,
     Object? appStoreConnectKeyId = freezed,
     Object? appStoreConnectP8 = freezed,
+    Object? entryPoint = freezed,
     Object? firebaseAppDistributionTesters = null,
     Object? firebaseAppIdAndroid = null,
     Object? firebaseAppIdIos = freezed,
@@ -132,6 +135,10 @@ class _$UserDataCopyWithImpl<$Res, $Val extends UserData>
       appStoreConnectP8: freezed == appStoreConnectP8
           ? _value.appStoreConnectP8
           : appStoreConnectP8 // ignore: cast_nullable_to_non_nullable
+              as String?,
+      entryPoint: freezed == entryPoint
+          ? _value.entryPoint
+          : entryPoint // ignore: cast_nullable_to_non_nullable
               as String?,
       firebaseAppDistributionTesters: null == firebaseAppDistributionTesters
           ? _value.firebaseAppDistributionTesters
@@ -197,6 +204,7 @@ abstract class _$$UserDataImplCopyWith<$Res>
       String? appStoreConnectIssuerId,
       String? appStoreConnectKeyId,
       String? appStoreConnectP8,
+      String? entryPoint,
       List<String> firebaseAppDistributionTesters,
       String firebaseAppIdAndroid,
       String? firebaseAppIdIos,
@@ -228,6 +236,7 @@ class __$$UserDataImplCopyWithImpl<$Res>
     Object? appStoreConnectIssuerId = freezed,
     Object? appStoreConnectKeyId = freezed,
     Object? appStoreConnectP8 = freezed,
+    Object? entryPoint = freezed,
     Object? firebaseAppDistributionTesters = null,
     Object? firebaseAppIdAndroid = null,
     Object? firebaseAppIdIos = freezed,
@@ -268,6 +277,10 @@ class __$$UserDataImplCopyWithImpl<$Res>
       appStoreConnectP8: freezed == appStoreConnectP8
           ? _value.appStoreConnectP8
           : appStoreConnectP8 // ignore: cast_nullable_to_non_nullable
+              as String?,
+      entryPoint: freezed == entryPoint
+          ? _value.entryPoint
+          : entryPoint // ignore: cast_nullable_to_non_nullable
               as String?,
       firebaseAppDistributionTesters: null == firebaseAppDistributionTesters
           ? _value._firebaseAppDistributionTesters
@@ -328,6 +341,7 @@ class _$UserDataImpl implements _UserData {
       required this.appStoreConnectIssuerId,
       required this.appStoreConnectKeyId,
       required this.appStoreConnectP8,
+      required this.entryPoint,
       required final List<String> firebaseAppDistributionTesters,
       required this.firebaseAppIdAndroid,
       required this.firebaseAppIdIos,
@@ -359,6 +373,8 @@ class _$UserDataImpl implements _UserData {
   final String? appStoreConnectKeyId;
   @override
   final String? appStoreConnectP8;
+  @override
+  final String? entryPoint;
   final List<String> _firebaseAppDistributionTesters;
   @override
   List<String> get firebaseAppDistributionTesters {
@@ -397,7 +413,7 @@ class _$UserDataImpl implements _UserData {
 
   @override
   String toString() {
-    return 'UserData(androidBuildNumber: $androidBuildNumber, androidKeyJks: $androidKeyJks, androidKeyProperties: $androidKeyProperties, appName: $appName, appStoreConnectIssuerId: $appStoreConnectIssuerId, appStoreConnectKeyId: $appStoreConnectKeyId, appStoreConnectP8: $appStoreConnectP8, firebaseAppDistributionTesters: $firebaseAppDistributionTesters, firebaseAppIdAndroid: $firebaseAppIdAndroid, firebaseAppIdIos: $firebaseAppIdIos, firebaseCLIToken: $firebaseCLIToken, flutterVersion: $flutterVersion, githubRepositoryUrl: $githubRepositoryUrl, iosBuildNumber: $iosBuildNumber, pubspecYamlName: $pubspecYamlName, serviceAccountJson: $serviceAccountJson, triggerBranches: $triggerBranches, userId: $userId)';
+    return 'UserData(androidBuildNumber: $androidBuildNumber, androidKeyJks: $androidKeyJks, androidKeyProperties: $androidKeyProperties, appName: $appName, appStoreConnectIssuerId: $appStoreConnectIssuerId, appStoreConnectKeyId: $appStoreConnectKeyId, appStoreConnectP8: $appStoreConnectP8, entryPoint: $entryPoint, firebaseAppDistributionTesters: $firebaseAppDistributionTesters, firebaseAppIdAndroid: $firebaseAppIdAndroid, firebaseAppIdIos: $firebaseAppIdIos, firebaseCLIToken: $firebaseCLIToken, flutterVersion: $flutterVersion, githubRepositoryUrl: $githubRepositoryUrl, iosBuildNumber: $iosBuildNumber, pubspecYamlName: $pubspecYamlName, serviceAccountJson: $serviceAccountJson, triggerBranches: $triggerBranches, userId: $userId)';
   }
 
   @override
@@ -419,6 +435,8 @@ class _$UserDataImpl implements _UserData {
                 other.appStoreConnectKeyId == appStoreConnectKeyId) &&
             (identical(other.appStoreConnectP8, appStoreConnectP8) ||
                 other.appStoreConnectP8 == appStoreConnectP8) &&
+            (identical(other.entryPoint, entryPoint) ||
+                other.entryPoint == entryPoint) &&
             const DeepCollectionEquality().equals(
                 other._firebaseAppDistributionTesters,
                 _firebaseAppDistributionTesters) &&
@@ -445,26 +463,28 @@ class _$UserDataImpl implements _UserData {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      androidBuildNumber,
-      androidKeyJks,
-      androidKeyProperties,
-      appName,
-      appStoreConnectIssuerId,
-      appStoreConnectKeyId,
-      appStoreConnectP8,
-      const DeepCollectionEquality().hash(_firebaseAppDistributionTesters),
-      firebaseAppIdAndroid,
-      firebaseAppIdIos,
-      firebaseCLIToken,
-      flutterVersion,
-      githubRepositoryUrl,
-      iosBuildNumber,
-      pubspecYamlName,
-      serviceAccountJson,
-      const DeepCollectionEquality().hash(_triggerBranches),
-      userId);
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        androidBuildNumber,
+        androidKeyJks,
+        androidKeyProperties,
+        appName,
+        appStoreConnectIssuerId,
+        appStoreConnectKeyId,
+        appStoreConnectP8,
+        entryPoint,
+        const DeepCollectionEquality().hash(_firebaseAppDistributionTesters),
+        firebaseAppIdAndroid,
+        firebaseAppIdIos,
+        firebaseCLIToken,
+        flutterVersion,
+        githubRepositoryUrl,
+        iosBuildNumber,
+        pubspecYamlName,
+        serviceAccountJson,
+        const DeepCollectionEquality().hash(_triggerBranches),
+        userId
+      ]);
 
   @JsonKey(ignore: true)
   @override
@@ -489,6 +509,7 @@ abstract class _UserData implements UserData {
       required final String? appStoreConnectIssuerId,
       required final String? appStoreConnectKeyId,
       required final String? appStoreConnectP8,
+      required final String? entryPoint,
       required final List<String> firebaseAppDistributionTesters,
       required final String firebaseAppIdAndroid,
       required final String? firebaseAppIdIos,
@@ -518,6 +539,8 @@ abstract class _UserData implements UserData {
   String? get appStoreConnectKeyId;
   @override
   String? get appStoreConnectP8;
+  @override
+  String? get entryPoint;
   @override
   List<String> get firebaseAppDistributionTesters;
   @override

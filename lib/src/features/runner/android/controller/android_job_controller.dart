@@ -44,6 +44,16 @@ class AndroidJobController {
     return result;
   }
 
+  Future<bool> shellForce(
+    String command,
+  ) async {
+    final result = await sshService.shell(
+      command,
+      sshClient,
+    );
+    return result;
+  }
+
   Future<bool> shellV2(
     String command,
   ) async {
@@ -57,6 +67,16 @@ class AndroidJobController {
       });
       await vmController.stopVM;
     }
+    return result;
+  }
+
+  Future<bool> shellV2Force(
+    String command,
+  ) async {
+    final result = await sshService.run(
+      sshClient,
+      command,
+    );
     return result;
   }
 
@@ -80,23 +100,22 @@ class AndroidJobController {
         "cd ~/Downloads/${userData.appName}/android && echo '${userData.androidKeyProperties}' | base64 --decode > key.properties;",
       );
 
-  Future<bool> get flutterClean async => shellV2(
-        '$_loadZshrcAndCdAppDir && $flutterCommand clean && $flutterCommand pub get;',
+  Future<bool> get checkFlutterVersion async => shell(
+        '$_loadZshrcAndCdAppDir && flutter --version',
       );
 
-  Future<bool> get changeFlutterVersion async {
-    if (userData.flutterVersion != null) {
-      return shellV2(
-        '$_loadZshrcAndCdAppDir && fvm use ${userData.flutterVersion} --force;',
+  Future<bool> get flutterClean async => shellV2(
+        '$_loadZshrcAndCdAppDir && $flutterCommand clean && $flutterCommand pub get && $flutterCommand doctor -v;',
       );
-    }
-    return true;
-  }
+
+  Future<bool> get changeFlutterVersion async => shell(
+        '$_loadZshrc && cd /Users/admin/flutter && git checkout ${userData.flutterVersion}',
+      );
 
   Future<bool> get buildApk async {
     if (distribution.flavor == Flavor.prod) {
       return shell(
-        '$_loadZshrcAndCdAppDir && $pathAndroidSDK && $flutterCommand build apk --build-number=${userData.androidBuildNumber} --flavor prod --dart-define=FLAVOR=prod;',
+        '$_loadZshrcAndCdAppDir && $pathAndroidSDK && flutter --version && $flutterCommand build apk --build-number=${userData.androidBuildNumber} --flavor prod --dart-define=FLAVOR=prod -t lib/${userData.entryPoint};',
       );
     }
     if (distribution.flavor == Flavor.none) {
@@ -129,8 +148,10 @@ firebase --token "${userData.firebaseCLIToken}" appdistribution:distribute "$apk
   String get _loadZshrcAndCdAppDir =>
       'source ~/.zshrc && cd ~/Downloads/${userData.appName}';
 
+  String get _loadZshrc => 'source ~/.zshrc';
+
   String get pathAndroidSDK =>
       'export ANDROID_SDK_ROOT=/Users/admin/android-sdk';
 
-  String get flutterCommand => 'fvm flutter';
+  String get flutterCommand => 'flutter';
 }
