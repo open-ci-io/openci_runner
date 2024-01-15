@@ -15,17 +15,18 @@ _$UserDataImpl _$$UserDataImplFromJson(Map<String, dynamic> json) =>
       appStoreConnectIssuerId: json['appStoreConnectIssuerId'] as String?,
       appStoreConnectKeyId: json['appStoreConnectKeyId'] as String?,
       appStoreConnectP8: json['appStoreConnectP8'] as String?,
-      entryPoint: json['entryPoint'] as String?,
+      entryPoint: json['entryPoint'] as String,
       firebaseAppDistributionTesters:
           (json['firebaseAppDistributionTesters'] as List<dynamic>)
               .map((e) => e as String)
               .toList(),
       firebaseAppIdAndroid: json['firebaseAppIdAndroid'] as String,
       firebaseAppIdIos: json['firebaseAppIdIos'] as String?,
-      firebaseCLIToken: json['firebaseCLIToken'] as String,
-      flutterVersion: json['flutterVersion'] as String?,
+      flutterVersion: json['flutterVersion'] as String,
       githubRepositoryUrl: json['githubRepositoryUrl'] as String,
       iosBuildNumber: json['iosBuildNumber'] as int?,
+      keyJksFilePath: json['keyJksFilePath'] as String,
+      keyJksFileName: json['keyJksFileName'] as String,
       pubspecYamlName: json['pubspecYamlName'] as String,
       serviceAccountJson: json['serviceAccountJson'] as String,
       triggerBranches: (json['triggerBranches'] as List<dynamic>)
@@ -47,10 +48,11 @@ Map<String, dynamic> _$$UserDataImplToJson(_$UserDataImpl instance) =>
       'firebaseAppDistributionTesters': instance.firebaseAppDistributionTesters,
       'firebaseAppIdAndroid': instance.firebaseAppIdAndroid,
       'firebaseAppIdIos': instance.firebaseAppIdIos,
-      'firebaseCLIToken': instance.firebaseCLIToken,
       'flutterVersion': instance.flutterVersion,
       'githubRepositoryUrl': instance.githubRepositoryUrl,
       'iosBuildNumber': instance.iosBuildNumber,
+      'keyJksFilePath': instance.keyJksFilePath,
+      'keyJksFileName': instance.keyJksFileName,
       'pubspecYamlName': instance.pubspecYamlName,
       'serviceAccountJson': instance.serviceAccountJson,
       'triggerBranches': instance.triggerBranches,
@@ -70,7 +72,7 @@ Map<String, dynamic> _$$DistributionImplToJson(_$DistributionImpl instance) =>
       'platform': instance.platform,
       'baseBranch': instance.baseBranch,
       'distribution': instance.distribution,
-      'flavor': _$FlavorEnumMap[instance.flavor],
+      'flavor': _$FlavorEnumMap[instance.flavor]!,
     };
 
 const _$FlavorEnumMap = {

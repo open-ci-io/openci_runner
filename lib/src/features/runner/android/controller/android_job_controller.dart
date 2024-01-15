@@ -92,9 +92,19 @@ class AndroidJobController {
         'cd ~/Downloads/${userData.appName} && echo "${userData.serviceAccountJson}" | base64 -d > service_account.json;',
       );
 
-  Future<bool> get importKeyJks async => shellV2(
-        "cd ~/Downloads/${userData.appName}/android/app && echo '${userData.androidKeyJks}' | base64 --decode > key.jks;",
+  Future<bool> get importKeyJks async {
+    final res = await shellV2Force(
+      'cd ~/Downloads/${userData.appName}/${userData.keyJksFilePath}',
+    );
+    if (res == false) {
+      await shellV2(
+        'mkdir -p ~/Downloads/${userData.appName}/${userData.keyJksFilePath}',
       );
+    }
+    return shellV2(
+      "cd ~/Downloads/${userData.appName}/${userData.keyJksFilePath} && echo '${userData.androidKeyJks}' | base64 --decode > ${userData.keyJksFileName}.jks;",
+    );
+  }
 
   Future<bool> get importKeyProperties async => shellV2(
         "cd ~/Downloads/${userData.appName}/android && echo '${userData.androidKeyProperties}' | base64 --decode > key.properties;",
@@ -141,7 +151,8 @@ class AndroidJobController {
   Future<bool> get uploadApkToPlayStore async => shell(
         '''
 $_loadZshrcAndCdAppDir;
-firebase --token "${userData.firebaseCLIToken}" appdistribution:distribute "$apkPath" --app "${userData.firebaseAppIdAndroid}";
+export GOOGLE_APPLICATION_CREDENTIALS="/Users/admin/Downloads/${userData.appName}/service_account.json";
+firebase appdistribution:distribute "$apkPath" --app "${userData.firebaseAppIdAndroid}";
 ''',
       );
 

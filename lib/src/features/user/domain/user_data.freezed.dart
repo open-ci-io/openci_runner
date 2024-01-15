@@ -27,15 +27,16 @@ mixin _$UserData {
   String? get appStoreConnectIssuerId => throw _privateConstructorUsedError;
   String? get appStoreConnectKeyId => throw _privateConstructorUsedError;
   String? get appStoreConnectP8 => throw _privateConstructorUsedError;
-  String? get entryPoint => throw _privateConstructorUsedError;
+  String get entryPoint => throw _privateConstructorUsedError;
   List<String> get firebaseAppDistributionTesters =>
       throw _privateConstructorUsedError;
   String get firebaseAppIdAndroid => throw _privateConstructorUsedError;
   String? get firebaseAppIdIos => throw _privateConstructorUsedError;
-  String get firebaseCLIToken => throw _privateConstructorUsedError;
-  String? get flutterVersion => throw _privateConstructorUsedError;
+  String get flutterVersion => throw _privateConstructorUsedError;
   String get githubRepositoryUrl => throw _privateConstructorUsedError;
   int? get iosBuildNumber => throw _privateConstructorUsedError;
+  String get keyJksFilePath => throw _privateConstructorUsedError;
+  String get keyJksFileName => throw _privateConstructorUsedError;
   String get pubspecYamlName => throw _privateConstructorUsedError;
   String get serviceAccountJson => throw _privateConstructorUsedError;
   List<String> get triggerBranches => throw _privateConstructorUsedError;
@@ -60,14 +61,15 @@ abstract class $UserDataCopyWith<$Res> {
       String? appStoreConnectIssuerId,
       String? appStoreConnectKeyId,
       String? appStoreConnectP8,
-      String? entryPoint,
+      String entryPoint,
       List<String> firebaseAppDistributionTesters,
       String firebaseAppIdAndroid,
       String? firebaseAppIdIos,
-      String firebaseCLIToken,
-      String? flutterVersion,
+      String flutterVersion,
       String githubRepositoryUrl,
       int? iosBuildNumber,
+      String keyJksFilePath,
+      String keyJksFileName,
       String pubspecYamlName,
       String serviceAccountJson,
       List<String> triggerBranches,
@@ -94,14 +96,15 @@ class _$UserDataCopyWithImpl<$Res, $Val extends UserData>
     Object? appStoreConnectIssuerId = freezed,
     Object? appStoreConnectKeyId = freezed,
     Object? appStoreConnectP8 = freezed,
-    Object? entryPoint = freezed,
+    Object? entryPoint = null,
     Object? firebaseAppDistributionTesters = null,
     Object? firebaseAppIdAndroid = null,
     Object? firebaseAppIdIos = freezed,
-    Object? firebaseCLIToken = null,
-    Object? flutterVersion = freezed,
+    Object? flutterVersion = null,
     Object? githubRepositoryUrl = null,
     Object? iosBuildNumber = freezed,
+    Object? keyJksFilePath = null,
+    Object? keyJksFileName = null,
     Object? pubspecYamlName = null,
     Object? serviceAccountJson = null,
     Object? triggerBranches = null,
@@ -136,10 +139,10 @@ class _$UserDataCopyWithImpl<$Res, $Val extends UserData>
           ? _value.appStoreConnectP8
           : appStoreConnectP8 // ignore: cast_nullable_to_non_nullable
               as String?,
-      entryPoint: freezed == entryPoint
+      entryPoint: null == entryPoint
           ? _value.entryPoint
           : entryPoint // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
       firebaseAppDistributionTesters: null == firebaseAppDistributionTesters
           ? _value.firebaseAppDistributionTesters
           : firebaseAppDistributionTesters // ignore: cast_nullable_to_non_nullable
@@ -152,14 +155,10 @@ class _$UserDataCopyWithImpl<$Res, $Val extends UserData>
           ? _value.firebaseAppIdIos
           : firebaseAppIdIos // ignore: cast_nullable_to_non_nullable
               as String?,
-      firebaseCLIToken: null == firebaseCLIToken
-          ? _value.firebaseCLIToken
-          : firebaseCLIToken // ignore: cast_nullable_to_non_nullable
-              as String,
-      flutterVersion: freezed == flutterVersion
+      flutterVersion: null == flutterVersion
           ? _value.flutterVersion
           : flutterVersion // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
       githubRepositoryUrl: null == githubRepositoryUrl
           ? _value.githubRepositoryUrl
           : githubRepositoryUrl // ignore: cast_nullable_to_non_nullable
@@ -168,6 +167,14 @@ class _$UserDataCopyWithImpl<$Res, $Val extends UserData>
           ? _value.iosBuildNumber
           : iosBuildNumber // ignore: cast_nullable_to_non_nullable
               as int?,
+      keyJksFilePath: null == keyJksFilePath
+          ? _value.keyJksFilePath
+          : keyJksFilePath // ignore: cast_nullable_to_non_nullable
+              as String,
+      keyJksFileName: null == keyJksFileName
+          ? _value.keyJksFileName
+          : keyJksFileName // ignore: cast_nullable_to_non_nullable
+              as String,
       pubspecYamlName: null == pubspecYamlName
           ? _value.pubspecYamlName
           : pubspecYamlName // ignore: cast_nullable_to_non_nullable
@@ -204,14 +211,15 @@ abstract class _$$UserDataImplCopyWith<$Res>
       String? appStoreConnectIssuerId,
       String? appStoreConnectKeyId,
       String? appStoreConnectP8,
-      String? entryPoint,
+      String entryPoint,
       List<String> firebaseAppDistributionTesters,
       String firebaseAppIdAndroid,
       String? firebaseAppIdIos,
-      String firebaseCLIToken,
-      String? flutterVersion,
+      String flutterVersion,
       String githubRepositoryUrl,
       int? iosBuildNumber,
+      String keyJksFilePath,
+      String keyJksFileName,
       String pubspecYamlName,
       String serviceAccountJson,
       List<String> triggerBranches,
@@ -236,14 +244,15 @@ class __$$UserDataImplCopyWithImpl<$Res>
     Object? appStoreConnectIssuerId = freezed,
     Object? appStoreConnectKeyId = freezed,
     Object? appStoreConnectP8 = freezed,
-    Object? entryPoint = freezed,
+    Object? entryPoint = null,
     Object? firebaseAppDistributionTesters = null,
     Object? firebaseAppIdAndroid = null,
     Object? firebaseAppIdIos = freezed,
-    Object? firebaseCLIToken = null,
-    Object? flutterVersion = freezed,
+    Object? flutterVersion = null,
     Object? githubRepositoryUrl = null,
     Object? iosBuildNumber = freezed,
+    Object? keyJksFilePath = null,
+    Object? keyJksFileName = null,
     Object? pubspecYamlName = null,
     Object? serviceAccountJson = null,
     Object? triggerBranches = null,
@@ -278,10 +287,10 @@ class __$$UserDataImplCopyWithImpl<$Res>
           ? _value.appStoreConnectP8
           : appStoreConnectP8 // ignore: cast_nullable_to_non_nullable
               as String?,
-      entryPoint: freezed == entryPoint
+      entryPoint: null == entryPoint
           ? _value.entryPoint
           : entryPoint // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
       firebaseAppDistributionTesters: null == firebaseAppDistributionTesters
           ? _value._firebaseAppDistributionTesters
           : firebaseAppDistributionTesters // ignore: cast_nullable_to_non_nullable
@@ -294,14 +303,10 @@ class __$$UserDataImplCopyWithImpl<$Res>
           ? _value.firebaseAppIdIos
           : firebaseAppIdIos // ignore: cast_nullable_to_non_nullable
               as String?,
-      firebaseCLIToken: null == firebaseCLIToken
-          ? _value.firebaseCLIToken
-          : firebaseCLIToken // ignore: cast_nullable_to_non_nullable
-              as String,
-      flutterVersion: freezed == flutterVersion
+      flutterVersion: null == flutterVersion
           ? _value.flutterVersion
           : flutterVersion // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
       githubRepositoryUrl: null == githubRepositoryUrl
           ? _value.githubRepositoryUrl
           : githubRepositoryUrl // ignore: cast_nullable_to_non_nullable
@@ -310,6 +315,14 @@ class __$$UserDataImplCopyWithImpl<$Res>
           ? _value.iosBuildNumber
           : iosBuildNumber // ignore: cast_nullable_to_non_nullable
               as int?,
+      keyJksFilePath: null == keyJksFilePath
+          ? _value.keyJksFilePath
+          : keyJksFilePath // ignore: cast_nullable_to_non_nullable
+              as String,
+      keyJksFileName: null == keyJksFileName
+          ? _value.keyJksFileName
+          : keyJksFileName // ignore: cast_nullable_to_non_nullable
+              as String,
       pubspecYamlName: null == pubspecYamlName
           ? _value.pubspecYamlName
           : pubspecYamlName // ignore: cast_nullable_to_non_nullable
@@ -345,10 +358,11 @@ class _$UserDataImpl implements _UserData {
       required final List<String> firebaseAppDistributionTesters,
       required this.firebaseAppIdAndroid,
       required this.firebaseAppIdIos,
-      required this.firebaseCLIToken,
       required this.flutterVersion,
       required this.githubRepositoryUrl,
       required this.iosBuildNumber,
+      required this.keyJksFilePath,
+      required this.keyJksFileName,
       required this.pubspecYamlName,
       required this.serviceAccountJson,
       required final List<String> triggerBranches,
@@ -374,7 +388,7 @@ class _$UserDataImpl implements _UserData {
   @override
   final String? appStoreConnectP8;
   @override
-  final String? entryPoint;
+  final String entryPoint;
   final List<String> _firebaseAppDistributionTesters;
   @override
   List<String> get firebaseAppDistributionTesters {
@@ -389,13 +403,15 @@ class _$UserDataImpl implements _UserData {
   @override
   final String? firebaseAppIdIos;
   @override
-  final String firebaseCLIToken;
-  @override
-  final String? flutterVersion;
+  final String flutterVersion;
   @override
   final String githubRepositoryUrl;
   @override
   final int? iosBuildNumber;
+  @override
+  final String keyJksFilePath;
+  @override
+  final String keyJksFileName;
   @override
   final String pubspecYamlName;
   @override
@@ -413,7 +429,7 @@ class _$UserDataImpl implements _UserData {
 
   @override
   String toString() {
-    return 'UserData(androidBuildNumber: $androidBuildNumber, androidKeyJks: $androidKeyJks, androidKeyProperties: $androidKeyProperties, appName: $appName, appStoreConnectIssuerId: $appStoreConnectIssuerId, appStoreConnectKeyId: $appStoreConnectKeyId, appStoreConnectP8: $appStoreConnectP8, entryPoint: $entryPoint, firebaseAppDistributionTesters: $firebaseAppDistributionTesters, firebaseAppIdAndroid: $firebaseAppIdAndroid, firebaseAppIdIos: $firebaseAppIdIos, firebaseCLIToken: $firebaseCLIToken, flutterVersion: $flutterVersion, githubRepositoryUrl: $githubRepositoryUrl, iosBuildNumber: $iosBuildNumber, pubspecYamlName: $pubspecYamlName, serviceAccountJson: $serviceAccountJson, triggerBranches: $triggerBranches, userId: $userId)';
+    return 'UserData(androidBuildNumber: $androidBuildNumber, androidKeyJks: $androidKeyJks, androidKeyProperties: $androidKeyProperties, appName: $appName, appStoreConnectIssuerId: $appStoreConnectIssuerId, appStoreConnectKeyId: $appStoreConnectKeyId, appStoreConnectP8: $appStoreConnectP8, entryPoint: $entryPoint, firebaseAppDistributionTesters: $firebaseAppDistributionTesters, firebaseAppIdAndroid: $firebaseAppIdAndroid, firebaseAppIdIos: $firebaseAppIdIos, flutterVersion: $flutterVersion, githubRepositoryUrl: $githubRepositoryUrl, iosBuildNumber: $iosBuildNumber, keyJksFilePath: $keyJksFilePath, keyJksFileName: $keyJksFileName, pubspecYamlName: $pubspecYamlName, serviceAccountJson: $serviceAccountJson, triggerBranches: $triggerBranches, userId: $userId)';
   }
 
   @override
@@ -444,14 +460,16 @@ class _$UserDataImpl implements _UserData {
                 other.firebaseAppIdAndroid == firebaseAppIdAndroid) &&
             (identical(other.firebaseAppIdIos, firebaseAppIdIos) ||
                 other.firebaseAppIdIos == firebaseAppIdIos) &&
-            (identical(other.firebaseCLIToken, firebaseCLIToken) ||
-                other.firebaseCLIToken == firebaseCLIToken) &&
             (identical(other.flutterVersion, flutterVersion) ||
                 other.flutterVersion == flutterVersion) &&
             (identical(other.githubRepositoryUrl, githubRepositoryUrl) ||
                 other.githubRepositoryUrl == githubRepositoryUrl) &&
             (identical(other.iosBuildNumber, iosBuildNumber) ||
                 other.iosBuildNumber == iosBuildNumber) &&
+            (identical(other.keyJksFilePath, keyJksFilePath) ||
+                other.keyJksFilePath == keyJksFilePath) &&
+            (identical(other.keyJksFileName, keyJksFileName) ||
+                other.keyJksFileName == keyJksFileName) &&
             (identical(other.pubspecYamlName, pubspecYamlName) ||
                 other.pubspecYamlName == pubspecYamlName) &&
             (identical(other.serviceAccountJson, serviceAccountJson) ||
@@ -476,10 +494,11 @@ class _$UserDataImpl implements _UserData {
         const DeepCollectionEquality().hash(_firebaseAppDistributionTesters),
         firebaseAppIdAndroid,
         firebaseAppIdIos,
-        firebaseCLIToken,
         flutterVersion,
         githubRepositoryUrl,
         iosBuildNumber,
+        keyJksFilePath,
+        keyJksFileName,
         pubspecYamlName,
         serviceAccountJson,
         const DeepCollectionEquality().hash(_triggerBranches),
@@ -509,14 +528,15 @@ abstract class _UserData implements UserData {
       required final String? appStoreConnectIssuerId,
       required final String? appStoreConnectKeyId,
       required final String? appStoreConnectP8,
-      required final String? entryPoint,
+      required final String entryPoint,
       required final List<String> firebaseAppDistributionTesters,
       required final String firebaseAppIdAndroid,
       required final String? firebaseAppIdIos,
-      required final String firebaseCLIToken,
-      required final String? flutterVersion,
+      required final String flutterVersion,
       required final String githubRepositoryUrl,
       required final int? iosBuildNumber,
+      required final String keyJksFilePath,
+      required final String keyJksFileName,
       required final String pubspecYamlName,
       required final String serviceAccountJson,
       required final List<String> triggerBranches,
@@ -540,7 +560,7 @@ abstract class _UserData implements UserData {
   @override
   String? get appStoreConnectP8;
   @override
-  String? get entryPoint;
+  String get entryPoint;
   @override
   List<String> get firebaseAppDistributionTesters;
   @override
@@ -548,13 +568,15 @@ abstract class _UserData implements UserData {
   @override
   String? get firebaseAppIdIos;
   @override
-  String get firebaseCLIToken;
-  @override
-  String? get flutterVersion;
+  String get flutterVersion;
   @override
   String get githubRepositoryUrl;
   @override
   int? get iosBuildNumber;
+  @override
+  String get keyJksFilePath;
+  @override
+  String get keyJksFileName;
   @override
   String get pubspecYamlName;
   @override
