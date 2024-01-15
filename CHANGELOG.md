@@ -1,3 +1,9 @@
+## 0.3.0
+
+- fix: firebase cli should use service_account instead of cli token. ([#78](https://github.com/open-ci-io/openci_runner/issues/78))
+- fix: jks file name and path should be dynamic. ([#76](https://github.com/open-ci-io/openci_runner/issues/76))
+- fix: fvm doesn't work. ([#74](https://github.com/open-ci-io/openci_runner/issues/74))
+
 ## 0.2.12
 
 - add: FVM to change Flutter version. ([#7](https://github.com/open-ci-io/openci_runner/issues/7))
