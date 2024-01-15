@@ -15,6 +15,7 @@ _$UserDataImpl _$$UserDataImplFromJson(Map<String, dynamic> json) =>
       appStoreConnectIssuerId: json['appStoreConnectIssuerId'] as String?,
       appStoreConnectKeyId: json['appStoreConnectKeyId'] as String?,
       appStoreConnectP8: json['appStoreConnectP8'] as String?,
+      entryPoint: json['entryPoint'] as String?,
       firebaseAppDistributionTesters:
           (json['firebaseAppDistributionTesters'] as List<dynamic>)
               .map((e) => e as String)
@@ -42,6 +43,7 @@ Map<String, dynamic> _$$UserDataImplToJson(_$UserDataImpl instance) =>
       'appStoreConnectIssuerId': instance.appStoreConnectIssuerId,
       'appStoreConnectKeyId': instance.appStoreConnectKeyId,
       'appStoreConnectP8': instance.appStoreConnectP8,
+      'entryPoint': instance.entryPoint,
       'firebaseAppDistributionTesters': instance.firebaseAppDistributionTesters,
       'firebaseAppIdAndroid': instance.firebaseAppIdAndroid,
       'firebaseAppIdIos': instance.firebaseAppIdIos,
@@ -68,7 +70,7 @@ Map<String, dynamic> _$$DistributionImplToJson(_$DistributionImpl instance) =>
       'platform': instance.platform,
       'baseBranch': instance.baseBranch,
       'distribution': instance.distribution,
-      'flavor': _$FlavorEnumMap[instance.flavor]!,
+      'flavor': _$FlavorEnumMap[instance.flavor],
     };
 
 const _$FlavorEnumMap = {

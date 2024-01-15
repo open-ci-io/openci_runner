@@ -183,7 +183,12 @@ class AndroidRunnerCommand extends Command<int> {
         }
 
         if (await androidJobController.changeFlutterVersion == false) {
-          _logger.err('flutter clean failed');
+          _logger.err('changeFlutterVersion failed');
+          continue;
+        }
+
+        if (await androidJobController.checkFlutterVersion == false) {
+          _logger.err('checkFlutterVersion failed');
           continue;
         }
 
