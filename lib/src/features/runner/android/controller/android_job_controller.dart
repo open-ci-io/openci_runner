@@ -156,11 +156,11 @@ class AndroidJobController {
     return '/Users/admin/Downloads/${userData.appName}/build/app/outputs/flutter-apk/app-release.apk';
   }
 
-  Future<bool> get uploadApkToPlayStore async => shell(
+  Future<bool> get uploadApkToFAD async => shell(
         '''
 $_loadZshrcAndCdAppDir;
 export GOOGLE_APPLICATION_CREDENTIALS="/Users/admin/Downloads/${userData.appName}/service_account.json";
-firebase appdistribution:distribute "$apkPath" --app "${userData.firebaseAppIdAndroid}";
+firebase appdistribution:distribute "$apkPath" --app "${userData.firebaseAppIdAndroid}" --groups "${userData.testerGroups.join(', ')}";
 ''',
       );
 

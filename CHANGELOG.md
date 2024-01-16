@@ -1,3 +1,7 @@
+## 0.3.2
+
+- fix: Unable to distribute apk to firebase tester group. ([#83](https://github.com/open-ci-io/openci_runner/issues/83))
+
 ## 0.3.1
 
 - fix: Unable to build dev flavor. ([#81](https://github.com/open-ci-io/openci_runner/issues/81))

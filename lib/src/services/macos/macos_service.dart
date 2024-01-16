@@ -2,10 +2,8 @@ import 'package:dartssh2/dartssh2.dart';
 import 'package:openci_runner/src/features/job/domain/job_data.dart';
 import 'package:openci_runner/src/features/user/domain/user_data.dart';
 import 'package:openci_runner/src/services/firebase/firebase_app_distribution/fad_service.dart';
-import 'package:openci_runner/src/utilities/github/github_service.dart';
-import 'package:openci_runner/src/services/macos/directory_paths.dart';
 import 'package:openci_runner/src/services/ssh/ssh_service.dart';
-import 'package:openci_runner/src/services/supabase/supabase_service.dart';
+import 'package:openci_runner/src/utilities/github/github_service.dart';
 
 class MacOSService {
   MacOSService({
