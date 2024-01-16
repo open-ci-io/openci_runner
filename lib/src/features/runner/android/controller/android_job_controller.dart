@@ -128,6 +128,11 @@ class AndroidJobController {
         '$_loadZshrcAndCdAppDir && $pathAndroidSDK && flutter --version && $flutterCommand build apk --build-number=${userData.androidBuildNumber} --flavor prod --dart-define=FLAVOR=prod -t lib/${userData.entryPoint};',
       );
     }
+    if (distribution.flavor == Flavor.dev) {
+      return shell(
+        '$_loadZshrcAndCdAppDir && $pathAndroidSDK && flutter --version && $flutterCommand build apk --build-number=${userData.androidBuildNumber} --flavor dev --dart-define=FLAVOR=dev -t lib/${userData.entryPoint};',
+      );
+    }
     if (distribution.flavor == Flavor.none) {
       return shell(
         '$_loadZshrcAndCdAppDir && $pathAndroidSDK && $flutterCommand build apk --build-number=${userData.androidBuildNumber};',
@@ -141,6 +146,9 @@ class AndroidJobController {
   String get apkPath {
     if (distribution.flavor == Flavor.prod) {
       return '/Users/admin/Downloads/${userData.appName}/build/app/outputs/flutter-apk/app-prod-release.apk';
+    }
+    if (distribution.flavor == Flavor.dev) {
+      return '/Users/admin/Downloads/${userData.appName}/build/app/outputs/flutter-apk/app-dev-release.apk';
     }
     if (distribution.flavor == Flavor.none) {
       return '/Users/admin/Downloads/${userData.appName}/build/app/outputs/flutter-apk/app-release.apk';

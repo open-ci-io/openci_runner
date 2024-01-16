@@ -1,3 +1,7 @@
+## 0.3.1
+
+- fix: Unable to build dev flavor. ([#81](https://github.com/open-ci-io/openci_runner/issues/81))
+
 ## 0.3.0
 
 - fix: firebase cli should use service_account instead of cli token. ([#78](https://github.com/open-ci-io/openci_runner/issues/78))
