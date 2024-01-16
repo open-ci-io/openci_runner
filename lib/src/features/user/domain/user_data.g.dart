@@ -29,6 +29,9 @@ _$UserDataImpl _$$UserDataImplFromJson(Map<String, dynamic> json) =>
       keyJksFileName: json['keyJksFileName'] as String,
       pubspecYamlName: json['pubspecYamlName'] as String,
       serviceAccountJson: json['serviceAccountJson'] as String,
+      testerGroups: (json['testerGroups'] as List<dynamic>)
+          .map((e) => e as String)
+          .toList(),
       triggerBranches: (json['triggerBranches'] as List<dynamic>)
           .map((e) => e as String)
           .toList(),
@@ -55,6 +58,7 @@ Map<String, dynamic> _$$UserDataImplToJson(_$UserDataImpl instance) =>
       'keyJksFileName': instance.keyJksFileName,
       'pubspecYamlName': instance.pubspecYamlName,
       'serviceAccountJson': instance.serviceAccountJson,
+      'testerGroups': instance.testerGroups,
       'triggerBranches': instance.triggerBranches,
       'userId': instance.userId,
     };

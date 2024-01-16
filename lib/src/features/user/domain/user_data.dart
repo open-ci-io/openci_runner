@@ -24,6 +24,7 @@ class UserData with _$UserData {
     required String keyJksFileName,
     required String pubspecYamlName,
     required String serviceAccountJson,
+    required List<String> testerGroups,
     required List<String> triggerBranches,
     required String userId,
   }) = _UserData;

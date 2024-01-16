@@ -7,12 +7,12 @@ import 'package:openci_runner/src/features/runner/ios/controller/ios_runner_cont
 import 'package:openci_runner/src/features/runner/ios/domain/ios_arguments.dart';
 import 'package:openci_runner/src/features/sign_in/controller/sign_in_controller.dart';
 import 'package:openci_runner/src/features/sign_in/domain/sign_in.dart';
-import 'package:openci_runner/src/features/vm/controller/vm_controller.dart';
-import 'package:openci_runner/src/services/macos/macos_service.dart';
-import 'package:openci_runner/src/services/ssh/ssh_service.dart';
+// import 'package:openci_runner/src/features/vm/controller/vm_controller.dart';
+// import 'package:openci_runner/src/services/macos/macos_service.dart';
+// import 'package:openci_runner/src/services/ssh/ssh_service.dart';
 import 'package:openci_runner/src/services/supabase/supabase_service.dart';
 import 'package:openci_runner/src/utilities/future_delayed.dart';
-import 'package:uuid/uuid.dart';
+// import 'package:uuid/uuid.dart';
 
 class IosRunnerCommand extends Command<int> {
   IosRunnerCommand({
@@ -72,7 +72,7 @@ class IosRunnerCommand extends Command<int> {
     final supabaseApiKey = arguments[3];
     final supabaseSignInEmail = arguments[5];
     final supabaseSignInPassword = arguments[7];
-    final icloudKeychainPassword = arguments[9];
+    // final icloudKeychainPassword = arguments[9];
 
     _logger.success('Argument check passed.');
 
@@ -99,7 +99,7 @@ Jobがありません。10秒後に再確認します。
         await wait();
         continue;
       }
-      final user = await signInController.signIn(job, supabase);
+      // final user = await signInController.signIn(job, supabase);
 
       if (Platform.isMacOS) {
         // final baseBranch = job.base_branch;

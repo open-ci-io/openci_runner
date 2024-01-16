@@ -202,7 +202,7 @@ class AndroidRunnerCommand extends Command<int> {
           continue;
         }
 
-        if (await androidJobController.uploadApkToPlayStore == false) {
+        if (await androidJobController.uploadApkToFAD == false) {
           _logger.err('upload apk failed');
           continue;
         }

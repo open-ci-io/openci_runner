@@ -39,6 +39,7 @@ mixin _$UserData {
   String get keyJksFileName => throw _privateConstructorUsedError;
   String get pubspecYamlName => throw _privateConstructorUsedError;
   String get serviceAccountJson => throw _privateConstructorUsedError;
+  List<String> get testerGroups => throw _privateConstructorUsedError;
   List<String> get triggerBranches => throw _privateConstructorUsedError;
   String get userId => throw _privateConstructorUsedError;
 
@@ -72,6 +73,7 @@ abstract class $UserDataCopyWith<$Res> {
       String keyJksFileName,
       String pubspecYamlName,
       String serviceAccountJson,
+      List<String> testerGroups,
       List<String> triggerBranches,
       String userId});
 }
@@ -107,6 +109,7 @@ class _$UserDataCopyWithImpl<$Res, $Val extends UserData>
     Object? keyJksFileName = null,
     Object? pubspecYamlName = null,
     Object? serviceAccountJson = null,
+    Object? testerGroups = null,
     Object? triggerBranches = null,
     Object? userId = null,
   }) {
@@ -183,6 +186,10 @@ class _$UserDataCopyWithImpl<$Res, $Val extends UserData>
           ? _value.serviceAccountJson
           : serviceAccountJson // ignore: cast_nullable_to_non_nullable
               as String,
+      testerGroups: null == testerGroups
+          ? _value.testerGroups
+          : testerGroups // ignore: cast_nullable_to_non_nullable
+              as List<String>,
       triggerBranches: null == triggerBranches
           ? _value.triggerBranches
           : triggerBranches // ignore: cast_nullable_to_non_nullable
@@ -222,6 +229,7 @@ abstract class _$$UserDataImplCopyWith<$Res>
       String keyJksFileName,
       String pubspecYamlName,
       String serviceAccountJson,
+      List<String> testerGroups,
       List<String> triggerBranches,
       String userId});
 }
@@ -255,6 +263,7 @@ class __$$UserDataImplCopyWithImpl<$Res>
     Object? keyJksFileName = null,
     Object? pubspecYamlName = null,
     Object? serviceAccountJson = null,
+    Object? testerGroups = null,
     Object? triggerBranches = null,
     Object? userId = null,
   }) {
@@ -331,6 +340,10 @@ class __$$UserDataImplCopyWithImpl<$Res>
           ? _value.serviceAccountJson
           : serviceAccountJson // ignore: cast_nullable_to_non_nullable
               as String,
+      testerGroups: null == testerGroups
+          ? _value._testerGroups
+          : testerGroups // ignore: cast_nullable_to_non_nullable
+              as List<String>,
       triggerBranches: null == triggerBranches
           ? _value._triggerBranches
           : triggerBranches // ignore: cast_nullable_to_non_nullable
@@ -365,9 +378,11 @@ class _$UserDataImpl implements _UserData {
       required this.keyJksFileName,
       required this.pubspecYamlName,
       required this.serviceAccountJson,
+      required final List<String> testerGroups,
       required final List<String> triggerBranches,
       required this.userId})
       : _firebaseAppDistributionTesters = firebaseAppDistributionTesters,
+        _testerGroups = testerGroups,
         _triggerBranches = triggerBranches;
 
   factory _$UserDataImpl.fromJson(Map<String, dynamic> json) =>
@@ -416,6 +431,14 @@ class _$UserDataImpl implements _UserData {
   final String pubspecYamlName;
   @override
   final String serviceAccountJson;
+  final List<String> _testerGroups;
+  @override
+  List<String> get testerGroups {
+    if (_testerGroups is EqualUnmodifiableListView) return _testerGroups;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_testerGroups);
+  }
+
   final List<String> _triggerBranches;
   @override
   List<String> get triggerBranches {
@@ -429,7 +452,7 @@ class _$UserDataImpl implements _UserData {
 
   @override
   String toString() {
-    return 'UserData(androidBuildNumber: $androidBuildNumber, androidKeyJks: $androidKeyJks, androidKeyProperties: $androidKeyProperties, appName: $appName, appStoreConnectIssuerId: $appStoreConnectIssuerId, appStoreConnectKeyId: $appStoreConnectKeyId, appStoreConnectP8: $appStoreConnectP8, entryPoint: $entryPoint, firebaseAppDistributionTesters: $firebaseAppDistributionTesters, firebaseAppIdAndroid: $firebaseAppIdAndroid, firebaseAppIdIos: $firebaseAppIdIos, flutterVersion: $flutterVersion, githubRepositoryUrl: $githubRepositoryUrl, iosBuildNumber: $iosBuildNumber, keyJksFilePath: $keyJksFilePath, keyJksFileName: $keyJksFileName, pubspecYamlName: $pubspecYamlName, serviceAccountJson: $serviceAccountJson, triggerBranches: $triggerBranches, userId: $userId)';
+    return 'UserData(androidBuildNumber: $androidBuildNumber, androidKeyJks: $androidKeyJks, androidKeyProperties: $androidKeyProperties, appName: $appName, appStoreConnectIssuerId: $appStoreConnectIssuerId, appStoreConnectKeyId: $appStoreConnectKeyId, appStoreConnectP8: $appStoreConnectP8, entryPoint: $entryPoint, firebaseAppDistributionTesters: $firebaseAppDistributionTesters, firebaseAppIdAndroid: $firebaseAppIdAndroid, firebaseAppIdIos: $firebaseAppIdIos, flutterVersion: $flutterVersion, githubRepositoryUrl: $githubRepositoryUrl, iosBuildNumber: $iosBuildNumber, keyJksFilePath: $keyJksFilePath, keyJksFileName: $keyJksFileName, pubspecYamlName: $pubspecYamlName, serviceAccountJson: $serviceAccountJson, testerGroups: $testerGroups, triggerBranches: $triggerBranches, userId: $userId)';
   }
 
   @override
@@ -475,6 +498,8 @@ class _$UserDataImpl implements _UserData {
             (identical(other.serviceAccountJson, serviceAccountJson) ||
                 other.serviceAccountJson == serviceAccountJson) &&
             const DeepCollectionEquality()
+                .equals(other._testerGroups, _testerGroups) &&
+            const DeepCollectionEquality()
                 .equals(other._triggerBranches, _triggerBranches) &&
             (identical(other.userId, userId) || other.userId == userId));
   }
@@ -501,6 +526,7 @@ class _$UserDataImpl implements _UserData {
         keyJksFileName,
         pubspecYamlName,
         serviceAccountJson,
+        const DeepCollectionEquality().hash(_testerGroups),
         const DeepCollectionEquality().hash(_triggerBranches),
         userId
       ]);
@@ -539,6 +565,7 @@ abstract class _UserData implements UserData {
       required final String keyJksFileName,
       required final String pubspecYamlName,
       required final String serviceAccountJson,
+      required final List<String> testerGroups,
       required final List<String> triggerBranches,
       required final String userId}) = _$UserDataImpl;
 
@@ -581,6 +608,8 @@ abstract class _UserData implements UserData {
   String get pubspecYamlName;
   @override
   String get serviceAccountJson;
+  @override
+  List<String> get testerGroups;
   @override
   List<String> get triggerBranches;
   @override

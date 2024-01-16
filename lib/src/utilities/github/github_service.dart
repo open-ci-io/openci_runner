@@ -1,5 +1,4 @@
 import 'package:openci_runner/src/features/job/domain/job_data.dart';
-import 'package:openci_runner/src/services/ssh/ssh_service.dart';
 
 class GitHubService {
   String convertUrl(String originalUrl, String githubPersonalAccessToken) {
