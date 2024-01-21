@@ -23,42 +23,12 @@ class MacOSService {
   final bool isFad;
   final String? icloudKeychainPassword;
 
-  @Deprecated('use shell()')
-  Future<String> sshShell(
-    String command,
-  ) =>
-      sshService.sshShell(
-        sshClient: sshClient,
-        command: command,
-      );
-
-  Future<bool> shell(
-    String command,
-  ) async {
-    final result = await sshService.shell(
-      command,
-      sshClient,
-    );
-    if (result == false) {
-      // await supabaseService.setBuildFailure(jobData);
-    }
-    return result;
-  }
-
-  Future<bool> get cloneRepository =>
-      shell(github.clone(job: jobData, url: _githubUrl));
-
-  String get _githubUrl => github.convertUrl(
-        userData.githubRepositoryUrl,
-        jobData.githubPAT,
-      );
-
-  Future<void> get changeProvisioningProfileFromAppStoreToAdhoc => sshShell(
-        """
-cd ~/Downloads/${userData.appName};
-sed -i '' 's/app_store/adhoc/gi' ios/Runner.xcodeproj/project.pbxproj
-""",
-      );
+//   Future<void> get changeProvisioningProfileFromAppStoreToAdhoc => sshShell(
+//         """
+// cd ~/Downloads/${userData.appName};
+// sed -i '' 's/app_store/adhoc/gi' ios/Runner.xcodeproj/project.pbxproj
+// """,
+//       );
 
 //   Future<void> get prepareAdhocExportOptionsPlist => sshShell('''
 // cd ~/Downloads/${userData.appName}/ios;

@@ -1,7 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:dartssh2/dartssh2.dart';
+import 'package:mason_logger/mason_logger.dart';
+import 'package:openci_runner/src/services/ssh/domain/session_result.dart';
 
 class SSHService {
   Future<SSHClient?> sshToServer(
@@ -23,15 +26,17 @@ class SSHService {
 
   @Deprecated('use run()')
   Future<bool> shell(String command, SSHClient client) async {
+    final logger = Logger();
     final shell = await client.shell();
     const encoder = Utf8Encoder();
     shell
-      // ignore: prefer_interpolation_to_compose_strings
-      ..write(encoder.convert(command + '\n'))
+      ..write(encoder.convert('$command\n'))
       ..write(encoder.convert('exit\n'));
     await stdout.addStream(shell.stdout);
     await stderr.addStream(shell.stderr);
-    print('exitCode: ${shell.exitCode}');
+
+    logger.success('stdout: ${shell.stdout}');
+    logger.err('stderr: ${shell.stderr}');
     shell.close();
     if (shell.exitCode == null) {
       return true;
@@ -39,39 +44,60 @@ class SSHService {
     return shell.exitCode == 0;
   }
 
+  @Deprecated('prefer use runV2')
   Future<bool> run(SSHClient client, String command) async {
     final session = await client.execute(command);
+    final logger = Logger();
 
     final stdout = await session.stdout
         .cast<List<int>>()
         .transform(const Utf8Decoder())
         .join();
-    print('stdout:$stdout');
+    logger.success('stdout: $stdout');
 
     final stderr = await session.stderr
         .cast<List<int>>()
         .transform(const Utf8Decoder())
         .join();
-    print('stderr:$stderr');
+    logger.err('stderr: $stderr');
+
     if (stderr.isNotEmpty) {
       return false;
     }
     return true;
   }
 
-  @Deprecated('use shell method')
-  Future<String> sshShell({
-    required SSHClient sshClient,
-    required String command,
-  }) async {
-    try {
-      final res = await sshClient.run(command);
-      print(utf8.decode(res));
+  Future<SessionResult> runV2(SSHClient client, String command) async {
+    final logger = Logger();
 
-      return utf8.decode(res);
-    } catch (e) {
-      print(e);
-      rethrow;
-    }
+    var sessionStdout = '';
+    var sessionStderr = '';
+    int? exitCode;
+
+    logger.info('command: $command');
+    final session = await client.execute(command);
+    await session.stdin.close();
+    await session.done;
+    exitCode = session.exitCode;
+    sessionStdout = await streamToString(session.stdout);
+    sessionStderr = await streamToString(session.stderr);
+    logger.success('session.stdout: $sessionStdout');
+    logger.err('session.stderr: $sessionStderr');
+    logger.info(session.exitCode.toString());
+
+    return SessionResult(
+      sessionExitCode: exitCode,
+      sessionStdout: sessionStdout,
+      sessionStderr: sessionStderr,
+    );
+  }
+
+  Future<String> streamToString(Stream<Uint8List> stream) async {
+    final bytes = await stream.fold<List<int>>(
+      [],
+      (previous, element) => previous..addAll(element),
+    );
+
+    return utf8.decode(bytes);
   }
 }

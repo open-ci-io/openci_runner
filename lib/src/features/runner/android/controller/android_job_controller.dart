@@ -6,6 +6,7 @@ import 'package:openci_runner/src/features/user/domain/user_data.dart';
 import 'package:openci_runner/src/features/vm/controller/vm_controller.dart';
 import 'package:openci_runner/src/services/ssh/ssh_service.dart';
 import 'package:openci_runner/src/utilities/github/github_service.dart';
+import 'package:uuid/uuid.dart';
 
 class AndroidJobController {
   AndroidJobController({
@@ -28,60 +29,44 @@ class AndroidJobController {
   final Distribution distribution;
   final VMController vmController;
 
-  Future<bool> shell(
-    String command,
-  ) async {
-    final result = await sshService.shell(
-      command,
-      sshClient,
-    );
-    if (result == false) {
-      await firestore.collection('jobs').doc(jobData.documentId).update({
-        'failure.android': true,
-      });
-      await vmController.stopVM;
-    }
-    return result;
-  }
-
-  Future<bool> shellForce(
-    String command,
-  ) async {
-    final result = await sshService.shell(
-      command,
-      sshClient,
-    );
-    return result;
-  }
-
   Future<bool> shellV2(
     String command,
   ) async {
-    final result = await sshService.run(
+    final sessionResult = await sshService.runV2(
       sshClient,
       command,
     );
-    if (result == false) {
+    // TODO save command, stdout, stderr, exitcode to Firestore
+    final logDocumentId = const Uuid().v4();
+    await firestore
+        .collection('jobs')
+        .doc(jobData.documentId)
+        .collection('logs')
+        .doc(logDocumentId)
+        .set({
+      'command': command,
+      'stdout': sessionResult.sessionStdout,
+      'stderr': sessionResult.sessionStderr,
+      'exitCode': sessionResult.sessionExitCode,
+      'createdAt': FieldValue.serverTimestamp,
+    });
+
+    print('jobDocId: ${jobData.documentId}, logsDocId: $logDocumentId');
+
+    final exitCode = sessionResult.sessionExitCode;
+    if (exitCode == 0) {
+      return true;
+    } else {
       await firestore.collection('jobs').doc(jobData.documentId).update({
         'failure.android': true,
       });
       await vmController.stopVM;
+      return false;
     }
-    return result;
-  }
-
-  Future<bool> shellV2Force(
-    String command,
-  ) async {
-    final result = await sshService.run(
-      sshClient,
-      command,
-    );
-    return result;
   }
 
   Future<bool> get cloneRepository =>
-      shell(gitHubService.clone(job: jobData, url: _githubUrl));
+      shellV2(gitHubService.clone(job: jobData, url: _githubUrl));
 
   String get _githubUrl => gitHubService.convertUrl(
         userData.githubRepositoryUrl,
@@ -93,7 +78,7 @@ class AndroidJobController {
       );
 
   Future<bool> get importKeyJks async {
-    final res = await shellV2Force(
+    final res = await shellV2(
       'cd ~/Downloads/${userData.appName}/${userData.keyJksFilePath}',
     );
     if (res == false) {
@@ -110,7 +95,7 @@ class AndroidJobController {
         "cd ~/Downloads/${userData.appName}/android && echo '${userData.androidKeyProperties}' | base64 --decode > key.properties;",
       );
 
-  Future<bool> get checkFlutterVersion async => shell(
+  Future<bool> get checkFlutterVersion async => shellV2(
         '$_loadZshrcAndCdAppDir && flutter --version',
       );
 
@@ -118,27 +103,27 @@ class AndroidJobController {
         '$_loadZshrcAndCdAppDir && $flutterCommand clean && $flutterCommand pub get && $flutterCommand doctor -v;',
       );
 
-  Future<bool> get changeFlutterVersion async => shell(
+  Future<bool> get changeFlutterVersion async => shellV2(
         '$_loadZshrc && cd /Users/admin/flutter && git checkout ${userData.flutterVersion}',
       );
 
   Future<bool> get buildApk async {
     if (distribution.flavor == Flavor.prod) {
-      return shell(
+      return shellV2(
         '$_loadZshrcAndCdAppDir && $pathAndroidSDK && flutter --version && $flutterCommand build apk --build-number=${userData.androidBuildNumber} --flavor prod --dart-define=FLAVOR=prod -t lib/${userData.entryPoint};',
       );
     }
     if (distribution.flavor == Flavor.dev) {
-      return shell(
+      return shellV2(
         '$_loadZshrcAndCdAppDir && $pathAndroidSDK && flutter --version && $flutterCommand build apk --build-number=${userData.androidBuildNumber} --flavor dev --dart-define=FLAVOR=dev -t lib/${userData.entryPoint};',
       );
     }
     if (distribution.flavor == Flavor.none) {
-      return shell(
+      return shellV2(
         '$_loadZshrcAndCdAppDir && $pathAndroidSDK && $flutterCommand build apk --build-number=${userData.androidBuildNumber};',
       );
     }
-    return shell(
+    return shellV2(
       '$_loadZshrcAndCdAppDir && $pathAndroidSDK && $flutterCommand build apk --build-number=${userData.androidBuildNumber};',
     );
   }
@@ -156,11 +141,11 @@ class AndroidJobController {
     return '/Users/admin/Downloads/${userData.appName}/build/app/outputs/flutter-apk/app-release.apk';
   }
 
-  Future<bool> get uploadApkToFAD async => shell(
+  Future<bool> get uploadApkToFAD async => shellV2(
         '''
 $_loadZshrcAndCdAppDir;
 export GOOGLE_APPLICATION_CREDENTIALS="/Users/admin/Downloads/${userData.appName}/service_account.json";
-firebase appdistribution:distribute "$apkPath" --app "${userData.firebaseAppIdAndroid}" --groups "${userData.testerGroups.join(', ')}";
+firebase appdistribution:distribute "$apkPath" --app "${userData.firebaseAppIdAndroid}";
 ''',
       );
 
