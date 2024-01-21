@@ -1,3 +1,7 @@
+## 0.4.0
+
+- openci_runner now stores logs in cloud firestore. ([#17](https://github.com/open-ci-io/openci_runner/issues/17))
+
 ## 0.3.2
 
 - fix: Unable to distribute apk to firebase tester group. ([#83](https://github.com/open-ci-io/openci_runner/issues/83))
