@@ -65,6 +65,38 @@ class AndroidJobController {
     }
   }
 
+  Future<bool> shellV2Pure(
+    String command,
+  ) async {
+    final sessionResult = await sshService.runV2(
+      sshClient,
+      command,
+    );
+    // TODO save command, stdout, stderr, exitcode to Firestore
+    final logDocumentId = const Uuid().v4();
+    await firestore
+        .collection('jobs')
+        .doc(jobData.documentId)
+        .collection('logs')
+        .doc(logDocumentId)
+        .set({
+      'command': command,
+      'stdout': sessionResult.sessionStdout,
+      'stderr': sessionResult.sessionStderr,
+      'exitCode': sessionResult.sessionExitCode,
+      'createdAt': FieldValue.serverTimestamp,
+    });
+
+    print('jobDocId: ${jobData.documentId}, logsDocId: $logDocumentId');
+
+    final exitCode = sessionResult.sessionExitCode;
+    if (exitCode == 0) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   Future<bool> get cloneRepository =>
       shellV2(gitHubService.clone(job: jobData, url: _githubUrl));
 
@@ -78,7 +110,7 @@ class AndroidJobController {
       );
 
   Future<bool> get importKeyJks async {
-    final res = await shellV2(
+    final res = await shellV2Pure(
       'cd ~/Downloads/${userData.appName}/${userData.keyJksFilePath}',
     );
     if (res == false) {
