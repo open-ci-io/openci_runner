@@ -1,3 +1,7 @@
+## 0.4.1
+
+- fix minor bug
+
 ## 0.4.0
 
 - openci_runner now stores logs in cloud firestore. ([#17](https://github.com/open-ci-io/openci_runner/issues/17))
