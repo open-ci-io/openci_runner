@@ -1,3 +1,7 @@
+## 0.4.2
+
+- fix minor bug
+
 ## 0.4.1
 
 - fix minor bug
