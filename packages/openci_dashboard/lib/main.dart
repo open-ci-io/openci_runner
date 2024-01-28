@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
           );
         },
         '/profile': (context) {
-          return TopPage();
+          return const TopPage();
         },
       },
     );

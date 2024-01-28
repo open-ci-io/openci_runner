@@ -16,7 +16,6 @@ dependencies:
   mason_logger: ^0.2.5
   process_run: ^0.13.3
   pub_updater: ^0.3.0
-  supabase: ^1.11.11
   uuid: ^4.2.1
 
 dev_dependencies:

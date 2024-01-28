@@ -1,19 +1,19 @@
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:openci_dashboard/src/features/top/domain/top.dart';
+import 'package:openci_dashboard/src/features/edit_build_info/domain/edit_build_info.dart';
 import 'package:openci_dashboard/src/features/top/domain/user_data.dart';
 import 'package:openci_dashboard/src/utilities/riverpod/get_previous_value.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-part 'top_controller.g.dart';
+part 'edit_build_info_controller.g.dart';
 
 @riverpod
-class TopController extends _$TopController {
+class EditBuildInfoController extends _$EditBuildInfoController {
   @override
-  Future<Top> build() async {
-    return Top(
+  Future<EditBuildInfo> build() async {
+    return EditBuildInfo(
       joinedOrgs: await _fetchOrgNameList(),
     );
   }
@@ -69,7 +69,6 @@ class TopController extends _$TopController {
         .where('orgName', isEqualTo: previousValue.selectedOrg)
         .get();
     final docs = qs.docs.first;
-    print('data: ${previousValue.userData!.toJson()}');
     await docs.reference.update(previousValue.userData!.toJson());
   }
 
