@@ -145,10 +145,7 @@ class AndroidRunnerCommand extends Command<int> {
 
         final sshClient = await ssh.sshToServer(vmIP);
         if (sshClient == null) {
-          // TODO(mafreud): throw Exception and kill this program.
-
-          _logger.err('ssh client is null');
-          continue;
+          throw Exception('ssh client is null');
         }
 
         final androidJobController = AndroidJobController(
