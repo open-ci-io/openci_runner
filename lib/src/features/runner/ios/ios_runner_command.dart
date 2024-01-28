@@ -5,12 +5,9 @@ import 'package:args/command_runner.dart';
 import 'package:mason_logger/mason_logger.dart';
 import 'package:openci_runner/src/features/runner/ios/controller/ios_runner_controller.dart';
 import 'package:openci_runner/src/features/runner/ios/domain/ios_arguments.dart';
-import 'package:openci_runner/src/features/sign_in/controller/sign_in_controller.dart';
-import 'package:openci_runner/src/features/sign_in/domain/sign_in.dart';
 // import 'package:openci_runner/src/features/vm/controller/vm_controller.dart';
 // import 'package:openci_runner/src/services/macos/macos_service.dart';
 // import 'package:openci_runner/src/services/ssh/ssh_service.dart';
-import 'package:openci_runner/src/services/supabase/supabase_service.dart';
 import 'package:openci_runner/src/utilities/future_delayed.dart';
 // import 'package:uuid/uuid.dart';
 
@@ -76,29 +73,7 @@ class IosRunnerCommand extends Command<int> {
 
     _logger.success('Argument check passed.');
 
-    final supabase = SupabaseService(
-      supabaseUrl: supabaseUrl,
-      supabaseApiKey: supabaseApiKey,
-      targetOs: 'ios',
-    );
-
     while (true) {
-      final signInController = SignInController(_logger);
-      final job = await signInController.fetchJob(
-        supabase: supabase,
-        signIn: SignIn(
-          email: supabaseSignInEmail,
-          password: supabaseSignInPassword,
-        ),
-      );
-      if (job == null) {
-        _logger.info('''
-job is null, waiting 10 seconds for next check.
-Jobがありません。10秒後に再確認します。
-''');
-        await wait();
-        continue;
-      }
       // final user = await signInController.signIn(job, supabase);
 
       if (Platform.isMacOS) {
