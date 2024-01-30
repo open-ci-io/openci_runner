@@ -9,8 +9,8 @@ import 'package:openci_runner/src/services/ssh/ssh_service.dart';
 import 'package:openci_runner/src/utilities/github/github_service.dart';
 import 'package:uuid/uuid.dart';
 
-class AndroidJobController {
-  AndroidJobController({
+class IosJobController {
+  IosJobController({
     required this.sshService,
     required this.sshClient,
     required this.jobData,
@@ -59,7 +59,7 @@ class AndroidJobController {
       return true;
     } else {
       await firestore.collection(jobsPath).doc(jobData.documentId).update({
-        'failure': true,
+        'failure.android': true,
       });
       await vmController.stopVM;
       return false;

@@ -1,3 +1,7 @@
+## 0.5.1
+
+- fix bug
+
 ## 0.5.0
 
 - jobs is now v2
