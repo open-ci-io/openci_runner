@@ -76,7 +76,7 @@ Map<String, dynamic> _$$DistributionImplToJson(_$DistributionImpl instance) =>
       'platform': instance.platform,
       'baseBranch': instance.baseBranch,
       'distribution': instance.distribution,
-      'flavor': _$FlavorEnumMap[instance.flavor],
+      'flavor': _$FlavorEnumMap[instance.flavor]!,
     };
 
 const _$FlavorEnumMap = {

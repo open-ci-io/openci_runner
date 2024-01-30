@@ -5,11 +5,6 @@ import 'package:args/command_runner.dart';
 import 'package:mason_logger/mason_logger.dart';
 import 'package:openci_runner/src/features/runner/ios/controller/ios_runner_controller.dart';
 import 'package:openci_runner/src/features/runner/ios/domain/ios_arguments.dart';
-// import 'package:openci_runner/src/features/vm/controller/vm_controller.dart';
-// import 'package:openci_runner/src/services/macos/macos_service.dart';
-// import 'package:openci_runner/src/services/ssh/ssh_service.dart';
-import 'package:openci_runner/src/utilities/future_delayed.dart';
-// import 'package:uuid/uuid.dart';
 
 class IosRunnerCommand extends Command<int> {
   IosRunnerCommand({
@@ -17,33 +12,15 @@ class IosRunnerCommand extends Command<int> {
   }) : _logger = logger {
     argParser
       ..addFlag(
-        'supabaseUrl',
-        help: 'Supabase URL',
-        abbr: 'u',
-        negatable: false,
-      )
-      ..addFlag(
-        'supabaseApiKey',
-        help: 'Supabase API Key',
-        abbr: 'k',
-        negatable: false,
-      )
-      ..addFlag(
-        'supabaseSignInEmail',
-        help: 'Supabase Sign In Email',
-        abbr: 'e',
-        negatable: false,
-      )
-      ..addFlag(
-        'supabaseSignInPassword',
-        help: 'Supabase Sign In Password',
+        'firebaseProjectName',
+        help: 'Firebase Project Name',
         abbr: 'p',
         negatable: false,
       )
       ..addFlag(
-        'icloudKeychainPassword',
-        help: 'iCloud Keychain Password',
-        abbr: 'i',
+        'firebaseServiceAccountJson',
+        help: 'Firebase Service Account Json file Path',
+        abbr: 's',
         negatable: false,
       );
   }

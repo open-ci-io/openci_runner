@@ -2,6 +2,7 @@
 import 'package:dart_firebase_admin/firestore.dart';
 import 'package:dartssh2/dartssh2.dart';
 import 'package:openci_runner/src/features/job/domain/job_data.dart';
+import 'package:openci_runner/src/features/runner/runner_command.dart';
 import 'package:openci_runner/src/features/user/domain/user_data.dart';
 import 'package:openci_runner/src/features/vm/controller/vm_controller.dart';
 import 'package:openci_runner/src/services/ssh/ssh_service.dart';
@@ -39,7 +40,7 @@ class AndroidJobController {
     // TODO save command, stdout, stderr, exitcode to Firestore
     final logDocumentId = const Uuid().v4();
     await firestore
-        .collection('jobs')
+        .collection(jobsPath)
         .doc(jobData.documentId)
         .collection('logs')
         .doc(logDocumentId)
@@ -57,7 +58,7 @@ class AndroidJobController {
     if (exitCode == 0) {
       return true;
     } else {
-      await firestore.collection('jobs').doc(jobData.documentId).update({
+      await firestore.collection(jobsPath).doc(jobData.documentId).update({
         'failure.android': true,
       });
       await vmController.stopVM;
@@ -75,7 +76,7 @@ class AndroidJobController {
     // TODO save command, stdout, stderr, exitcode to Firestore
     final logDocumentId = const Uuid().v4();
     await firestore
-        .collection('jobs')
+        .collection(jobsPath)
         .doc(jobData.documentId)
         .collection('logs')
         .doc(logDocumentId)

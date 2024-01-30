@@ -25,6 +25,9 @@ mixin _$JobData {
   String get githubRepositoryUrl => throw _privateConstructorUsedError;
   String get baseBranch => throw _privateConstructorUsedError;
   String get githubPAT => throw _privateConstructorUsedError;
+
+  ///
+  TargetPlatform get platform => throw _privateConstructorUsedError;
   String get userId => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -43,6 +46,7 @@ abstract class $JobDataCopyWith<$Res> {
       String githubRepositoryUrl,
       String baseBranch,
       String githubPAT,
+      TargetPlatform platform,
       String userId});
 }
 
@@ -64,6 +68,7 @@ class _$JobDataCopyWithImpl<$Res, $Val extends JobData>
     Object? githubRepositoryUrl = null,
     Object? baseBranch = null,
     Object? githubPAT = null,
+    Object? platform = null,
     Object? userId = null,
   }) {
     return _then(_value.copyWith(
@@ -87,6 +92,10 @@ class _$JobDataCopyWithImpl<$Res, $Val extends JobData>
           ? _value.githubPAT
           : githubPAT // ignore: cast_nullable_to_non_nullable
               as String,
+      platform: null == platform
+          ? _value.platform
+          : platform // ignore: cast_nullable_to_non_nullable
+              as TargetPlatform,
       userId: null == userId
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
@@ -108,6 +117,7 @@ abstract class _$$JobDataImplCopyWith<$Res> implements $JobDataCopyWith<$Res> {
       String githubRepositoryUrl,
       String baseBranch,
       String githubPAT,
+      TargetPlatform platform,
       String userId});
 }
 
@@ -127,6 +137,7 @@ class __$$JobDataImplCopyWithImpl<$Res>
     Object? githubRepositoryUrl = null,
     Object? baseBranch = null,
     Object? githubPAT = null,
+    Object? platform = null,
     Object? userId = null,
   }) {
     return _then(_$JobDataImpl(
@@ -150,6 +161,10 @@ class __$$JobDataImplCopyWithImpl<$Res>
           ? _value.githubPAT
           : githubPAT // ignore: cast_nullable_to_non_nullable
               as String,
+      platform: null == platform
+          ? _value.platform
+          : platform // ignore: cast_nullable_to_non_nullable
+              as TargetPlatform,
       userId: null == userId
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
@@ -167,6 +182,7 @@ class _$JobDataImpl implements _JobData {
       required this.githubRepositoryUrl,
       required this.baseBranch,
       required this.githubPAT,
+      required this.platform,
       required this.userId});
 
   factory _$JobDataImpl.fromJson(Map<String, dynamic> json) =>
@@ -182,12 +198,16 @@ class _$JobDataImpl implements _JobData {
   final String baseBranch;
   @override
   final String githubPAT;
+
+  ///
+  @override
+  final TargetPlatform platform;
   @override
   final String userId;
 
   @override
   String toString() {
-    return 'JobData(buildBranch: $buildBranch, documentId: $documentId, githubRepositoryUrl: $githubRepositoryUrl, baseBranch: $baseBranch, githubPAT: $githubPAT, userId: $userId)';
+    return 'JobData(buildBranch: $buildBranch, documentId: $documentId, githubRepositoryUrl: $githubRepositoryUrl, baseBranch: $baseBranch, githubPAT: $githubPAT, platform: $platform, userId: $userId)';
   }
 
   @override
@@ -205,13 +225,15 @@ class _$JobDataImpl implements _JobData {
                 other.baseBranch == baseBranch) &&
             (identical(other.githubPAT, githubPAT) ||
                 other.githubPAT == githubPAT) &&
+            (identical(other.platform, platform) ||
+                other.platform == platform) &&
             (identical(other.userId, userId) || other.userId == userId));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, buildBranch, documentId,
-      githubRepositoryUrl, baseBranch, githubPAT, userId);
+      githubRepositoryUrl, baseBranch, githubPAT, platform, userId);
 
   @JsonKey(ignore: true)
   @override
@@ -234,6 +256,7 @@ abstract class _JobData implements JobData {
       required final String githubRepositoryUrl,
       required final String baseBranch,
       required final String githubPAT,
+      required final TargetPlatform platform,
       required final String userId}) = _$JobDataImpl;
 
   factory _JobData.fromJson(Map<String, dynamic> json) = _$JobDataImpl.fromJson;
@@ -248,6 +271,10 @@ abstract class _JobData implements JobData {
   String get baseBranch;
   @override
   String get githubPAT;
+  @override
+
+  ///
+  TargetPlatform get platform;
   @override
   String get userId;
   @override

@@ -8,7 +8,7 @@ class AndroidRunner with _$AndroidRunner {
   const factory AndroidRunner({
     required String key,
     required String error,
-  }) = _IosRunner;
+  }) = _AndroidRunner;
   factory AndroidRunner.fromJson(Map<String, Object?> json) =>
       _$AndroidRunnerFromJson(json);
 }

@@ -11,9 +11,17 @@ class JobData with _$JobData {
     required String githubRepositoryUrl,
     required String baseBranch,
     required String githubPAT,
+
+    ///
+    required TargetPlatform platform,
     required String userId,
   }) = _JobData;
 
   factory JobData.fromJson(Map<String, Object?> json) =>
       _$JobDataFromJson(json);
+}
+
+enum TargetPlatform {
+  android,
+  ios,
 }

@@ -6,13 +6,13 @@ part of 'android_runner.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$IosRunnerImpl _$$IosRunnerImplFromJson(Map<String, dynamic> json) =>
-    _$IosRunnerImpl(
+_$AndroidRunnerImpl _$$AndroidRunnerImplFromJson(Map<String, dynamic> json) =>
+    _$AndroidRunnerImpl(
       key: json['key'] as String,
       error: json['error'] as String,
     );
 
-Map<String, dynamic> _$$IosRunnerImplToJson(_$IosRunnerImpl instance) =>
+Map<String, dynamic> _$$AndroidRunnerImplToJson(_$AndroidRunnerImpl instance) =>
     <String, dynamic>{
       'key': instance.key,
       'error': instance.error,
