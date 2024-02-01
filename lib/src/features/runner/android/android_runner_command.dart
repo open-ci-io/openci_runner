@@ -138,7 +138,7 @@ class AndroidRunnerCommand extends Command<int> {
         final vm = VMController(const Uuid().v4());
         await vm.prepareVM;
         unawaited(vm.launchVM);
-        await wait(seconds: 20);
+        await wait(minutes: 20);
         _logger.success('VM is ready');
         final vmIP = await vm.fetchIpAddress;
         final ssh = SSHService();

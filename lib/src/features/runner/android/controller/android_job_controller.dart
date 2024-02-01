@@ -178,7 +178,7 @@ class AndroidJobController {
         '''
 $_loadZshrcAndCdAppDir;
 export GOOGLE_APPLICATION_CREDENTIALS="/Users/admin/Downloads/${userData.appName}/service_account.json";
-firebase appdistribution:distribute "$apkPath" --app "${userData.firebaseAppIdAndroid}" --groups "${userData.testerGroups.join(', ')}"; 
+firebase appdistribution:distribute "$apkPath" --app "${userData.firebaseAppIdAndroid}" --groups "${userData.androidTesterGroups.join(', ')}"; 
 ''',
       );
 

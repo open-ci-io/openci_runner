@@ -1,3 +1,7 @@
+## 0.6.0
+
+- OpenCI now supports ios build
+
 ## 0.5.1
 
 - fix bug

@@ -23,6 +23,7 @@ mixin _$UserData {
   int get androidBuildNumber => throw _privateConstructorUsedError;
   String get androidKeyJks => throw _privateConstructorUsedError;
   String get androidKeyProperties => throw _privateConstructorUsedError;
+  List<String> get androidTesterGroups => throw _privateConstructorUsedError;
   String get appName => throw _privateConstructorUsedError;
   String? get appStoreConnectIssuerId => throw _privateConstructorUsedError;
   String? get appStoreConnectKeyId => throw _privateConstructorUsedError;
@@ -34,14 +35,18 @@ mixin _$UserData {
   String? get firebaseAppIdIos => throw _privateConstructorUsedError;
   String get flutterVersion => throw _privateConstructorUsedError;
   String get githubRepositoryUrl => throw _privateConstructorUsedError;
-  int? get iosBuildNumber => throw _privateConstructorUsedError;
+  int get iosBuildNumber => throw _privateConstructorUsedError;
+  List<String> get iosTesterGroups => throw _privateConstructorUsedError;
   String get keyJksFilePath => throw _privateConstructorUsedError;
   String get keyJksFileName => throw _privateConstructorUsedError;
   String get pubspecYamlName => throw _privateConstructorUsedError;
   String get serviceAccountJson => throw _privateConstructorUsedError;
-  List<String> get testerGroups => throw _privateConstructorUsedError;
   List<String> get triggerBranches => throw _privateConstructorUsedError;
   String get userId => throw _privateConstructorUsedError;
+  String? get exportOptionsAdhoc => throw _privateConstructorUsedError;
+  String? get buildProvisioningProfileBase64 =>
+      throw _privateConstructorUsedError;
+  String? get buildCertificateBase64 => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -58,6 +63,7 @@ abstract class $UserDataCopyWith<$Res> {
       {int androidBuildNumber,
       String androidKeyJks,
       String androidKeyProperties,
+      List<String> androidTesterGroups,
       String appName,
       String? appStoreConnectIssuerId,
       String? appStoreConnectKeyId,
@@ -68,14 +74,17 @@ abstract class $UserDataCopyWith<$Res> {
       String? firebaseAppIdIos,
       String flutterVersion,
       String githubRepositoryUrl,
-      int? iosBuildNumber,
+      int iosBuildNumber,
+      List<String> iosTesterGroups,
       String keyJksFilePath,
       String keyJksFileName,
       String pubspecYamlName,
       String serviceAccountJson,
-      List<String> testerGroups,
       List<String> triggerBranches,
-      String userId});
+      String userId,
+      String? exportOptionsAdhoc,
+      String? buildProvisioningProfileBase64,
+      String? buildCertificateBase64});
 }
 
 /// @nodoc
@@ -94,6 +103,7 @@ class _$UserDataCopyWithImpl<$Res, $Val extends UserData>
     Object? androidBuildNumber = null,
     Object? androidKeyJks = null,
     Object? androidKeyProperties = null,
+    Object? androidTesterGroups = null,
     Object? appName = null,
     Object? appStoreConnectIssuerId = freezed,
     Object? appStoreConnectKeyId = freezed,
@@ -104,14 +114,17 @@ class _$UserDataCopyWithImpl<$Res, $Val extends UserData>
     Object? firebaseAppIdIos = freezed,
     Object? flutterVersion = null,
     Object? githubRepositoryUrl = null,
-    Object? iosBuildNumber = freezed,
+    Object? iosBuildNumber = null,
+    Object? iosTesterGroups = null,
     Object? keyJksFilePath = null,
     Object? keyJksFileName = null,
     Object? pubspecYamlName = null,
     Object? serviceAccountJson = null,
-    Object? testerGroups = null,
     Object? triggerBranches = null,
     Object? userId = null,
+    Object? exportOptionsAdhoc = freezed,
+    Object? buildProvisioningProfileBase64 = freezed,
+    Object? buildCertificateBase64 = freezed,
   }) {
     return _then(_value.copyWith(
       androidBuildNumber: null == androidBuildNumber
@@ -126,6 +139,10 @@ class _$UserDataCopyWithImpl<$Res, $Val extends UserData>
           ? _value.androidKeyProperties
           : androidKeyProperties // ignore: cast_nullable_to_non_nullable
               as String,
+      androidTesterGroups: null == androidTesterGroups
+          ? _value.androidTesterGroups
+          : androidTesterGroups // ignore: cast_nullable_to_non_nullable
+              as List<String>,
       appName: null == appName
           ? _value.appName
           : appName // ignore: cast_nullable_to_non_nullable
@@ -166,10 +183,14 @@ class _$UserDataCopyWithImpl<$Res, $Val extends UserData>
           ? _value.githubRepositoryUrl
           : githubRepositoryUrl // ignore: cast_nullable_to_non_nullable
               as String,
-      iosBuildNumber: freezed == iosBuildNumber
+      iosBuildNumber: null == iosBuildNumber
           ? _value.iosBuildNumber
           : iosBuildNumber // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as int,
+      iosTesterGroups: null == iosTesterGroups
+          ? _value.iosTesterGroups
+          : iosTesterGroups // ignore: cast_nullable_to_non_nullable
+              as List<String>,
       keyJksFilePath: null == keyJksFilePath
           ? _value.keyJksFilePath
           : keyJksFilePath // ignore: cast_nullable_to_non_nullable
@@ -186,10 +207,6 @@ class _$UserDataCopyWithImpl<$Res, $Val extends UserData>
           ? _value.serviceAccountJson
           : serviceAccountJson // ignore: cast_nullable_to_non_nullable
               as String,
-      testerGroups: null == testerGroups
-          ? _value.testerGroups
-          : testerGroups // ignore: cast_nullable_to_non_nullable
-              as List<String>,
       triggerBranches: null == triggerBranches
           ? _value.triggerBranches
           : triggerBranches // ignore: cast_nullable_to_non_nullable
@@ -198,6 +215,18 @@ class _$UserDataCopyWithImpl<$Res, $Val extends UserData>
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
               as String,
+      exportOptionsAdhoc: freezed == exportOptionsAdhoc
+          ? _value.exportOptionsAdhoc
+          : exportOptionsAdhoc // ignore: cast_nullable_to_non_nullable
+              as String?,
+      buildProvisioningProfileBase64: freezed == buildProvisioningProfileBase64
+          ? _value.buildProvisioningProfileBase64
+          : buildProvisioningProfileBase64 // ignore: cast_nullable_to_non_nullable
+              as String?,
+      buildCertificateBase64: freezed == buildCertificateBase64
+          ? _value.buildCertificateBase64
+          : buildCertificateBase64 // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -214,6 +243,7 @@ abstract class _$$UserDataImplCopyWith<$Res>
       {int androidBuildNumber,
       String androidKeyJks,
       String androidKeyProperties,
+      List<String> androidTesterGroups,
       String appName,
       String? appStoreConnectIssuerId,
       String? appStoreConnectKeyId,
@@ -224,14 +254,17 @@ abstract class _$$UserDataImplCopyWith<$Res>
       String? firebaseAppIdIos,
       String flutterVersion,
       String githubRepositoryUrl,
-      int? iosBuildNumber,
+      int iosBuildNumber,
+      List<String> iosTesterGroups,
       String keyJksFilePath,
       String keyJksFileName,
       String pubspecYamlName,
       String serviceAccountJson,
-      List<String> testerGroups,
       List<String> triggerBranches,
-      String userId});
+      String userId,
+      String? exportOptionsAdhoc,
+      String? buildProvisioningProfileBase64,
+      String? buildCertificateBase64});
 }
 
 /// @nodoc
@@ -248,6 +281,7 @@ class __$$UserDataImplCopyWithImpl<$Res>
     Object? androidBuildNumber = null,
     Object? androidKeyJks = null,
     Object? androidKeyProperties = null,
+    Object? androidTesterGroups = null,
     Object? appName = null,
     Object? appStoreConnectIssuerId = freezed,
     Object? appStoreConnectKeyId = freezed,
@@ -258,14 +292,17 @@ class __$$UserDataImplCopyWithImpl<$Res>
     Object? firebaseAppIdIos = freezed,
     Object? flutterVersion = null,
     Object? githubRepositoryUrl = null,
-    Object? iosBuildNumber = freezed,
+    Object? iosBuildNumber = null,
+    Object? iosTesterGroups = null,
     Object? keyJksFilePath = null,
     Object? keyJksFileName = null,
     Object? pubspecYamlName = null,
     Object? serviceAccountJson = null,
-    Object? testerGroups = null,
     Object? triggerBranches = null,
     Object? userId = null,
+    Object? exportOptionsAdhoc = freezed,
+    Object? buildProvisioningProfileBase64 = freezed,
+    Object? buildCertificateBase64 = freezed,
   }) {
     return _then(_$UserDataImpl(
       androidBuildNumber: null == androidBuildNumber
@@ -280,6 +317,10 @@ class __$$UserDataImplCopyWithImpl<$Res>
           ? _value.androidKeyProperties
           : androidKeyProperties // ignore: cast_nullable_to_non_nullable
               as String,
+      androidTesterGroups: null == androidTesterGroups
+          ? _value._androidTesterGroups
+          : androidTesterGroups // ignore: cast_nullable_to_non_nullable
+              as List<String>,
       appName: null == appName
           ? _value.appName
           : appName // ignore: cast_nullable_to_non_nullable
@@ -320,10 +361,14 @@ class __$$UserDataImplCopyWithImpl<$Res>
           ? _value.githubRepositoryUrl
           : githubRepositoryUrl // ignore: cast_nullable_to_non_nullable
               as String,
-      iosBuildNumber: freezed == iosBuildNumber
+      iosBuildNumber: null == iosBuildNumber
           ? _value.iosBuildNumber
           : iosBuildNumber // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as int,
+      iosTesterGroups: null == iosTesterGroups
+          ? _value._iosTesterGroups
+          : iosTesterGroups // ignore: cast_nullable_to_non_nullable
+              as List<String>,
       keyJksFilePath: null == keyJksFilePath
           ? _value.keyJksFilePath
           : keyJksFilePath // ignore: cast_nullable_to_non_nullable
@@ -340,10 +385,6 @@ class __$$UserDataImplCopyWithImpl<$Res>
           ? _value.serviceAccountJson
           : serviceAccountJson // ignore: cast_nullable_to_non_nullable
               as String,
-      testerGroups: null == testerGroups
-          ? _value._testerGroups
-          : testerGroups // ignore: cast_nullable_to_non_nullable
-              as List<String>,
       triggerBranches: null == triggerBranches
           ? _value._triggerBranches
           : triggerBranches // ignore: cast_nullable_to_non_nullable
@@ -352,6 +393,18 @@ class __$$UserDataImplCopyWithImpl<$Res>
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
               as String,
+      exportOptionsAdhoc: freezed == exportOptionsAdhoc
+          ? _value.exportOptionsAdhoc
+          : exportOptionsAdhoc // ignore: cast_nullable_to_non_nullable
+              as String?,
+      buildProvisioningProfileBase64: freezed == buildProvisioningProfileBase64
+          ? _value.buildProvisioningProfileBase64
+          : buildProvisioningProfileBase64 // ignore: cast_nullable_to_non_nullable
+              as String?,
+      buildCertificateBase64: freezed == buildCertificateBase64
+          ? _value.buildCertificateBase64
+          : buildCertificateBase64 // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -363,6 +416,7 @@ class _$UserDataImpl implements _UserData {
       {required this.androidBuildNumber,
       required this.androidKeyJks,
       required this.androidKeyProperties,
+      required final List<String> androidTesterGroups,
       required this.appName,
       required this.appStoreConnectIssuerId,
       required this.appStoreConnectKeyId,
@@ -374,15 +428,19 @@ class _$UserDataImpl implements _UserData {
       required this.flutterVersion,
       required this.githubRepositoryUrl,
       required this.iosBuildNumber,
+      required final List<String> iosTesterGroups,
       required this.keyJksFilePath,
       required this.keyJksFileName,
       required this.pubspecYamlName,
       required this.serviceAccountJson,
-      required final List<String> testerGroups,
       required final List<String> triggerBranches,
-      required this.userId})
-      : _firebaseAppDistributionTesters = firebaseAppDistributionTesters,
-        _testerGroups = testerGroups,
+      required this.userId,
+      this.exportOptionsAdhoc,
+      this.buildProvisioningProfileBase64,
+      this.buildCertificateBase64})
+      : _androidTesterGroups = androidTesterGroups,
+        _firebaseAppDistributionTesters = firebaseAppDistributionTesters,
+        _iosTesterGroups = iosTesterGroups,
         _triggerBranches = triggerBranches;
 
   factory _$UserDataImpl.fromJson(Map<String, dynamic> json) =>
@@ -394,6 +452,15 @@ class _$UserDataImpl implements _UserData {
   final String androidKeyJks;
   @override
   final String androidKeyProperties;
+  final List<String> _androidTesterGroups;
+  @override
+  List<String> get androidTesterGroups {
+    if (_androidTesterGroups is EqualUnmodifiableListView)
+      return _androidTesterGroups;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_androidTesterGroups);
+  }
+
   @override
   final String appName;
   @override
@@ -422,7 +489,15 @@ class _$UserDataImpl implements _UserData {
   @override
   final String githubRepositoryUrl;
   @override
-  final int? iosBuildNumber;
+  final int iosBuildNumber;
+  final List<String> _iosTesterGroups;
+  @override
+  List<String> get iosTesterGroups {
+    if (_iosTesterGroups is EqualUnmodifiableListView) return _iosTesterGroups;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_iosTesterGroups);
+  }
+
   @override
   final String keyJksFilePath;
   @override
@@ -431,14 +506,6 @@ class _$UserDataImpl implements _UserData {
   final String pubspecYamlName;
   @override
   final String serviceAccountJson;
-  final List<String> _testerGroups;
-  @override
-  List<String> get testerGroups {
-    if (_testerGroups is EqualUnmodifiableListView) return _testerGroups;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_testerGroups);
-  }
-
   final List<String> _triggerBranches;
   @override
   List<String> get triggerBranches {
@@ -449,10 +516,16 @@ class _$UserDataImpl implements _UserData {
 
   @override
   final String userId;
+  @override
+  final String? exportOptionsAdhoc;
+  @override
+  final String? buildProvisioningProfileBase64;
+  @override
+  final String? buildCertificateBase64;
 
   @override
   String toString() {
-    return 'UserData(androidBuildNumber: $androidBuildNumber, androidKeyJks: $androidKeyJks, androidKeyProperties: $androidKeyProperties, appName: $appName, appStoreConnectIssuerId: $appStoreConnectIssuerId, appStoreConnectKeyId: $appStoreConnectKeyId, appStoreConnectP8: $appStoreConnectP8, entryPoint: $entryPoint, firebaseAppDistributionTesters: $firebaseAppDistributionTesters, firebaseAppIdAndroid: $firebaseAppIdAndroid, firebaseAppIdIos: $firebaseAppIdIos, flutterVersion: $flutterVersion, githubRepositoryUrl: $githubRepositoryUrl, iosBuildNumber: $iosBuildNumber, keyJksFilePath: $keyJksFilePath, keyJksFileName: $keyJksFileName, pubspecYamlName: $pubspecYamlName, serviceAccountJson: $serviceAccountJson, testerGroups: $testerGroups, triggerBranches: $triggerBranches, userId: $userId)';
+    return 'UserData(androidBuildNumber: $androidBuildNumber, androidKeyJks: $androidKeyJks, androidKeyProperties: $androidKeyProperties, androidTesterGroups: $androidTesterGroups, appName: $appName, appStoreConnectIssuerId: $appStoreConnectIssuerId, appStoreConnectKeyId: $appStoreConnectKeyId, appStoreConnectP8: $appStoreConnectP8, entryPoint: $entryPoint, firebaseAppDistributionTesters: $firebaseAppDistributionTesters, firebaseAppIdAndroid: $firebaseAppIdAndroid, firebaseAppIdIos: $firebaseAppIdIos, flutterVersion: $flutterVersion, githubRepositoryUrl: $githubRepositoryUrl, iosBuildNumber: $iosBuildNumber, iosTesterGroups: $iosTesterGroups, keyJksFilePath: $keyJksFilePath, keyJksFileName: $keyJksFileName, pubspecYamlName: $pubspecYamlName, serviceAccountJson: $serviceAccountJson, triggerBranches: $triggerBranches, userId: $userId, exportOptionsAdhoc: $exportOptionsAdhoc, buildProvisioningProfileBase64: $buildProvisioningProfileBase64, buildCertificateBase64: $buildCertificateBase64)';
   }
 
   @override
@@ -466,6 +539,8 @@ class _$UserDataImpl implements _UserData {
                 other.androidKeyJks == androidKeyJks) &&
             (identical(other.androidKeyProperties, androidKeyProperties) ||
                 other.androidKeyProperties == androidKeyProperties) &&
+            const DeepCollectionEquality()
+                .equals(other._androidTesterGroups, _androidTesterGroups) &&
             (identical(other.appName, appName) || other.appName == appName) &&
             (identical(
                     other.appStoreConnectIssuerId, appStoreConnectIssuerId) ||
@@ -489,6 +564,8 @@ class _$UserDataImpl implements _UserData {
                 other.githubRepositoryUrl == githubRepositoryUrl) &&
             (identical(other.iosBuildNumber, iosBuildNumber) ||
                 other.iosBuildNumber == iosBuildNumber) &&
+            const DeepCollectionEquality()
+                .equals(other._iosTesterGroups, _iosTesterGroups) &&
             (identical(other.keyJksFilePath, keyJksFilePath) ||
                 other.keyJksFilePath == keyJksFilePath) &&
             (identical(other.keyJksFileName, keyJksFileName) ||
@@ -498,10 +575,16 @@ class _$UserDataImpl implements _UserData {
             (identical(other.serviceAccountJson, serviceAccountJson) ||
                 other.serviceAccountJson == serviceAccountJson) &&
             const DeepCollectionEquality()
-                .equals(other._testerGroups, _testerGroups) &&
-            const DeepCollectionEquality()
                 .equals(other._triggerBranches, _triggerBranches) &&
-            (identical(other.userId, userId) || other.userId == userId));
+            (identical(other.userId, userId) || other.userId == userId) &&
+            (identical(other.exportOptionsAdhoc, exportOptionsAdhoc) ||
+                other.exportOptionsAdhoc == exportOptionsAdhoc) &&
+            (identical(other.buildProvisioningProfileBase64,
+                    buildProvisioningProfileBase64) ||
+                other.buildProvisioningProfileBase64 ==
+                    buildProvisioningProfileBase64) &&
+            (identical(other.buildCertificateBase64, buildCertificateBase64) ||
+                other.buildCertificateBase64 == buildCertificateBase64));
   }
 
   @JsonKey(ignore: true)
@@ -511,6 +594,7 @@ class _$UserDataImpl implements _UserData {
         androidBuildNumber,
         androidKeyJks,
         androidKeyProperties,
+        const DeepCollectionEquality().hash(_androidTesterGroups),
         appName,
         appStoreConnectIssuerId,
         appStoreConnectKeyId,
@@ -522,13 +606,16 @@ class _$UserDataImpl implements _UserData {
         flutterVersion,
         githubRepositoryUrl,
         iosBuildNumber,
+        const DeepCollectionEquality().hash(_iosTesterGroups),
         keyJksFilePath,
         keyJksFileName,
         pubspecYamlName,
         serviceAccountJson,
-        const DeepCollectionEquality().hash(_testerGroups),
         const DeepCollectionEquality().hash(_triggerBranches),
-        userId
+        userId,
+        exportOptionsAdhoc,
+        buildProvisioningProfileBase64,
+        buildCertificateBase64
       ]);
 
   @JsonKey(ignore: true)
@@ -550,6 +637,7 @@ abstract class _UserData implements UserData {
       {required final int androidBuildNumber,
       required final String androidKeyJks,
       required final String androidKeyProperties,
+      required final List<String> androidTesterGroups,
       required final String appName,
       required final String? appStoreConnectIssuerId,
       required final String? appStoreConnectKeyId,
@@ -560,14 +648,17 @@ abstract class _UserData implements UserData {
       required final String? firebaseAppIdIos,
       required final String flutterVersion,
       required final String githubRepositoryUrl,
-      required final int? iosBuildNumber,
+      required final int iosBuildNumber,
+      required final List<String> iosTesterGroups,
       required final String keyJksFilePath,
       required final String keyJksFileName,
       required final String pubspecYamlName,
       required final String serviceAccountJson,
-      required final List<String> testerGroups,
       required final List<String> triggerBranches,
-      required final String userId}) = _$UserDataImpl;
+      required final String userId,
+      final String? exportOptionsAdhoc,
+      final String? buildProvisioningProfileBase64,
+      final String? buildCertificateBase64}) = _$UserDataImpl;
 
   factory _UserData.fromJson(Map<String, dynamic> json) =
       _$UserDataImpl.fromJson;
@@ -578,6 +669,8 @@ abstract class _UserData implements UserData {
   String get androidKeyJks;
   @override
   String get androidKeyProperties;
+  @override
+  List<String> get androidTesterGroups;
   @override
   String get appName;
   @override
@@ -599,7 +692,9 @@ abstract class _UserData implements UserData {
   @override
   String get githubRepositoryUrl;
   @override
-  int? get iosBuildNumber;
+  int get iosBuildNumber;
+  @override
+  List<String> get iosTesterGroups;
   @override
   String get keyJksFilePath;
   @override
@@ -609,11 +704,15 @@ abstract class _UserData implements UserData {
   @override
   String get serviceAccountJson;
   @override
-  List<String> get testerGroups;
-  @override
   List<String> get triggerBranches;
   @override
   String get userId;
+  @override
+  String? get exportOptionsAdhoc;
+  @override
+  String? get buildProvisioningProfileBase64;
+  @override
+  String? get buildCertificateBase64;
   @override
   @JsonKey(ignore: true)
   _$$UserDataImplCopyWith<_$UserDataImpl> get copyWith =>

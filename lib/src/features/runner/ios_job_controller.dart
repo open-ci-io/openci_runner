@@ -5,6 +5,7 @@ import 'package:openci_runner/src/features/job/domain/job_data.dart';
 import 'package:openci_runner/src/features/runner/runner_command.dart';
 import 'package:openci_runner/src/features/user/domain/user_data.dart';
 import 'package:openci_runner/src/features/vm/controller/vm_controller.dart';
+import 'package:openci_runner/src/services/macos/directory_paths.dart';
 import 'package:openci_runner/src/services/ssh/ssh_service.dart';
 import 'package:openci_runner/src/utilities/github/github_service.dart';
 import 'package:uuid/uuid.dart';
@@ -59,7 +60,7 @@ class IosJobController {
       return true;
     } else {
       await firestore.collection(jobsPath).doc(jobData.documentId).update({
-        'failure.android': true,
+        'failure': true,
       });
       await vmController.stopVM;
       return false;
@@ -97,6 +98,53 @@ class IosJobController {
       return false;
     }
   }
+
+  Future<bool> get runCustomScript => shellV2('''
+source ~/.zshrc;
+cd Downloads/${userData.appName};
+flutter pub get;
+cd ios;
+rm -rf Pods;
+pod --version;
+pod repo update;
+pod install;
+''');
+
+  Future<bool> get uploadApkToFAD async => shellV2(
+        '''
+$_loadZshrcAndCdAppDir;
+export GOOGLE_APPLICATION_CREDENTIALS="/Users/admin/Downloads/${userData.appName}/service_account.json";
+firebase appdistribution:distribute "$apkPath" --app "${userData.firebaseAppIdAndroid}" --groups "${userData.androidTesterGroups.join(', ')}"; 
+''',
+      );
+
+  final icloudKeychainPassword = 'mementomori';
+
+  Future<bool> get importCertificates => shellV2('''
+cd ~/Downloads/certificates;
+security create-keychain -p $icloudKeychainPassword $keychainPath;
+security default-keychain -s $keychainPath;
+security unlock-keychain -p $icloudKeychainPassword $keychainPath;
+security set-keychain-settings -lut 21600 $keychainPath;
+security import $p12 -P $icloudKeychainPassword -A -t cert -f pkcs12 -k $keychainPath;
+security list-keychain -d user -s $keychainPath;
+mkdir -p ~/Library/MobileDevice/Provisioning\\ Profiles;
+cp $mobileprovisionPath ~/Library/MobileDevice/Provisioning\\ Profiles;
+''');
+
+  Future<bool> get importAdhocExportOptionsPlist => shellV2('''
+cd ~/Downloads/${userData.appName}/ios;
+echo -n ${userData.exportOptionsAdhoc} | base64 --decode -o openCIexportOptions.plist;
+''');
+
+  Future<bool> get createAdhocCertificates => shellV2('''
+mkdir $certificateDirectory;
+echo -n ${userData.buildCertificateBase64} | base64 --decode -o $p12;
+''');
+
+  Future<bool> get createAdhocMobileProvisioningProfile => shellV2('''
+echo -n ${userData.buildProvisioningProfileBase64} | base64 --decode -o $mobileprovisionPath;
+''');
 
   Future<bool> get cloneRepository =>
       shellV2(gitHubService.clone(job: jobData, url: _githubUrl));
@@ -140,6 +188,22 @@ class IosJobController {
         '$_loadZshrc && cd /Users/admin/flutter && git checkout ${userData.flutterVersion}',
       );
 
+  Future<bool> get buildIpa {
+    if (distribution.flavor == Flavor.prod) {
+      return shellV2(
+        '$_loadZshrcAndCdAppDir && $flutterCommand build ipa --build-number=${userData.androidBuildNumber} --flavor prod --dart-define=FLAVOR=prod -t lib/${userData.entryPoint} --export-options-plist=ios/openCIexportOptions.plist;',
+      );
+    }
+    if (distribution.flavor == Flavor.dev) {
+      return shellV2(
+        '$_loadZshrcAndCdAppDir && $flutterCommand build ipa --build-number=${userData.androidBuildNumber} --flavor dev --dart-define=FLAVOR=dev -t lib/${userData.entryPoint} --export-options-plist=ios/openCIexportOptions.plist;',
+      );
+    }
+    return shellV2(
+      '$_loadZshrcAndCdAppDir && $flutterCommand build ipa --build-number=${userData.androidBuildNumber} --export-options-plist=ios/openCIexportOptions.plist;',
+    );
+  }
+
   Future<bool> get buildApk async {
     if (distribution.flavor == Flavor.prod) {
       return shellV2(
@@ -174,11 +238,15 @@ class IosJobController {
     return '/Users/admin/Downloads/${userData.appName}/build/app/outputs/flutter-apk/app-release.apk';
   }
 
-  Future<bool> get uploadApkToFAD async => shellV2(
+  String get ipaPath {
+    return '/Users/admin/Downloads/${userData.appName}/build/ios/ipa/${userData.pubspecYamlName}.ipa';
+  }
+
+  Future<bool> get uploadIpaToFAD async => shellV2(
         '''
 $_loadZshrcAndCdAppDir;
 export GOOGLE_APPLICATION_CREDENTIALS="/Users/admin/Downloads/${userData.appName}/service_account.json";
-firebase appdistribution:distribute "$apkPath" --app "${userData.firebaseAppIdAndroid}" --groups "${userData.testerGroups.join(', ')}"; 
+firebase appdistribution:distribute "$ipaPath" --app "${userData.firebaseAppIdIos}" --groups "${userData.iosTesterGroups.join(', ')}"; 
 ''',
       );
 

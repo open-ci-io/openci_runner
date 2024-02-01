@@ -1,5 +1,4 @@
 import 'package:openci_runner/src/services/tart/tart_service.dart';
-import 'package:openci_runner/src/utilities/future_delayed.dart';
 
 class VMController {
   VMController(this.workingVMName);
@@ -14,7 +13,7 @@ class VMController {
 
     // TODO(someone): If baseVM does not exist, pull it from the internet.
     await _tartService.clone(baseVMName, workingVMName);
-    await wait(seconds: 1);
+    await Future.delayed(const Duration(seconds: 10));
   }
 
   Future<void> get launchVM => _tartService.run(workingVMName);
