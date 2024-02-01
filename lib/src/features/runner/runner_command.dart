@@ -7,6 +7,7 @@ import 'package:dart_firebase_admin/firestore.dart';
 import 'package:mason_logger/mason_logger.dart';
 import 'package:openci_runner/src/features/job/domain/job_data.dart';
 import 'package:openci_runner/src/features/runner/android/controller/android_job_controller.dart';
+import 'package:openci_runner/src/features/runner/ios_job_controller.dart';
 import 'package:openci_runner/src/features/runner/runner_arguments.dart';
 import 'package:openci_runner/src/features/runner/runner_controller.dart';
 import 'package:openci_runner/src/features/user/domain/user_data.dart';
@@ -87,10 +88,11 @@ class RunnerCommand extends Command<int> {
           .where('success', WhereFilter.equal, false)
           .where('failure', WhereFilter.equal, false)
           .get();
+
       if (jobsQs.docs.isEmpty && progress != null) {
         progress.update('No jobs were found');
 
-        await wait();
+        await Future.delayed(const Duration(seconds: 10));
         continue;
       }
       progress!.complete('New job found');
@@ -144,7 +146,7 @@ class RunnerCommand extends Command<int> {
         final vm = VMController(const Uuid().v4());
         await vm.prepareVM;
         unawaited(vm.launchVM);
-        await wait(seconds: 20);
+        await wait();
         _logger.success('VM is ready');
         final vmIP = await vm.fetchIpAddress;
         final ssh = SSHService();
@@ -224,12 +226,90 @@ class RunnerCommand extends Command<int> {
 
           await vm.stopVM;
         } else if (targetPlatform == TargetPlatform.ios) {
-          _logger.info('ios');
-          await Future.delayed(const Duration(seconds: 10));
+          final iosJobController = IosJobController(
+            sshService: ssh,
+            sshClient: sshClient,
+            userData: user,
+            jobData: jobData,
+            gitHubService: GitHubService(),
+            firestore: firestore,
+            distribution: distribution,
+            vmController: vm,
+          );
+
+          if (user.buildCertificateBase64 == null ||
+              user.exportOptionsAdhoc == null ||
+              user.buildProvisioningProfileBase64 == null) {
+            _logger.err('ios setup has not been finished');
+            await firestore
+                .collection(jobsPath)
+                .doc(jobData.documentId)
+                .update({
+              'failure': true,
+            });
+            continue;
+          }
+
+          if (await iosJobController.cloneRepository == false) {
+            _logger.err('clone repository failed');
+            continue;
+          }
+
+          if (await iosJobController.importServiceAccountJson == false) {
+            _logger.err('import service account json failed');
+            continue;
+          }
+
+          if (await iosJobController.importAdhocExportOptionsPlist == false) {
+            _logger.err('importAdhocExportOptionsPlist failed');
+            continue;
+          }
+
+          if (await iosJobController.createAdhocCertificates == false) {
+            _logger.err('createAdhocCertificates failed');
+            continue;
+          }
+
+          if (await iosJobController.createAdhocMobileProvisioningProfile ==
+              false) {
+            _logger.err('createAdhocMobileProvisioningProfile failed');
+            continue;
+          }
+
+          if (await iosJobController.importCertificates == false) {
+            _logger.err('importCertificates failed');
+            continue;
+          }
+
+          if (await iosJobController.runCustomScript == false) {
+            _logger.err('runCustomScript failed');
+            continue;
+          }
+
+          // await Future.delayed(const Duration(minutes: 3));
+
+          if (await iosJobController.buildIpa == false) {
+            _logger.err('buildIpa failed');
+            continue;
+          }
+
+          if (await iosJobController.uploadIpaToFAD == false) {
+            _logger.err('buildIpa failed');
+            continue;
+          }
+
+          await firestore
+              .collection('users')
+              .doc(user.userId)
+              .update({'iosBuildNumber': user.iosBuildNumber + 1});
+
           await firestore
               .collection(jobsPath)
               .doc(jobData.documentId)
               .update({'success': true});
+
+          _logger.success('build success');
+
           await vm.stopVM;
         }
       }

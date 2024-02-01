@@ -1,2 +1,2 @@
-Future<void> wait({int seconds = 10}) async =>
-    Future<void>.delayed(Duration(seconds: seconds));
+Future<void> wait({int minutes = 2}) async =>
+    Future<void>.delayed(Duration(minutes: minutes));

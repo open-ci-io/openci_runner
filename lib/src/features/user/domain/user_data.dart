@@ -9,6 +9,7 @@ class UserData with _$UserData {
     required int androidBuildNumber,
     required String androidKeyJks,
     required String androidKeyProperties,
+    required List<String> androidTesterGroups,
     required String appName,
     required String? appStoreConnectIssuerId,
     required String? appStoreConnectKeyId,
@@ -19,14 +20,17 @@ class UserData with _$UserData {
     required String? firebaseAppIdIos,
     required String flutterVersion,
     required String githubRepositoryUrl,
-    required int? iosBuildNumber,
+    required int iosBuildNumber,
+    required List<String> iosTesterGroups,
     required String keyJksFilePath,
     required String keyJksFileName,
     required String pubspecYamlName,
     required String serviceAccountJson,
-    required List<String> testerGroups,
     required List<String> triggerBranches,
     required String userId,
+    String? exportOptionsAdhoc,
+    String? buildProvisioningProfileBase64,
+    String? buildCertificateBase64,
   }) = _UserData;
   factory UserData.fromJson(Map<String, Object?> json) =>
       _$UserDataFromJson(json);

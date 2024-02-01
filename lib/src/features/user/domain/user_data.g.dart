@@ -11,6 +11,9 @@ _$UserDataImpl _$$UserDataImplFromJson(Map<String, dynamic> json) =>
       androidBuildNumber: json['androidBuildNumber'] as int,
       androidKeyJks: json['androidKeyJks'] as String,
       androidKeyProperties: json['androidKeyProperties'] as String,
+      androidTesterGroups: (json['androidTesterGroups'] as List<dynamic>)
+          .map((e) => e as String)
+          .toList(),
       appName: json['appName'] as String,
       appStoreConnectIssuerId: json['appStoreConnectIssuerId'] as String?,
       appStoreConnectKeyId: json['appStoreConnectKeyId'] as String?,
@@ -24,18 +27,22 @@ _$UserDataImpl _$$UserDataImplFromJson(Map<String, dynamic> json) =>
       firebaseAppIdIos: json['firebaseAppIdIos'] as String?,
       flutterVersion: json['flutterVersion'] as String,
       githubRepositoryUrl: json['githubRepositoryUrl'] as String,
-      iosBuildNumber: json['iosBuildNumber'] as int?,
+      iosBuildNumber: json['iosBuildNumber'] as int,
+      iosTesterGroups: (json['iosTesterGroups'] as List<dynamic>)
+          .map((e) => e as String)
+          .toList(),
       keyJksFilePath: json['keyJksFilePath'] as String,
       keyJksFileName: json['keyJksFileName'] as String,
       pubspecYamlName: json['pubspecYamlName'] as String,
       serviceAccountJson: json['serviceAccountJson'] as String,
-      testerGroups: (json['testerGroups'] as List<dynamic>)
-          .map((e) => e as String)
-          .toList(),
       triggerBranches: (json['triggerBranches'] as List<dynamic>)
           .map((e) => e as String)
           .toList(),
       userId: json['userId'] as String,
+      exportOptionsAdhoc: json['exportOptionsAdhoc'] as String?,
+      buildProvisioningProfileBase64:
+          json['buildProvisioningProfileBase64'] as String?,
+      buildCertificateBase64: json['buildCertificateBase64'] as String?,
     );
 
 Map<String, dynamic> _$$UserDataImplToJson(_$UserDataImpl instance) =>
@@ -43,6 +50,7 @@ Map<String, dynamic> _$$UserDataImplToJson(_$UserDataImpl instance) =>
       'androidBuildNumber': instance.androidBuildNumber,
       'androidKeyJks': instance.androidKeyJks,
       'androidKeyProperties': instance.androidKeyProperties,
+      'androidTesterGroups': instance.androidTesterGroups,
       'appName': instance.appName,
       'appStoreConnectIssuerId': instance.appStoreConnectIssuerId,
       'appStoreConnectKeyId': instance.appStoreConnectKeyId,
@@ -54,13 +62,16 @@ Map<String, dynamic> _$$UserDataImplToJson(_$UserDataImpl instance) =>
       'flutterVersion': instance.flutterVersion,
       'githubRepositoryUrl': instance.githubRepositoryUrl,
       'iosBuildNumber': instance.iosBuildNumber,
+      'iosTesterGroups': instance.iosTesterGroups,
       'keyJksFilePath': instance.keyJksFilePath,
       'keyJksFileName': instance.keyJksFileName,
       'pubspecYamlName': instance.pubspecYamlName,
       'serviceAccountJson': instance.serviceAccountJson,
-      'testerGroups': instance.testerGroups,
       'triggerBranches': instance.triggerBranches,
       'userId': instance.userId,
+      'exportOptionsAdhoc': instance.exportOptionsAdhoc,
+      'buildProvisioningProfileBase64': instance.buildProvisioningProfileBase64,
+      'buildCertificateBase64': instance.buildCertificateBase64,
     };
 
 _$DistributionImpl _$$DistributionImplFromJson(Map<String, dynamic> json) =>
