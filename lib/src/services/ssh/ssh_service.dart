@@ -7,6 +7,7 @@ import 'package:mason_logger/mason_logger.dart';
 import 'package:openci_runner/src/services/ssh/domain/session_result.dart';
 
 class SSHService {
+  Logger logger = Logger();
   Future<SSHClient?> sshToServer(
     String vmIp, {
     String username = 'admin',
@@ -19,7 +20,7 @@ class SSHService {
         onPasswordRequest: () => password,
       );
     } catch (e) {
-      print(e);
+      logger.err(e.toString());
       return null;
     }
   }
@@ -35,8 +36,9 @@ class SSHService {
     await stdout.addStream(shell.stdout);
     await stderr.addStream(shell.stderr);
 
-    logger.success('stdout: ${shell.stdout}');
-    logger.err('stderr: ${shell.stderr}');
+    logger
+      ..success('stdout: ${shell.stdout}')
+      ..err('stderr: ${shell.stderr}');
     shell.close();
     if (shell.exitCode == null) {
       return true;
@@ -68,8 +70,6 @@ class SSHService {
   }
 
   Future<SessionResult> runV2(SSHClient client, String command) async {
-    final logger = Logger();
-
     var sessionStdout = '';
     var sessionStderr = '';
     int? exitCode;
@@ -81,9 +81,10 @@ class SSHService {
     exitCode = session.exitCode;
     sessionStdout = await streamToString(session.stdout);
     sessionStderr = await streamToString(session.stderr);
-    logger.success('session.stdout: $sessionStdout');
-    logger.err('session.stderr: $sessionStderr');
-    logger.info(session.exitCode.toString());
+    logger
+      ..success('session.stdout: $sessionStdout')
+      ..err('session.stderr: $sessionStderr')
+      ..info(session.exitCode.toString());
 
     return SessionResult(
       sessionExitCode: exitCode,

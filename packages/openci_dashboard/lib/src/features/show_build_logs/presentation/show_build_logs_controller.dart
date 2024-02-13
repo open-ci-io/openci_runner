@@ -65,13 +65,10 @@ class ShowBuildLogsController extends _$ShowBuildLogsController {
 
 @riverpod
 Future<dynamic> fetchBuildList(FetchBuildListRef ref, String userId) async {
-  final controller = ref.watch(showBuildLogsControllerProvider.notifier);
-  print('currentUserId: ${controller.currentUserId}');
   QuerySnapshot<Map<String, dynamic>>? qs;
 
   qs = await FirebaseFirestore.instance
       .collection('jobs')
-      .where('users', arrayContains: 'X8gUzt57XESO0QCy6RCbibaMDUs1')
       .where('userId', isEqualTo: userId)
       .get();
   final buildList = <dynamic>[];

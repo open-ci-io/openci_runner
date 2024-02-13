@@ -40,9 +40,7 @@ class OpenciRunnerCommandRunner extends CompletionCommandRunner<int> {
       );
 
     // Add sub commands
-    addCommand(AndroidRunnerCommand(logger: _logger));
     addCommand(RunnerCommand(logger: _logger));
-    addCommand(IosRunnerCommand(logger: _logger));
     addCommand(UpdateCommand(logger: _logger, pubUpdater: _pubUpdater));
   }
 

@@ -1,4 +1,6 @@
 // Business logic after SSH connection to macOS VM
+// ignore_for_file: lines_longer_than_80_chars
+
 import 'package:dart_firebase_admin/firestore.dart';
 import 'package:dartssh2/dartssh2.dart';
 import 'package:openci_runner/src/features/job/domain/job_data.dart';
@@ -38,7 +40,7 @@ class IosJobController {
       sshClient,
       command,
     );
-    // TODO save command, stdout, stderr, exitcode to Firestore
+    // TODO(mafreud): save command, stdout, stderr, exitCode to Firestore
     final logDocumentId = const Uuid().v4();
     await firestore
         .collection(jobsPath)
@@ -52,8 +54,6 @@ class IosJobController {
       'exitCode': sessionResult.sessionExitCode,
       'createdAt': FieldValue.serverTimestamp,
     });
-
-    print('jobDocId: ${jobData.documentId}, logsDocId: $logDocumentId');
 
     final exitCode = sessionResult.sessionExitCode;
     if (exitCode == 0) {
@@ -74,7 +74,7 @@ class IosJobController {
       sshClient,
       command,
     );
-    // TODO save command, stdout, stderr, exitcode to Firestore
+    // TODO(mafreud): save command, stdout, stderr, exitCode to Firestore
     final logDocumentId = const Uuid().v4();
     await firestore
         .collection(jobsPath)
@@ -88,8 +88,6 @@ class IosJobController {
       'exitCode': sessionResult.sessionExitCode,
       'createdAt': FieldValue.serverTimestamp,
     });
-
-    print('jobDocId: ${jobData.documentId}, logsDocId: $logDocumentId');
 
     final exitCode = sessionResult.sessionExitCode;
     if (exitCode == 0) {

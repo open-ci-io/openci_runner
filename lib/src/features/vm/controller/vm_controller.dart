@@ -1,8 +1,10 @@
+import 'package:mason_logger/mason_logger.dart';
 import 'package:openci_runner/src/services/tart/tart_service.dart';
 
 class VMController {
   VMController(this.workingVMName);
   final String workingVMName;
+  Logger logger = Logger();
 
   static final _tartService = TartService();
 
@@ -13,7 +15,7 @@ class VMController {
 
     // TODO(someone): If baseVM does not exist, pull it from the internet.
     await _tartService.clone(baseVMName, workingVMName);
-    await Future.delayed(const Duration(seconds: 10));
+    await Future<void>.delayed(const Duration(seconds: 10));
   }
 
   Future<void> get launchVM => _tartService.run(workingVMName);
@@ -32,15 +34,15 @@ class VMController {
       final Iterable<Match> matches = ipRegex.allMatches(ip);
 
       if (matches.length == 1) {
-        print('Found IP Address: ${matches.first.group(0)}');
+        logger.info('Found IP Address: ${matches.first.group(0)}');
       } else if (matches.length > 1) {
-        print('More than one IP addresses found.');
+        logger.warn('More than one IP addresses found.');
       } else {
-        print('No IP addresses found.');
+        logger.alert('No IP addresses found.');
       }
       return matches.first.group(0)!;
     } catch (e) {
-      print(e);
+      logger.err(e.toString());
       rethrow;
     }
   }

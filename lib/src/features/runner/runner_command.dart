@@ -92,7 +92,7 @@ class RunnerCommand extends Command<int> {
       if (jobsQs.docs.isEmpty && progress != null) {
         progress.update('No jobs were found');
 
-        await Future.delayed(const Duration(seconds: 10));
+        await Future<void>.delayed(const Duration(seconds: 10));
         continue;
       }
       progress!.complete('New job found');
