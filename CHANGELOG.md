@@ -1,3 +1,7 @@
+## 0.6.1
+
+- Refactor
+
 ## 0.6.0
 
 - OpenCI now supports ios build
