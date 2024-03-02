@@ -24,7 +24,7 @@ Map<String, dynamic> _$$JobDataImplToJson(_$JobDataImpl instance) =>
       'githubRepositoryUrl': instance.githubRepositoryUrl,
       'baseBranch': instance.baseBranch,
       'githubPAT': instance.githubPAT,
-      'platform': _$TargetPlatformEnumMap[instance.platform],
+      'platform': _$TargetPlatformEnumMap[instance.platform]!,
       'userId': instance.userId,
     };
 

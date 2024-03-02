@@ -1,3 +1,9 @@
+## 0.6.2
+
+- feat: Allow dynamic build name. ([#113](https://github.com/open-ci-io/openci_runner/issues/113))
+
+- feat: shellV2 command should return stdout, stderr, and exitCode. ([#114](https://github.com/open-ci-io/openci_runner/issues/114))
+
 ## 0.6.1
 
 - Refactor
