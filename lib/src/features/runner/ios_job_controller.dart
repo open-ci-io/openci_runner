@@ -3,6 +3,7 @@
 
 import 'package:dart_firebase_admin/firestore.dart';
 import 'package:dartssh2/dartssh2.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:openci_runner/src/features/job/domain/job_data.dart';
 import 'package:openci_runner/src/features/runner/runner_command.dart';
 import 'package:openci_runner/src/features/user/domain/user_data.dart';
@@ -12,8 +13,6 @@ import 'package:openci_runner/src/services/ssh/domain/session_result.dart';
 import 'package:openci_runner/src/services/ssh/ssh_service.dart';
 import 'package:openci_runner/src/utilities/github/github_service.dart';
 import 'package:uuid/uuid.dart';
-
-import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'ios_job_controller.freezed.dart';
 
