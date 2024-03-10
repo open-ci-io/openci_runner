@@ -280,22 +280,33 @@ class RunnerCommand extends Command<int> {
             _logger.err('importCertificates failed');
             continue;
           }
+          if (await iosJobController.importP8 == false) {
+            _logger.err('importP8 failed');
+            continue;
+          }
 
           if (await iosJobController.runCustomScript == false) {
             _logger.err('runCustomScript failed');
             continue;
           }
 
-          // await Future.delayed(const Duration(minutes: 3));
-
           if (await iosJobController.buildIpa == false) {
             _logger.err('buildIpa failed');
             continue;
           }
 
-          if (await iosJobController.uploadIpaToFAD == false) {
-            _logger.err('buildIpa failed');
-            continue;
+          if (distribution.distribution == 'fad') {
+            if (await iosJobController.uploadIpaToFAD == false) {
+              _logger.err('uploadIpaToFAD failed');
+              continue;
+            }
+          }
+
+          if (distribution.distribution == 'testFlight') {
+            if (await iosJobController.uploadIpaToTestFlight == false) {
+              _logger.err('uploadIpaToTestFlight failed');
+              continue;
+            }
           }
 
           await firestore
