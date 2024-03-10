@@ -1,3 +1,8 @@
+## 0.6.3
+
+- fix: openci_runner doesn't import p8 bug ([#116](https://github.com/open-ci-io/openci_runner/issues/116))
+
+
 ## 0.6.2
 
 - feat: Allow dynamic build name. ([#113](https://github.com/open-ci-io/openci_runner/issues/113))

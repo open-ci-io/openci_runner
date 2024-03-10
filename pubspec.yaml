@@ -1,6 +1,6 @@
 name: openci_runner
 description: Open CI VM runner
-version: 0.6.2
+version: 0.6.3
 homepage: https://open-ci.io
 repository: https://github.com/open-ci-io/openci_runner
 
