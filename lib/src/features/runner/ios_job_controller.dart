@@ -238,27 +238,6 @@ echo -n ${userData.buildProvisioningProfileBase64} | base64 --decode -o $mobilep
     );
   }
 
-  Future<bool> get buildApk async {
-    if (distribution.flavor == Flavor.prod) {
-      return shellV2WithResult(
-        '$_loadZshrcAndCdAppDir && $pathAndroidSDK && flutter --version && $flutterCommand build apk --build-number=${userData.androidBuildNumber} --flavor prod --dart-define=FLAVOR=prod -t lib/${userData.entryPoint};',
-      );
-    }
-    if (distribution.flavor == Flavor.dev) {
-      return shellV2WithResult(
-        '$_loadZshrcAndCdAppDir && $pathAndroidSDK && flutter --version && $flutterCommand build apk --build-number=${userData.androidBuildNumber} --flavor dev --dart-define=FLAVOR=dev -t lib/${userData.entryPoint};',
-      );
-    }
-    if (distribution.flavor == Flavor.none) {
-      return shellV2WithResult(
-        '$_loadZshrcAndCdAppDir && $pathAndroidSDK && $flutterCommand build apk --build-number=${userData.androidBuildNumber};',
-      );
-    }
-    return shellV2WithResult(
-      '$_loadZshrcAndCdAppDir && $pathAndroidSDK && $flutterCommand build apk --build-number=${userData.androidBuildNumber};',
-    );
-  }
-
   Future<String> get dynamicIpaPath async {
     final result = await shellV2(
       'find "/Users/admin/Downloads/${userData.appName}/build/ios/ipa" -type f -name "*.ipa"',
