@@ -1,5 +1,6 @@
 {
   "cSpell.words": [
+    "altool",
     "appbundle",
     "appdistribution",
     "dartssh",
@@ -13,7 +14,8 @@
     "pkcs",
     "Pubspec",
     "unawaited",
-    "xcodeproj"
+    "xcodeproj",
+    "xcrun"
   ],
   "editor.codeActionsOnSave": {
     "source.fixAll": "explicit"

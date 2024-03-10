@@ -117,7 +117,7 @@ class IosJobController {
     }
   }
 
-  Future<ShellResult> get runCustomScript => shellV2('''
+  Future<bool> get runCustomScript async => shellV2WithResult('''
 source ~/.zshrc;
 cd Downloads/${userData.appName};
 flutter pub get;
@@ -193,6 +193,20 @@ echo -n ${userData.buildProvisioningProfileBase64} | base64 --decode -o $mobilep
     );
   }
 
+  Future<bool> get importP8 async {
+    if (userData.appStoreConnectKeyId == null ||
+        userData.appStoreConnectP8 == null ||
+        userData.appStoreConnectIssuerId == null) {
+      return true;
+    }
+
+    final privateKeysDir = '~/Downloads/${userData.appName}/private_keys';
+    final p8FileName = 'AuthKey_${userData.appStoreConnectKeyId}.p8';
+    return shellV2WithResult(
+      'mkdir $privateKeysDir && echo ${userData.appStoreConnectP8} | base64 --decode > $privateKeysDir/$p8FileName',
+    );
+  }
+
   Future<bool> get importKeyProperties async => shellV2WithResult(
         "cd ~/Downloads/${userData.appName}/android && echo '${userData.androidKeyProperties}' | base64 --decode > key.properties;",
       );
@@ -212,16 +226,16 @@ echo -n ${userData.buildProvisioningProfileBase64} | base64 --decode -o $mobilep
   Future<bool> get buildIpa {
     if (distribution.flavor == Flavor.prod) {
       return shellV2WithResult(
-        '$_loadZshrcAndCdAppDir && $flutterCommand build ipa --build-number=${userData.androidBuildNumber} --flavor prod --dart-define=FLAVOR=prod -t lib/${userData.entryPoint} --export-options-plist=ios/openCIexportOptions.plist;',
+        '$_loadZshrcAndCdAppDir && $flutterCommand build ipa --build-number=${userData.iosBuildNumber} --flavor prod --dart-define=FLAVOR=prod -t lib/${userData.entryPoint} --export-options-plist=ios/openCIexportOptions.plist;',
       );
     }
     if (distribution.flavor == Flavor.dev) {
       return shellV2WithResult(
-        '$_loadZshrcAndCdAppDir && $flutterCommand build ipa --build-number=${userData.androidBuildNumber} --flavor dev --dart-define=FLAVOR=dev -t lib/${userData.entryPoint} --export-options-plist=ios/openCIexportOptions.plist;',
+        '$_loadZshrcAndCdAppDir && $flutterCommand build ipa --build-number=${userData.iosBuildNumber} --flavor dev --dart-define=FLAVOR=dev -t lib/${userData.entryPoint} --export-options-plist=ios/openCIexportOptions.plist;',
       );
     }
     return shellV2WithResult(
-      '$_loadZshrcAndCdAppDir && $flutterCommand build ipa --build-number=${userData.androidBuildNumber} --export-options-plist=ios/openCIexportOptions.plist;',
+      '$_loadZshrcAndCdAppDir && $flutterCommand build ipa --build-number=${userData.iosBuildNumber} --export-options-plist=ios/openCIexportOptions.plist;',
     );
   }
 
@@ -269,6 +283,16 @@ echo -n ${userData.buildProvisioningProfileBase64} | base64 --decode -o $mobilep
 $_loadZshrcAndCdAppDir;
 export GOOGLE_APPLICATION_CREDENTIALS="/Users/admin/Downloads/${userData.appName}/service_account.json";
 firebase appdistribution:distribute "$ipaPath" --app "${userData.firebaseAppIdIos}" --groups "${userData.iosTesterGroups.join(', ')}"; 
+''',
+    );
+  }
+
+  Future<bool> get uploadIpaToTestFlight async {
+    final ipaPath = await dynamicIpaPath;
+    return shellV2WithResult(
+      '''
+$_loadZshrcAndCdAppDir;
+xcrun altool --upload-app -f $ipaPath --type ios --apiKey ${userData.appStoreConnectKeyId} --apiIssuer ${userData.appStoreConnectIssuerId}
 ''',
     );
   }
