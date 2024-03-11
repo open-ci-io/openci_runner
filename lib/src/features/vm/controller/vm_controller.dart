@@ -11,7 +11,7 @@ class VMController {
   Future<void> get prepareVM => _cloneVM;
 
   Future<void> get _cloneVM async {
-    const baseVMName = 'ventura-flutter';
+    const baseVMName = 'sonoma';
 
     // TODO(someone): If baseVM does not exist, pull it from the internet.
     await _tartService.clone(baseVMName, workingVMName);

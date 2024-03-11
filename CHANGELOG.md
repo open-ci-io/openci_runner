@@ -1,3 +1,7 @@
+## 0.6.4
+
+- refactor
+
 ## 0.6.3
 
 - fix: openci_runner doesn't import p8 bug ([#116](https://github.com/open-ci-io/openci_runner/issues/116))
