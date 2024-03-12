@@ -1,10 +1,14 @@
+## 0.6.5
+
+- fix: Remove wait 20 seconds for vm start ([#77](https://github.com/open-ci-io/openci_runner/issues/77))
+
 ## 0.6.4
 
 - refactor
 
 ## 0.6.3
 
-- fix: openci_runner doesn't import p8 bug ([#116](https://github.com/open-ci-io/openci_runner/issues/116))
+- fix: openci_runner doesn't import p8 ([#116](https://github.com/open-ci-io/openci_runner/issues/116))
 
 
 ## 0.6.2

@@ -15,6 +15,7 @@ import 'package:openci_runner/src/features/vm/controller/vm_controller.dart';
 import 'package:openci_runner/src/services/ssh/ssh_service.dart';
 import 'package:openci_runner/src/utilities/future_delayed.dart';
 import 'package:openci_runner/src/utilities/github/github_service.dart';
+import 'package:process_run/shell.dart';
 import 'package:uuid/uuid.dart';
 
 const checks = '''
@@ -143,10 +144,23 @@ class RunnerCommand extends Command<int> {
       final distribution = distributionList.first;
 
       if (Platform.isMacOS) {
-        final vm = VMController(const Uuid().v4());
-        await vm.prepareVM;
+        final vmId = const Uuid().v4();
+        final vm = VMController(vmId);
+        await vm.cloneVM;
         unawaited(vm.launchVM);
-        await wait();
+        while (true) {
+          final shell = Shell();
+          List<ProcessResult>? result;
+          try {
+            result = await shell.run('tart ip $vmId');
+          } catch (e) {
+            result = null;
+          }
+          if (result != null) {
+            break;
+          }
+          await Future<void>.delayed(const Duration(seconds: 1));
+        }
         _logger.success('VM is ready');
         final vmIP = await vm.fetchIpAddress;
         final ssh = SSHService();
