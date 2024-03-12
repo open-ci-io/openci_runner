@@ -8,9 +8,7 @@ class VMController {
 
   static final _tartService = TartService();
 
-  Future<void> get prepareVM => _cloneVM;
-
-  Future<void> get _cloneVM async {
+  Future<void> get cloneVM async {
     const baseVMName = 'sonoma';
 
     // TODO(someone): If baseVM does not exist, pull it from the internet.
